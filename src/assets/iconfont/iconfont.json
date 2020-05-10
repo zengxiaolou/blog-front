@@ -1,0 +1,51 @@
+{
+  "id": "1649474",
+  "name": "goods",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7090049",
+      "name": "结算",
+      "font_class": "settlement",
+      "unicode": "e70f",
+      "unicode_decimal": 59151
+    },
+    {
+      "icon_id": "12296971",
+      "name": "收款",
+      "font_class": "collection",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "4251716",
+      "name": "银行卡",
+      "font_class": "bankCard",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "7335272",
+      "name": "手机号",
+      "font_class": "mobile",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "2150786",
+      "name": "身份证",
+      "font_class": "credentials",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "479382",
+      "name": "QQ",
+      "font_class": "qq",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    }
+  ]
+}
