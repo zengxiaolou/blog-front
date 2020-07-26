@@ -29,5 +29,14 @@
 
 
 <style lang="scss">
-
+  body {
+    width: 100%;
+    background-color: #FAFBFA;
+  }
+  #app {
+    width: 98%;
+    max-width: 1300px;
+    min-width: 320px;
+    margin: 0 auto;
+  }
 </style>

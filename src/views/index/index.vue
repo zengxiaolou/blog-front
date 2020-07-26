@@ -2,7 +2,7 @@
     <el-container>
         <el-container>
             <el-aside width="240px">
-                <Aside></Aside>
+                <my-aside></my-aside>
             </el-aside>
             <el-main>Main</el-main>
         </el-container>
@@ -10,11 +10,10 @@
 </template>
 
 <script>
-    import Aside from "./components/aside";
+    import myAside from "./components/aside";
     export default {
         name: "index",
-        components: {Aside},
-        comments: {Aside,}
+        components: {myAside},
     };
 
 </script>
@@ -26,7 +25,7 @@
             height: 100%;
             padding: 0;
             margin: 0;
-            background-color: #FBFBFB;
+            background-color: rgba(255,255,255,0.3);
         }
         .el-main{
             height: 100%;
