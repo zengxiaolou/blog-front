@@ -18,13 +18,14 @@ module.exports = {
                 'store': resolve('src/store'),
                 'service':resolve('src/service'),
             }
-        }
+        },
+
     },
-    // devtool: "source-map",
     productionSourceMap: false,
     devServer:{
-        port: 8037,
+        port: 3087,
         hot: true,
-        open: 'Google Chrome'
+        open: 'Google Chrome',
+        // devtool: "source-map"
     },
 };
