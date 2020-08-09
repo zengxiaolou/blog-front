@@ -51,11 +51,15 @@ INTRODUCTION    菜单组件
     }
 </script>
 
+
+
 <style lang="scss" scoped>
-    /deep/ .el-menu {
+    .my-menu /deep/ ul{
         margin: 0 auto ;
         border-right: none;
+        padding: 0 40px;
     }
+
     .el-menu-vertical{
         width: 100%;
         .el-menu-item{

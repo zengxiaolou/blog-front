@@ -26,7 +26,7 @@ INTRODUCTION    站内文章搜索
     .search-box {
         height: 50px;
         width: 80%;
-        margin: 0 auto;
+        margin: 10px auto;
         .el-input {
             background-color: #ffffff;
         }
