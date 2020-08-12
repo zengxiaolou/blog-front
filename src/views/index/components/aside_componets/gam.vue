@@ -8,7 +8,7 @@ INTRODUCTION    我的社交
 
 <template>
     <el-card class="box-card">
-        <div slot="header" class="clearfix">
+        <div slot="header" >
             <span>社交直达</span>
         </div>
         <el-row>

@@ -7,7 +7,7 @@ INTRODUCTION    文件描述
 -->
 <template>
     <el-card class="box-card">
-        <div slot="header" class="clearfix">
+        <div slot="header" >
             <span>标签☁️</span>
         </div>
         <el-row>
@@ -26,7 +26,7 @@ INTRODUCTION    文件描述
 
 <style lang="scss" scoped>
     .el-card {
-        margin: 0 auto;
+        margin: 20px auto;
         width: 80%;
         border-radius: 16px;
         /deep/ .el-card__header{

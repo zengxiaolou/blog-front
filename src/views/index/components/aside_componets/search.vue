@@ -13,7 +13,6 @@ INTRODUCTION    站内文章搜索
            clearable
            suffix-icon="el-icon-search"
         >
-            ggg
         </el-input>
     </div>
 </template>

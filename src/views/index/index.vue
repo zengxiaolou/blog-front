@@ -4,16 +4,19 @@
             <el-aside width="240px">
                 <my-aside></my-aside>
             </el-aside>
-            <el-main>Main</el-main>
+            <el-main>
+                <my-content></my-content>
+            </el-main>
         </el-container>
     </el-container>
 </template>
 
 <script>
     import myAside from "./components/aside";
+    import myContent from "./components/content"
     export default {
         name: "index",
-        components: {myAside},
+        components: {myAside, myContent},
     };
 
 </script>
