@@ -9,16 +9,23 @@ INTRODUCTION    站内文章搜索
     <div class="search-box">
         <el-input
            placeholder="搜索"
+           v-model="search"
            clearable
            suffix-icon="el-icon-search"
         >
+            ggg
         </el-input>
     </div>
 </template>
 
 <script>
     export default {
-        name: "search"
+        name: "search",
+        data(){
+            return{
+                search:""
+            }
+        }
     }
 </script>
 
@@ -27,8 +34,10 @@ INTRODUCTION    站内文章搜索
         height: 50px;
         width: 80%;
         margin: 10px auto;
-        .el-input {
+        /deep/ .el-input__inner {
             background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
         }
     }
 </style>

@@ -64,6 +64,8 @@ INTRODUCTION    菜单组件
         width: 100%;
         .el-menu-item{
             font-size: 16px;
+            color: rgba(148,154,160,1);
+            font-weight: 500;
             i{
                 font-size: 20px;
                 margin-right: 10px

@@ -11,6 +11,8 @@ TIME:    2020/5/10-17:36
         <my-abstract></my-abstract>
         <my-menu></my-menu>
         <my-search></my-search>
+        <my-gam></my-gam>
+        <label_cloud></label_cloud>
     </div>
 
 </template>
@@ -18,8 +20,10 @@ TIME:    2020/5/10-17:36
 <script>
     import myAvatar from './componets/avatar';
     import myAbstract from './componets/abstract';
-    import myMenu from './componets/menus'
-    import mySearch from './componets/search'
+    import myMenu from './componets/menus';
+    import mySearch from './componets/search';
+    import myGam from './componets/gam';
+    import label_cloud from "./componets/label_cloud";
     export default {
         name: "Aside",
         data(){
@@ -27,7 +31,7 @@ TIME:    2020/5/10-17:36
 
             }
         },
-        components: {myAvatar, myAbstract, myMenu, mySearch}
+        components: {myAvatar, myAbstract, myMenu, mySearch, myGam, label_cloud}
     }
 </script>
 
