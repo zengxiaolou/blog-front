@@ -8,19 +8,21 @@ INTRODUCTION    文件简介
 
 <template>
     <el-scrollbar>
-
+        <my-home></my-home>
     </el-scrollbar>
 </template>
 
 <script>
+    import myHome from "./home_componets/home"
     export default {
-        name: "home"
+        name: "home",
+        components: {myHome}
     }
 </script>
 
 <style lang="scss" scoped>
+    * { margin:0; padding:0; }
     .el-scrollbar {
         height: 100%;
-        background-color: #3A71A8;
     }
 </style>
