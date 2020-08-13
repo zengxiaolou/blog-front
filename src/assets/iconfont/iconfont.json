@@ -6,6 +6,55 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1244207",
+      "name": "知乎",
+      "font_class": "zhihu",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "1467411",
+      "name": "stack-overflow",
+      "font_class": "stack-overflow",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "2041685",
+      "name": "CN_bilibili B",
+      "font_class": "bilibiliB",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "8289051",
+      "name": "QQ",
+      "font_class": "QQ",
+      "unicode": "e876",
+      "unicode_decimal": 59510
+    },
+    {
+      "icon_id": "10793054",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "14055582",
+      "name": "微信",
+      "font_class": "wechat",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "15378535",
+      "name": "leetcode",
+      "font_class": "leetcode",
+      "unicode": "ebf2",
+      "unicode_decimal": 60402
+    },
+    {
       "icon_id": "532479",
       "name": "评论数",
       "font_class": "comment",

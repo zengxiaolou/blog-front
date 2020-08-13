@@ -12,16 +12,29 @@ INTRODUCTION    我的社交
             <span>社交直达</span>
         </div>
         <el-row>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
+            <el-col :span="6"><a class="gam-icon" :href="github" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-github"></el-avatar></a>
+            </el-col>
+            <el-col :span="6"><a class="gam-icon" :href="bilibili" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-bilibiliB"></el-avatar></a>
+            </el-col>
+            <el-col :span="6"><a class="gam-icon" :href="zhihu" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-zhihu"></el-avatar></a>
+            </el-col>
+            <el-col :span="6"><a class="gam-icon" :href="stack" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-stack-overflow"></el-avatar></a>
+            </el-col>
         </el-row>
         <el-row>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
-            <el-col :span="6"><el-avatar :size="size" :src="circleUrl"></el-avatar></el-col>
+            <el-col :span="6"><a class="gam-icon" :href="leetcode" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-leetcode"></el-avatar></a>
+            </el-col>
+            <el-col :span="6"><a class="gam-icon" :href="a" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-wechat"></el-avatar></a>
+            </el-col>
+            <el-col :span="6"><a class="gam-icon" :href="qq" target="_blank">
+                <el-avatar :size="size" icon="icon iconfont icon-QQ"></el-avatar></a>
+            </el-col>
         </el-row>
     </el-card>
 </template>
@@ -32,7 +45,12 @@ INTRODUCTION    我的社交
         data(){
             return{
                 size: "small",
-                circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                github: "https://github.com/zengxiaolou",
+                stack: "https://stackoverflow.com/users/12066502/event-zeng",
+                bilibili: "https://space.bilibili.com/207928746",
+                zhihu: "https://www.zhihu.com/people/xiao-lu-63-18-15",
+                leetcode: "https://leetcode-cn.com/u/zengxiaolou/"
+
             }
         }
     }
