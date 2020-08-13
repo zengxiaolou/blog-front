@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "532479",
+      "name": "评论数",
+      "font_class": "comment",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "878356",
+      "name": "阅读量",
+      "font_class": "view",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "1157313",
+      "name": "时间 00",
+      "font_class": "time",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "1789457",
+      "name": "字符串数据集",
+      "font_class": "str",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "6204757",
+      "name": "日期",
+      "font_class": "date",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "11690689",
+      "name": "点赞",
+      "font_class": "like",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
       "icon_id": "351771",
       "name": "首页",
       "font_class": "home",
