@@ -32,6 +32,7 @@
   body {
     width: 100%;
     background-color: #FAFBFA;
+    background-image: linear-gradient(#FFF3DE, #65a58e);
   }
   #app {
     width: 98%;

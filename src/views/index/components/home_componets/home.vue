@@ -56,7 +56,7 @@ INTRODUCTION    文件简介
             width: 100%;
             list-style-type: none;
             .content {
-                width: 94%;
+                width: 96%;
                 margin: 0 auto;
                 border-radius: 25px;
                 padding-bottom: 10px;

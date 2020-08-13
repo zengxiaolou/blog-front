@@ -62,6 +62,7 @@ INTRODUCTION    菜单组件
 
     .el-menu-vertical{
         width: 100%;
+        background-color: rgba(255,255,255,0);
         .el-menu-item{
             font-size: 16px;
             color: rgba(148,154,160,1);
