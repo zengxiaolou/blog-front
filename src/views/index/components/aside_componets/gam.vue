@@ -46,14 +46,14 @@ INTRODUCTION    我的社交
             </el-col>
             <el-col :span="6">
                 <el-tooltip class="item" effect="light" content="微信" placement="bottom-end">
-                        <el-avatar :size="size" icon="icon iconfont icon-wechat" class="gam-wechat"></el-avatar>
+                        <el-avatar :size="size" icon="icon iconfont icon-wechat" class="gam-wechat"  @click="showQR"></el-avatar>
                 </el-tooltip>
             </el-col>
             <el-col :span="6">
                 <el-tooltip class="item" effect="light" content="QQ" placement="bottom-end">
-                    <el-avatar :size="size" icon="icon iconfont icon-QQ" class="gam-qq"></el-avatar>
+                    <a class="gam-icon" :href="qq" target="_blank">
+                    <el-avatar :size="size" icon="icon iconfont icon-QQ" class="gam-qq"></el-avatar></a>
                 </el-tooltip>
-
             </el-col>
         </el-row>
     </el-card>
@@ -69,7 +69,8 @@ INTRODUCTION    我的社交
                 stack: "https://stackoverflow.com/users/12066502/event-zeng",
                 bilibili: "https://space.bilibili.com/207928746",
                 zhihu: "https://www.zhihu.com/people/xiao-lu-63-18-15",
-                leetcode: "https://leetcode-cn.com/u/zengxiaolou/"
+                leetcode: "https://leetcode-cn.com/u/zengxiaolou/",
+                qq: "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"
 
             }
         }
