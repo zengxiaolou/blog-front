@@ -9,7 +9,7 @@ INTRODUCTION    文章摘要
     <div class="abstract">
         <el-row :gutter="10">
             <el-col :span="8" v-for="(value, index) in detail" :key=index>
-                 {{value}}
+                 <router-link :to=value.path>{{value.name}}</router-link>
             </el-col>
         </el-row>
     </div>
@@ -20,7 +20,14 @@ INTRODUCTION    文章摘要
         name: "abstract",
         data() {
             return{
-                detail: ["文章", "标签", "分类", 89, 20, "08"]
+                detail: [
+                    {name: "文章", "path": "/index"},
+                    {name: "标签", "path": "/label"},
+                    {name: "分类", "path": "/article"},
+                    {name: "089",  "path": "/index"},
+                    {name: "088",  "path": "/label"},
+                    {name: "000",  "path": "/article"}
+                    ]
             }
         }
 

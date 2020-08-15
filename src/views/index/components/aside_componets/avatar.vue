@@ -28,10 +28,10 @@ INTRODUCTION    头像组件
     .avatar-box {
         width: 100%;
         height: 200px;
+        padding-top: 30px;
         .el-avatar {
             width: 150px;
             height: 150px;
-            margin-top: 30px;
             margin-left: 45px;
         }
     }

@@ -91,4 +91,7 @@ INTRODUCTION    文章归档页面
 
         }
     }
+    /deep/ .el-scrollbar__wrap {
+        overflow-x:hidden;
+    }
 </style>

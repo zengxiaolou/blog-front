@@ -7,20 +7,72 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <el-scrollbar>
-
-    </el-scrollbar>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane v-for="(value, index) in group" :key=index :label=value.label :name=value.name>
+            <el-scrollbar>
+                <ul class="infinite-list"  v-infinite-scroll="load" >
+                    <li v-for="i in count" class="infinite-list-item">
+                        <my-article-preview></my-article-preview>
+                    </li>
+                </ul>
+            </el-scrollbar>
+        </el-tab-pane>
+    </el-tabs>
 </template>
 
 <script>
+    import myArticlePreview from "../../components/article/article_preview"
     export default {
-        name: "index"
+        name: "index",
+        components: {myArticlePreview},
+        data() {
+            return {
+                activeName: 'golang',
+                group: [
+                    {"label": "Python", "name": "python", "title": "python文章"},
+                    {"label": "Golang", "name": "golang", "title": "golang文章"},
+                    {"label": "Linux", "name": "linux", "title": "linux文章"},
+                    {"label": "Vue", "name": "Vue", "title": "Vue文章"},
+                    {"label": "Tools", "name": "Tools", "title": "Tools文章"},
+                    {"label": "DB", "name": "DB", "title": "BD文章"},
+                    {"label": "Docker", "name": "Docker", "title": "Docker文章"},
+                    {"label": "Others", "name": "Others", "title": "Others文章"},
+                ],
+                count: 0,
+            };
+        },
+        methods: {
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+            load () {
+                this.count += 1
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    * { margin:0; padding:0; }
-    .el-scrollbar {
-        height: 100%;
+    * {
+        margin: 0;
+        padding: 0;
+
+        .el-tabs {
+            height: 100%;
+            /deep/ .el-tabs__header {
+                margin-bottom: 0;
+                height: 45px;
+            }
+            .el-tab-pane{
+                height: 100%;
+            }
+            .el-scrollbar {
+                height: 100%;
+            }
+            /deep/ .el-scrollbar__wrap {
+                overflow-x:hidden;
+            }
+
+        }
     }
 </style>

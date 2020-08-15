@@ -6,7 +6,7 @@ TIME:    2020/5/10-17:36
 -->
 
 <template>
-    <el-scrollbar>
+    <el-scrollbar style="height: 100%">
         <div class="aside-area">
             <my-avatar></my-avatar>
             <my-abstract></my-abstract>
@@ -42,13 +42,16 @@ TIME:    2020/5/10-17:36
 
 <style lang="scss" scoped>
     .el-scrollbar{
-        height: 100%;
+
         overflow-x: hidden;
+
         .aside-area{
-            width: 100%;
-            height: 100%;
+            width: 98%;
             background-color: rgba(255,255,255,0.3);
         }
+    }
+    /deep/ .el-scrollbar__wrap {
+        overflow-x:hidden;
     }
 
 </style>
