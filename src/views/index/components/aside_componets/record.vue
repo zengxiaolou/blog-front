@@ -8,7 +8,7 @@ INTRODUCTION    文件简介
 
 <template>
     <div class="record">
-        <el-link type="primary">备案信息</el-link>
+        <el-link type="primary">蜀ICP备190046xxx号</el-link>
     </div>
 
 </template>
@@ -21,7 +21,8 @@ INTRODUCTION    文件简介
 
 <style lang="scss" scoped>
     .record {
-        margin: 20px 0;
+        margin-top: 20px;
+        padding-bottom: 20px;
         .el-link{
             width: 100%;
             margin: 0 auto;

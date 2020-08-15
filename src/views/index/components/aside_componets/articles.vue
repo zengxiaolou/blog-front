@@ -12,8 +12,12 @@ INTRODUCTION    文件简介
             <span>文章分类</span>
         </div>
         <div v-for="(value, index) in categoryArray" :key="index" class="text item category">
-            {{value.name}} - {{value.num}}
-
+            <router-link to="">
+                <el-row type="flex" justify="space-between">
+                    <el-col :span="5">{{value.name}}</el-col>
+                    <el-col :span="4"><div class="article-num"> {{value.num}}</div></el-col>
+                </el-row>
+            </router-link>
         </div>
     </el-card>
 </template>
@@ -52,8 +56,16 @@ INTRODUCTION    文件简介
             padding: 0;
         }
         .category {
-            padding: 0 5px;
-            border-bottom: 1px solid #99a9bf;
+            padding: 3px 10px;
+            border-bottom: 1px solid #EBEEF5;
+            .article-num {
+                background-color: rgba(255,78,106,.2);
+                width: 30px;
+                height: 30px;
+                color:  #ff4e6a;
+                border-radius: 25px;
+                text-align: center;
+            }
         }
     }
 </style>

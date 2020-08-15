@@ -7,14 +7,44 @@
 
 const indexRouter = [
     {
-        path: '/index',
+        path: '/base-style',
         component: () => import('@/views/index/index'),
-        name: 'index',
+        name: 'base-style',
         meta: {
-            title: '首页',
+            title: '基础页',
             auth: false,
         },
+        children:[
+            {
+                path: "/index",
+                component: () => import('@/views/home/home'),
+                name: 'index',
+                meta: {
+                    title: "首页",
+                    auth: false,
+                }
+            },
+            {
+                path: "/archive",
+                component: () => import("@/views/archive/archive"),
+                name: "archive",
+                meta: {
+                    title: "归档",
+                    auth: false
+                }
+            },
+            {
+                path: "/about",
+                component: () => import("@/views/blog/blog"),
+                name: "blog",
+                meta: {
+                    title: "关于博客",
+                    auth: false
+                }
+            },
+        ]
     },
+
     {
         path: '/',
         redirect: {

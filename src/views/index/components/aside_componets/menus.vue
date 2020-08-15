@@ -8,28 +8,13 @@ INTRODUCTION    菜单组件
 <template>
     <div class="my-menu">
         <el-menu
-                default-active="1"
+                default-active="/index"
                 router
+                text-color="#969CA2"
                 class="el-menu-vertical">
-            <el-menu-item index="1">
-                <i class="icon iconfont icon-home"></i>
-                <span slot="title">返回首页</span>
-            </el-menu-item>
-            <el-menu-item index="2">
-                <i class="icon iconfont icon-archive"></i>
-                <span slot="title">文章归档</span>
-            </el-menu-item>
-            <el-menu-item index="3" >
-                <i class="icon iconfont icon-about"></i>
-                <span slot="title">关于博客</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-                <i class="icon iconfont icon-friend"></i>
-                <span slot="title">我的朋友</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-                <i class="icon iconfont icon-coffee"></i>
-                <span slot="title">请我喝茶</span>
+            <el-menu-item v-for="(value, index) in menu" :key="index" :index=value.path >
+                <i :class=value.icon></i>
+                <span slot="title">{{value.title}}</span>
             </el-menu-item>
         </el-menu>
     </div>
@@ -40,7 +25,13 @@ INTRODUCTION    菜单组件
         name: "menus",
         data() {
             return{
-
+                menu: [
+                    {"title": "返回首页", "icon":"icon iconfont icon-home",         "path":"/index"},
+                    {"title": "文章归档", "icon":"icon iconfont icon-archive",      "path":"/archive"},
+                    {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about"},
+                    {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
+                    {"title": "请我喝茶", "icon":"icon iconfont icon-coffee",       "path":"/sponsor"},
+                ]
             }
         },
         methods: {
@@ -65,12 +56,16 @@ INTRODUCTION    菜单组件
         background-color: rgba(255,255,255,0);
         .el-menu-item{
             font-size: 16px;
-            color: rgba(148,154,160,1);
             font-weight: 500;
+            border-radius: 25px;
             i{
                 font-size: 20px;
                 margin-right: 10px
             }
+        }
+        /deep/ .el-menu-item:hover{
+            outline: 0 ;
+            border-radius: 25px;
         }
     }
 </style>

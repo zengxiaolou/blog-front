@@ -82,4 +82,8 @@ router.afterEach((to, from, next) => {
   title(to.meta.title)
 });
 
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
 export default router;

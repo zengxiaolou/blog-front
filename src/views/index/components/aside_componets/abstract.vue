@@ -8,14 +8,14 @@ INTRODUCTION    文章摘要
 <template>
     <div class="abstract">
         <el-row :gutter="10">
-            <el-col :span="8"><a href="">文章</a></el-col>
-            <el-col :span="8"><a href="">标签</a></el-col>
-            <el-col :span="8"><a href="">分类</a></el-col>
+            <el-col :span="8">文章</el-col>
+            <el-col :span="8">标签</el-col>
+            <el-col :span="8">分类</el-col>
         </el-row>
         <el-row :gutter="10">
-            <el-col :span="8"><a href="">60</a></el-col>
-            <el-col :span="8"><a href="">20</a></el-col>
-            <el-col :span="8"><a href="">5</a></el-col>
+            <el-col :span="8">60</el-col>
+            <el-col :span="8">20</el-col>
+            <el-col :span="8">08</el-col>
         </el-row>
     </div>
 </template>
@@ -33,6 +33,7 @@ INTRODUCTION    文章摘要
         height: 100px;
         .el-row{
             padding: 0 30px;
+            font-weight: 500;
             .el-col {
                 text-align: center;
             }

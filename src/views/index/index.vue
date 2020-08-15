@@ -5,7 +5,7 @@
                 <my-aside></my-aside>
             </el-aside>
             <el-main>
-                <my-content></my-content>
+                <router-view/>
             </el-main>
         </el-container>
     </el-container>
@@ -13,10 +13,9 @@
 
 <script>
     import myAside from "./components/aside";
-    import myContent from "./components/content"
     export default {
         name: "index",
-        components: {myAside, myContent},
+        components: {myAside},
     };
 
 </script>

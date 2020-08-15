@@ -21,7 +21,7 @@ INTRODUCTION    我的社交
             <el-col :span="6">
                 <el-tooltip class="item" effect="light" content="哔哩哔哩" placement="top-end">
                     <a class="gam-icon" :href="bilibili" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-bilibiliB" class="gam-bilibili"></el-avatar></a>
+                    <el-avatar :size="size" icon="icon iconfont icon-bilibili" class="gam-bilibili"></el-avatar></a>
                 </el-tooltip>
             </el-col>
             <el-col :span="6">
@@ -45,18 +45,27 @@ INTRODUCTION    我的社交
                 </el-tooltip>
             </el-col>
             <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="微信" placement="bottom-end">
-                        <el-avatar :size="size" icon="icon iconfont icon-wechat" class="gam-wechat"  @click="showQR"></el-avatar>
-                </el-tooltip>
-            </el-col>
-            <el-col :span="6">
                 <el-tooltip class="item" effect="light" content="QQ" placement="bottom-end">
                     <a class="gam-icon" :href="qq" target="_blank">
                     <el-avatar :size="size" icon="icon iconfont icon-QQ" class="gam-qq"></el-avatar></a>
                 </el-tooltip>
             </el-col>
+            <el-col :span="6">
+                <div  @click="showQR">
+                    <el-tooltip class="item" effect="light" content="微信" placement="bottom-end">
+                     <el-avatar :size="size" icon="icon iconfont icon-wechat" class="gam-wechat" ></el-avatar>
+                    </el-tooltip>
+                </div>
+            </el-col>
         </el-row>
+        <el-dialog
+                title="扫描二维码交流学习"
+                :visible.sync="dialogVisible"
+                width="30%">
+            <el-image style="width: 100%;" :src="wxQR" fit="contain"></el-image>
+        </el-dialog>
     </el-card>
+
 </template>
 
 <script>
@@ -70,8 +79,14 @@ INTRODUCTION    我的社交
                 bilibili: "https://space.bilibili.com/207928746",
                 zhihu: "https://www.zhihu.com/people/xiao-lu-63-18-15",
                 leetcode: "https://leetcode-cn.com/u/zengxiaolou/",
-                qq: "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"
-
+                qq: "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com",
+                wxQR: require("../../../../assets/images/others/wx_qr.jpg"),
+                dialogVisible: false,
+            }
+        },
+        methods: {
+            showQR(){
+                this.dialogVisible = true
             }
         }
     }

@@ -7,27 +7,29 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <ul class="infinite-list"   v-infinite-scroll="load" >
-        <li v-for="i in count" class="infinite-list-item">
-            <div class="content">
-                <div class="content-header">
-                    <el-image :src="url" fit="contain"></el-image>
-                    <router-link to="/detail">
-                        <h1 class="content-title">这是一个标题</h1>
-                    </router-link>
+    <el-scrollbar>
+        <ul class="infinite-list"   v-infinite-scroll="load" >
+            <li v-for="i in count" class="infinite-list-item">
+                <div class="content">
+                    <div class="content-header">
+                        <el-image :src="url" fit="contain"></el-image>
+                        <router-link to="/detail">
+                            <h1 class="content-title">这是一个标题</h1>
+                        </router-link>
+                    </div>
+                    <el-row  :gutter="20" class="introduction">
+                        <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>2020年08月12日</el-col>
+                        <el-col :span="2" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>2k字</el-col>
+                        <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>大约2分钟</el-col>
+                        <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>01</el-col>
+                        <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>00</el-col>
+                        <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>00</el-col>
+                    </el-row>
+                    <p class="summary">心中的抑郁就像只黑狗，一有机会就咬住我不放。——丘吉尔</p>
                 </div>
-                <el-row  :gutter="20" class="introduction">
-                    <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>2020年08月12日</el-col>
-                    <el-col :span="2" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>2k字</el-col>
-                    <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>大约2分钟</el-col>
-                    <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>01</el-col>
-                    <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>00</el-col>
-                    <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>00</el-col>
-                </el-row>
-                <p class="summary">心中的抑郁就像只黑狗，一有机会就咬住我不放。——丘吉尔</p>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </el-scrollbar>
 </template>
 
 <script>
@@ -36,7 +38,7 @@ INTRODUCTION    文件简介
         data () {
             return {
                 count: 0,
-                url: require("../../../../assets/images/others/horizontal.png")
+                url: require("../../assets/images/others/horizontal.png")
 
             }
         },
@@ -49,6 +51,10 @@ INTRODUCTION    文件简介
 </script>
 
 <style lang="scss" scoped>
+    * { margin:0; padding:0; }
+    .el-scrollbar {
+        height: 100%;
+    }
     .infinite-list {
         margin-top: 10px;
         li {
@@ -56,7 +62,7 @@ INTRODUCTION    文件简介
             width: 100%;
             list-style-type: none;
             .content {
-                width: 96%;
+                width: 94%;
                 margin: 0 auto;
                 border-radius: 25px;
                 padding-bottom: 10px;

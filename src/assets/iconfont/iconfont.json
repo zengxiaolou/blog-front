@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14787702",
+      "name": "简介",
+      "font_class": "introduction",
+      "unicode": "e82b",
+      "unicode_decimal": 59435
+    },
+    {
       "icon_id": "1244207",
       "name": "知乎",
       "font_class": "zhihu",
@@ -22,7 +29,7 @@
     {
       "icon_id": "2041685",
       "name": "CN_bilibili B",
-      "font_class": "bilibiliB",
+      "font_class": "bilibili",
       "unicode": "e64f",
       "unicode_decimal": 58959
     },
