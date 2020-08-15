@@ -8,21 +8,22 @@ INTRODUCTION    文章摘要
 <template>
     <div class="abstract">
         <el-row :gutter="10">
-            <el-col :span="8">文章</el-col>
-            <el-col :span="8">标签</el-col>
-            <el-col :span="8">分类</el-col>
-        </el-row>
-        <el-row :gutter="10">
-            <el-col :span="8">60</el-col>
-            <el-col :span="8">20</el-col>
-            <el-col :span="8">08</el-col>
+            <el-col :span="8" v-for="(value, index) in detail" :key=index>
+                 {{value}}
+            </el-col>
         </el-row>
     </div>
 </template>
 
 <script>
     export default {
-        name: "abstract"
+        name: "abstract",
+        data() {
+            return{
+                detail: ["文章", "标签", "分类", 89, 20, "08"]
+            }
+        }
+
     }
 </script>
 
@@ -30,7 +31,7 @@ INTRODUCTION    文章摘要
     .abstract {
         margin-top: 20px;
         width: 98%;
-        height: 100px;
+        margin-bottom: 20px;
         .el-row{
             padding: 0 30px;
             font-weight: 500;

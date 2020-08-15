@@ -63,6 +63,7 @@ INTRODUCTION    文件简介
                 width: 30px;
                 height: 30px;
                 color:  #ff4e6a;
+                font-size: 12px;
                 border-radius: 25px;
                 text-align: center;
             }

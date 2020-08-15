@@ -12,46 +12,14 @@ INTRODUCTION    我的社交
             <span>社交直达</span>
         </div>
         <el-row>
-            <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="gihub" placement="top-end">
-                    <a class="gam-icon" :href="github" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-github" class="gam-github"></el-avatar></a>
+            <el-col :span="6" v-for="(value, index) in gam" :key="index">
+                <el-tooltip class="item" effect="light" :content=value.name :placement=value.local>
+                    <a class="gam-icon" :href=value.url target="_blank">
+                        <el-avatar :size="size" :icon=value.icon :class=value.style></el-avatar></a>
                 </el-tooltip>
             </el-col>
             <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="哔哩哔哩" placement="top-end">
-                    <a class="gam-icon" :href="bilibili" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-bilibili" class="gam-bilibili"></el-avatar></a>
-                </el-tooltip>
-            </el-col>
-            <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="知乎" placement="top-end">
-                    <a class="gam-icon" :href="zhihu" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-zhihu" class="gam-zhihu"></el-avatar></a>
-                </el-tooltip>
-            </el-col>
-            <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="stack-overflow" placement="top-end">
-                    <a class="gam-icon" :href="stack" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-stack-overflow" class="gam-stack"></el-avatar></a>
-                </el-tooltip>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="leetcode" placement="bottom-end">
-                    <a class="gam-icon" :href="leetcode" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-leetcode" class="gam-leetcode"></el-avatar></a>
-                </el-tooltip>
-            </el-col>
-            <el-col :span="6">
-                <el-tooltip class="item" effect="light" content="QQ" placement="bottom-end">
-                    <a class="gam-icon" :href="qq" target="_blank">
-                    <el-avatar :size="size" icon="icon iconfont icon-QQ" class="gam-qq"></el-avatar></a>
-                </el-tooltip>
-            </el-col>
-            <el-col :span="6">
-                <div  @click="showQR">
+                 <div  @click="showQR">
                     <el-tooltip class="item" effect="light" content="微信" placement="bottom-end">
                      <el-avatar :size="size" icon="icon iconfont icon-wechat" class="gam-wechat" ></el-avatar>
                     </el-tooltip>
@@ -73,13 +41,15 @@ INTRODUCTION    我的社交
         name: "gam",
         data(){
             return{
+                gam: [
+                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "https://github.com/zengxiaolou"},
+                    {"name": "biliblii", "style": "gam-bilibili",  "local": "top-end" ,    "icon": "icon iconfont icon-bilibili",        "url": "https://space.bilibili.com/207928746"},
+                    {"name": "stack",    "style": "gam-stack",     "local": "top-end" ,    "icon": "icon iconfont icon-stack-overflow" , "url": "https://stackoverflow.com/users/12066502/event-zeng"},
+                    {"name": "zhihu",    "style": "gam-zhihu",     "local": "top-end" ,    "icon": "icon iconfont icon-zhihu",           "url": "https://www.zhihu.com/people/xiao-lu-63-18-15"},
+                    {"name": "leetcode", "style": "gam-leetcode",  "local": "bottom-end" , "icon": "icon iconfont icon-leetcode",        "url": "https://leetcode-cn.com/u/zengxiaolou/"},
+                    {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
+                ],
                 size: "medium",
-                github: "https://github.com/zengxiaolou",
-                stack: "https://stackoverflow.com/users/12066502/event-zeng",
-                bilibili: "https://space.bilibili.com/207928746",
-                zhihu: "https://www.zhihu.com/people/xiao-lu-63-18-15",
-                leetcode: "https://leetcode-cn.com/u/zengxiaolou/",
-                qq: "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com",
                 wxQR: require("../../../../assets/images/others/wx_qr.jpg"),
                 dialogVisible: false,
             }
