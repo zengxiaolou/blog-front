@@ -17,7 +17,7 @@ const indexRouter = [
         children:[
             {
                 path: "/index",
-                component: () => import('@/views/home/home'),
+                component: () => import('@/views/home/index'),
                 name: 'index',
                 meta: {
                     title: "首页",
@@ -26,7 +26,7 @@ const indexRouter = [
             },
             {
                 path: "/archive",
-                component: () => import("@/views/archive/archive"),
+                component: () => import("@/views/archive/index"),
                 name: "archive",
                 meta: {
                     title: "归档",
@@ -35,13 +35,68 @@ const indexRouter = [
             },
             {
                 path: "/about",
-                component: () => import("@/views/blog/blog"),
+                component: () => import("@/views/blog/index"),
                 name: "blog",
                 meta: {
                     title: "关于博客",
                     auth: false
                 }
             },
+            {
+                path: "/introduction",
+                component: () => import("@/views/introduction/index"),
+                name: "introduction",
+                meta: {
+                    title: "自我简介",
+                    auth: false
+                }
+            },
+            {
+                path: "/sponsor",
+                component: () => import("@/views/sponsor/index"),
+                name: "sponsor",
+                meta: {
+                    title: "请我喝咖啡",
+                    auth: false
+                }
+            },
+            {
+                path: "/detail",
+                component: () => import("@/views/detail/index"),
+                name: "detail",
+                meta: {
+                    title: "文章详情",
+                    auth: false
+                }
+            },
+            {
+                path: "/article",
+                component: () => import("@/views/article/index"),
+                name: "article",
+                meta: {
+                    title: "文章搜索结果",
+                    auth: false
+                }
+            },
+            {
+                path: "/label",
+                component: () => import("@/views/label/index"),
+                name: "label",
+                meta: {
+                    title: "标签搜索结果",
+                    auth: false
+                }
+            },
+            {
+                path: "/search",
+                component: () => import("@/views/search/index"),
+                name: "article",
+                meta: {
+                    title: "全文搜索结果",
+                    auth: false
+                }
+            },
+
         ]
     },
 

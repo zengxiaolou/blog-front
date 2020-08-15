@@ -10,20 +10,22 @@ INTRODUCTION    文件描述
         <div slot="header" >
             <span>标签☁️</span>
         </div>
-<!--        <el-row>-->
-<!--            <el-col :span="12"><el-tag># 有趣</el-tag></el-col>-->
-<!--            <el-col :span="12"><el-tag># 有趣</el-tag></el-col>-->
-<!--        </el-row>-->
-        <el-tag># 有趣dehen</el-tag>
-        <el-tag># 有用</el-tag>
-        <el-tag># 有趣eee</el-tag>
-        <el-tag># 有用</el-tag>
+        <router-link to="">
+            <el-tag v-for="(value, index) in tags" :key="index">
+                {{value}}
+            </el-tag>
+        </router-link>
     </el-card>
 </template>
 
 <script>
     export default {
-        name: "label_cloud"
+        name: "label_cloud",
+        data() {
+            return {
+                tags:["# 有用", "# 真好", "# 有帮助", "# 有错"]
+            }
+        }
     }
 </script>
 

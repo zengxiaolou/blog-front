@@ -8,7 +8,7 @@ INTRODUCTION    站内文章搜索
 <template>
     <div class="search-box">
         <el-input
-           placeholder="搜索"
+           placeholder="站内搜索"
            v-model="search"
            clearable
            suffix-icon="el-icon-search"

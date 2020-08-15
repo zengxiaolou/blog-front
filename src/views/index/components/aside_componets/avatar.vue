@@ -7,7 +7,9 @@ INTRODUCTION    头像组件
 -->
 <template>
     <div class="avatar-box">
-        <el-avatar :size="150" :src="circleUrl"></el-avatar>
+        <router-link to="/index">
+            <el-avatar :size="150" :src="avatar"></el-avatar>
+        </router-link>
     </div>
 </template>
 
@@ -16,7 +18,7 @@ INTRODUCTION    头像组件
         name: "avatar",
         data(){
             return{
-                circleUrl: "https://avatars3.githubusercontent.com/u/44358506?s=400&u=2ff47971a21d101b277a3b55b2992cde6249af02&v=4",
+                avatar: require("../../../../assets/images/others/avatar.jpeg"),
             }
         },
     }
