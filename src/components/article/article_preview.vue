@@ -6,24 +6,22 @@ TIME:           2020/8/16-00:19
 INTRODUCTION    文件描述
 -->
 <template>
-    <div>
-        <div class="content">
-            <div class="content-header">
-                <el-image :src=content.url fit="contain"></el-image>
-                <router-link to="/detail">
-                    <h1 class="content-title">这是一个标题</h1>
-                </router-link>
-            </div>
-            <el-row  :gutter="20" class="introduction">
-                <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{content.date}}</el-col>
-                <el-col :span="2" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{content.str}}</el-col>
-                <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{content.time}}</el-col>
-                <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{content.view}}</el-col>
-                <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{content.comment}}</el-col>
-                <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{content.like}}</el-col>
-            </el-row>
-            <p class="summary">{{content.summary}}</p>
+    <div class="content">
+        <div class="content-header">
+            <el-image :src=content.url fit="contain"></el-image>
+            <router-link to="/detail">
+                <h1 class="content-title">这是一个标题</h1>
+            </router-link>
         </div>
+        <el-row  :gutter="20" class="introduction">
+            <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{content.date}}</el-col>
+            <el-col :span="2" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{content.str}}</el-col>
+            <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{content.time}}</el-col>
+            <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{content.view}}</el-col>
+            <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{content.comment}}</el-col>
+            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{content.like}}</el-col>
+        </el-row>
+        <p class="summary">{{content.summary}}</p>
     </div>
 </template>
 

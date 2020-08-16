@@ -7,15 +7,13 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" v-infinite-scroll="load" @tab-click="handleClick" type="border-card">
         <el-tab-pane v-for="(value, index) in group" :key=index :label=value.label :name=value.name>
-            <el-scrollbar>
-                <ul class="infinite-list"  v-infinite-scroll="load" >
-                    <li v-for="i in count" class="infinite-list-item">
-                        <my-article-preview></my-article-preview>
-                    </li>
-                </ul>
-            </el-scrollbar>
+            <ul class="infinite-list"  >
+                <li v-for="i in count" class="infinite-list-item">
+                    <my-article-preview></my-article-preview>
+                </li>
+            </ul>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -27,7 +25,7 @@ INTRODUCTION    文件简介
         components: {myArticlePreview},
         data() {
             return {
-                activeName: 'golang',
+                activeName: 'python',
                 group: [
                     {"label": "Python", "name": "python", "title": "python文章"},
                     {"label": "Golang", "name": "golang", "title": "golang文章"},
@@ -58,21 +56,14 @@ INTRODUCTION    文件简介
         padding: 0;
 
         .el-tabs {
-            height: 100%;
             /deep/ .el-tabs__header {
                 margin-bottom: 0;
                 height: 45px;
             }
             .el-tab-pane{
-                height: 100%;
-            }
-            .el-scrollbar {
-                height: 100%;
-            }
-            /deep/ .el-scrollbar__wrap {
-                overflow-x:hidden;
-            }
+                height: 1000px;
 
+            }
         }
     }
 </style>

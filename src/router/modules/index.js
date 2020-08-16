@@ -90,7 +90,7 @@ const indexRouter = [
             {
                 path: "/search",
                 component: () => import("@/views/search/index"),
-                name: "article",
+                name: "search",
                 meta: {
                     title: "全文搜索结果",
                     auth: false

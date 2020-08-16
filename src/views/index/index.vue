@@ -22,6 +22,9 @@
 
 <style lang="scss" scoped>
     .el-container{
+        ul {
+            list-style-type: none;
+        }
         height: 100%;
         .el-aside{
             height: 100%;
