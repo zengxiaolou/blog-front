@@ -1,4 +1,4 @@
-import { login, getInfo, captcha, register} from '@/api/user'
+import { login, getInfo, register} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/service/cookie'
 import {Message} from "element-ui";
 
@@ -20,35 +20,15 @@ const mutations = {
     },
     SET_USERNAME: (state, username) => {
         state.name = username
-    },
-    SET_CAPTCHA_KEY:(state, captcha_key) =>{
-        state.captcha_key = captcha_key
-    },
-    SET_CAPTCHA_IMAGE:(state, captcha_image) =>{
-        state.captcha_image = captcha_image
-    },
+    }
 };
 
 const actions = {
-    // 获取图形验证
-    captcha({commit}){
-        return new Promise((resolve, reject) =>{
-            captcha().then(response => {
-                const data = response;
-                commit('SET_CAPTCHA_KEY', data.captcha_key);
-                commit('SET_CAPTCHA_IMAGE', data.captcha_image);
-                resolve(data);
-            }).catch(error =>{
-                reject(error)
-            })
-        });
-    },
-
     //user login
     login({commit}, userInfo){
-        const {username, password,captcha_key,captcha_value} = userInfo;
+        const {username, password,captcha_key,captcha} = userInfo;
         return new Promise((resolve, reject) =>{
-            login({username:username.trim(), password:password,captcha_key:captcha_key,captcha_value:captcha_value}).then(response => {
+            login({username:username.trim(), password:password,captcha_key:captcha_key,captcha_value:captcha}).then(response => {
                     const {token, username,id} = response;
                     commit('SET_TOKEN', token);
                     commit('SET_USERNAME', username);

@@ -57,18 +57,18 @@ INTRODUCTION    头像组件
                             </el-col>
                     </el-row>
                 </el-form-item>
-            </el-form>
-            <el-row type="flex" justify="center">
-                <el-col :span="8"><el-button @click="dialogVisible = false">取 消</el-button></el-col>
-                <el-col :span="8"><el-button :loading="loading" type="primary" @click="submitForm('form')">登 录</el-button></el-col>
-            </el-row>
 
+                <el-row type="flex" justify="center">
+                    <el-col :span="8"><el-button @click="dialogVisible = false">取 消</el-button></el-col>
+                    <el-col :span="8"><el-button :loading="loading" type="primary" @click="submitForm('form')">登 录</el-button></el-col>
+                </el-row>
+            </el-form>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import {captcha} from "../../../../api/utils";
+    import {captcha, checkCaptcha} from "../../../../api/utils";
     import {login} from "../../../../api/user";
 
     export default {
@@ -138,19 +138,45 @@ INTRODUCTION    头像组件
                     })
                     .catch(_ => {});
                 },
-
+            // 刷新验证码
             changeCaptcha() {
                 captcha().then((res) =>{
                     this.captcha_key = res.captcha_key;
                     this.url = 'data:image/png;base64,' + res.captcha_image;
                 })
             },
-            submitForm(formName) {
-                this.$refs[formName].validate(valid) => {
-                    if (valid) {
-
+            // 登录
+            submitForm(formName){
+                this.$refs[formName].validate((valid) =>{
+                    if (valid){
+                        this.loading = true;
+                        checkCaptcha({captcha_key:this.captcha_key, captcha_value: this.form.captcha}).then(() =>{
+                            this.form["captcha_key"] = this.captcha_key;
+                            this.$store.dispatch('login', this.form).then(() =>{
+                                this.$router.push({path: "/index"});
+                                this.loading = false;
+                                this.$message.success("欢迎回来");
+                                this.dialogVisible =false
+                            }).catch((err) => {
+                                console.log(err.response.data);
+                                const key = Object.keys(err.response.data);
+                                this.$message.error(err.response.data[key][0].toString);
+                                this.form.captcha = '';
+                                this.loading = false;
+                            })
+                        }).catch(() => {
+                            this.changeCaptcha();
+                            this.loading = false;
+                            this.$message.error("验证码错误，请重新输入验证码");
+                        });
+                        this.form.captcha = ""
+                    }else {
+                        this.loading = false;
+                        this.$message.error("输入信息格式错误，请检查");
+                        this.changeCaptcha();
+                        return false
                     }
-                }
+                });
             },
         },
         mounted() {
