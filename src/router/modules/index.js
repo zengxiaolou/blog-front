@@ -96,6 +96,15 @@ const indexRouter = [
                     auth: false
                 }
             },
+            {
+                path: "/creation",
+                component: () => import("@/views/creation/index"),
+                name: "creation",
+                meta: {
+                    title: "全文搜索结果",
+                    auth: false
+                }
+            },
 
         ]
     },

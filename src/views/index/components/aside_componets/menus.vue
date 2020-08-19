@@ -31,6 +31,7 @@ INTRODUCTION    菜单组件
                     {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about"},
                     {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
                     {"title": "请我喝茶", "icon":"icon iconfont icon-coffee",       "path":"/sponsor"},
+                    {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
                 ]
             }
         },
