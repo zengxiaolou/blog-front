@@ -29,10 +29,11 @@ const actions = {
         const {username, password,captcha_key,captcha} = userInfo;
         return new Promise((resolve, reject) =>{
             login({username:username.trim(), password:password,captcha_key:captcha_key,captcha_value:captcha}).then(response => {
-                    const {token, username,id} = response;
+                    const {token, username,id, role} = response;
                     commit('SET_TOKEN', token);
                     commit('SET_USERNAME', username);
                     localStorage.id = id;
+                    localStorage.role = role;
                     setToken(token);
                     resolve(response);
                 }).catch(error =>{

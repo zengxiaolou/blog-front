@@ -16,7 +16,12 @@ INTRODUCTION    菜单组件
                 <i :class=value.icon></i>
                 <span slot="title">{{value.title}}</span>
             </el-menu-item>
+            <el-menu-item v-if="role === 1" :index=creation.path>
+                <i :class=creation.icon></i>
+                <span slot="title">{{creation.title}}</span>
+            </el-menu-item>
         </el-menu>
+
     </div>
 </template>
 
@@ -31,15 +36,23 @@ INTRODUCTION    菜单组件
                     {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about"},
                     {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
                     {"title": "请我喝茶", "icon":"icon iconfont icon-coffee",       "path":"/sponsor"},
-                    {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
-                ]
+                ],
+                role: 0,
+                creation: {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
             }
         },
         methods: {
-
-
+            isShowCreation(){
+                if (localStorage.role === 'true'){
+                    this.role = 1
+                }else {
+                    this.role = 0
+                }
+            }
         },
-
+        created() {
+            this.isShowCreation()
+        }
     }
 </script>
 

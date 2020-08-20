@@ -7,7 +7,7 @@ INTRODUCTION    头像组件
 -->
 <template>
     <div class="avatar-box">
-        <el-button type="text" @click.native="dialogVisible = true">
+        <el-button type="text" @click.native="showLogin">
             <el-avatar :size="150" :src="avatar" ></el-avatar>
         </el-button>
         <el-dialog
@@ -70,8 +70,9 @@ INTRODUCTION    头像组件
 <script>
     import {captcha, checkCaptcha} from "../../../../api/utils";
     import {login} from "../../../../api/user";
-
+    import {getToken, removeToken} from "../../../../utils/service/cookie";
     export default {
+        inject: ['reload'],
         name: "avatar",
         data(){
             // 验证用户名
@@ -110,8 +111,8 @@ INTRODUCTION    头像组件
                 username: "",
                 password: "",
                 form: {
-                    username: "",
-                    password: "",
+                    username: "xiaolou",
+                    password: "zzxxyy12",
                     captcha: "",
                 },
                 captcha_key: "",
@@ -131,6 +132,34 @@ INTRODUCTION    头像组件
             }
         },
         methods: {
+            // 判断是否登录
+            showLogin(){
+                const token = getToken();
+                if (token){
+                    this.$confirm('是否退出登录?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                    }).then(() => {
+                        removeToken();
+                        localStorage.role = false;
+
+                        this.$message({
+                            type: 'success',
+                            message: '退出登录成功!',
+                        });
+                        this.reload()
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消退出'
+                        });
+                    });
+                }else {
+                    this.changeCaptcha();
+                    this.dialogVisible = true
+                }
+            },
             handleClose(done) {
                 this.$confirm('确认关闭？')
                     .then(_ => {
@@ -156,13 +185,14 @@ INTRODUCTION    头像组件
                                 this.$router.push({path: "/index"});
                                 this.loading = false;
                                 this.$message.success("欢迎回来");
-                                this.dialogVisible =false
+                                this.dialogVisible =false;
+                                this.reload()
                             }).catch((err) => {
-                                console.log(err.response.data);
                                 const key = Object.keys(err.response.data);
-                                this.$message.error(err.response.data[key][0].toString);
+                                this.$message.error(err.response.data[key][0].toString());
                                 this.form.captcha = '';
                                 this.loading = false;
+                                this.changeCaptcha();
                             })
                         }).catch(() => {
                             this.changeCaptcha();
