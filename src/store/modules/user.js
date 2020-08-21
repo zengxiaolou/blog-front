@@ -5,8 +5,6 @@ import {Message} from "element-ui";
 const state = {
     token: getToken(),
     username: '',
-    captcha_image: '',
-    captcha_key: '',
     method: 'login',
 };
 
