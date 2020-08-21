@@ -8,6 +8,8 @@ INTRODUCTION    文件简介
 
 <template>
     <div>
+        <span>封面图片</span>
+        <el-divider></el-divider>
         <el-upload
                 :action=uploadHost
                 ref="upload"
@@ -37,10 +39,17 @@ INTRODUCTION    文件简介
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
+        <el-row type="flex" justify="end">
+            <el-col :span="6">
+                <el-button type="primary" @click.native.prevent="upload">上传图片</el-button>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
+    import {getQiNiuToken} from "../../../api/utils";
+
     export default {
         name: "bgm",
         data() {
@@ -61,8 +70,14 @@ INTRODUCTION    文件简介
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            handleDownload(file) {
-                console.log(file);
+            upload() {
+                const name = [];
+                for ( let i in this.fileList){
+                    name.push(this.fileList[i].name)
+                }
+                getQiNiuToken({name:name}).then(() => {
+
+                });
             }
         }
     }

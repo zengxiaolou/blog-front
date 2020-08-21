@@ -36,7 +36,7 @@
             height: 100%;
             padding: 0;
             margin: 0;
-            background-color: #FFFFFF;
+             background-color: rgba(255,2552,255,0.5);
         }
     }
 </style>
