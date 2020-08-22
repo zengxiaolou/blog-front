@@ -42,6 +42,7 @@ service.interceptors.response.use(
     },
     error => {
         if (error && error.response){
+            console.log(error.response.data);
             switch (error.response.status) {
                 case 400:
                     error.message = '请求错误';
@@ -54,6 +55,7 @@ service.interceptors.response.use(
                     break;
                 case 403:
                     error.message = "拒绝访问";
+                    console.log(error.response.data);
                     router.push({name: 'error_403'});
                     break;
                 case 404:

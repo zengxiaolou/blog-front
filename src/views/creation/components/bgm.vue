@@ -13,9 +13,10 @@ INTRODUCTION    文件简介
         <el-upload
                 :action=uploadHost
                 ref="upload"
-                list-type="picture-card"
-                :auto-upload="false"
-                :file-list=fileList>
+                :auto-upload=true
+                :data=postData
+                :on-error=uploadFail
+                list-type="picture-card">
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{file}">
                 <img
@@ -57,8 +58,12 @@ INTRODUCTION    文件简介
                 dialogImageUrl: '',
                 dialogVisible: false,
                 disabled: false,
-                fileList: [],
-                uploadHost: ''
+                imageUrls:[],
+                uploadHost: 'http://upload-z2.qiniup.com',
+                postData: {
+                    token: "3hbl1YOcVTeyYsHOxvT73OpT-zK5jRBPda8tgCv_:-0iK5AqALA8FXLL6GLAFTzFyv_c=:eyJzY29wZSI6Im1lc3NzdGFjazAxOlx1NGUwZFx1NzdlNVx1NzA2Yi5qcGciLCJkZWFkbGluZSI6MTU5ODA3MTY1MH0=",
+                    key: "不知火.jpg"
+                }
             };
         },
         methods: {
@@ -70,14 +75,21 @@ INTRODUCTION    文件简介
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
+
             upload() {
                 const name = [];
-                for ( let i in this.fileList){
-                    name.push(this.fileList[i].name)
+                console.log(this.$refs.upload.fileList)
+                for ( let i in this.$refs.upload.fileList){
+                    name.push(this.$refs.upload.fileList[i].name);
+                    console.log(this.$refs.upload.fileList[i].name)
                 }
-                getQiNiuToken({name:name}).then(() => {
-
+                console.log(name);
+                getQiNiuToken({name:name}).then((res) => {
+                    console.log(res)
                 });
+            },
+            uploadFail(res){
+                console.log(res)
             }
         }
     }

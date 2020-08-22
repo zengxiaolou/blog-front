@@ -13,5 +13,6 @@
     <orderEntry type="library" name="vue-loader" level="application" />
     <orderEntry type="library" name="vue-router" level="project" />
     <orderEntry type="library" name="vue" level="application" />
+    <orderEntry type="library" name="vue" level="application" />
   </component>
 </module>

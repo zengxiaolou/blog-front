@@ -37,7 +37,7 @@ INTRODUCTION    创作中心
         components: {
             mytuieditor, //注册tuieditor富文本编辑器组件
             myBgm,
-            myAbstract
+            myAbstract,
         },
         data() {
             return {
