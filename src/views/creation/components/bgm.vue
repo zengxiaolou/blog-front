@@ -13,9 +13,10 @@ INTRODUCTION    文件简介
         <el-upload
                 :action=uploadHost
                 ref="upload"
-                :auto-upload=true
+                :auto-upload=false
                 :data=postData
                 :on-error=uploadFail
+                :on-success=uploadSuccess
                 list-type="picture-card">
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{file}">
@@ -31,6 +32,12 @@ INTRODUCTION    文件简介
                     <span
                         v-if="!disabled"
                         class="el-upload-list__item-delete"
+                        @click="handleUpload(file)">
+                        <i class="el-icon-upload2"></i>
+                    </span>
+                    <span
+                        v-if="!disabled"
+                        class="el-upload-list__item-delete"
                         @click="handleRemove(file)">
                         <i class="el-icon-delete"></i>
                     </span>
@@ -40,11 +47,6 @@ INTRODUCTION    文件简介
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
-        <el-row type="flex" justify="end">
-            <el-col :span="6">
-                <el-button type="primary" @click.native.prevent="upload">上传图片</el-button>
-            </el-col>
-        </el-row>
     </div>
 </template>
 
@@ -58,38 +60,38 @@ INTRODUCTION    文件简介
                 dialogImageUrl: '',
                 dialogVisible: false,
                 disabled: false,
-                imageUrls:[],
                 uploadHost: 'http://upload-z2.qiniup.com',
                 postData: {
-                    token: "3hbl1YOcVTeyYsHOxvT73OpT-zK5jRBPda8tgCv_:-0iK5AqALA8FXLL6GLAFTzFyv_c=:eyJzY29wZSI6Im1lc3NzdGFjazAxOlx1NGUwZFx1NzdlNVx1NzA2Yi5qcGciLCJkZWFkbGluZSI6MTU5ODA3MTY1MH0=",
-                    key: "不知火.jpg"
-                }
+                    token: "",
+                    key: "",
+                },
+                cover: [],
             };
         },
         methods: {
             handleRemove(file) {
-                console.log(file);
                 this.$refs.upload.handleRemove(file, this.fileList)
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-
-            upload() {
-                const name = [];
-                console.log(this.$refs.upload.fileList)
-                for ( let i in this.$refs.upload.fileList){
-                    name.push(this.$refs.upload.fileList[i].name);
-                    console.log(this.$refs.upload.fileList[i].name)
-                }
-                console.log(name);
-                getQiNiuToken({name:name}).then((res) => {
-                    console.log(res)
+            handleUpload(file) {
+                let timestamp = new Date().getTime();
+                let new_name = timestamp + file.name;
+                getQiNiuToken({name:new_name}).then((res) => {
+                    this.postData.key = new_name;
+                    this.postData.token = res.token;
+                    this.$refs.upload.submit();
+                    let imageUrl = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name;
+                    this.cover.push(imageUrl)
                 });
             },
             uploadFail(res){
-                console.log(res)
+                this.$message.error(res)
+            },
+            uploadSuccess(){
+                this.$message.success('图片上传成功')
             }
         }
     }
