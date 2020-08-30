@@ -30,9 +30,9 @@ INTRODUCTION    文件简介
                     placeholder="请输入文章简介">
             </el-input>
         </el-form-item>
-        <el-row type="flex" justify="end">
+        <el-row type="flex" justify="start">
             <el-col :span="4">
-                <el-button type="primary" class="submit">提交</el-button>
+                <el-button type="primary" class="submit">提交摘要</el-button>
             </el-col>
         </el-row>
 

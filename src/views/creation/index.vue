@@ -21,6 +21,11 @@ INTRODUCTION    创作中心
             <el-col :span="12">
                 <el-card class="abstract">
                     <my-abstract></my-abstract>
+                    <el-row type="flex" justify="end">
+                        <el-col :span="5">
+                            <el-button type="primary" class="submit">提交文章</el-button>
+                        </el-col>
+                    </el-row>
                 </el-card>
             </el-col>
         </el-row>
@@ -32,6 +37,8 @@ INTRODUCTION    创作中心
     import mytuieditor from "../../components/article/tuieditor.vue"; //导入tuieditor富文本编辑器组件
     import myBgm from "./components/bgm"
     import myAbstract from "./components/abstract"
+    import {uploadArticle} from "../../api/article";
+
     export default {
         name: "App",
         components: {
@@ -43,7 +50,11 @@ INTRODUCTION    创作中心
             return {
                 content: "tuieditor富文本编辑器初始值",
             };
+        },
+        methods: {
+
         }
+
     };
 </script>
 

@@ -80,6 +80,7 @@ INTRODUCTION    文件简介
                 let timestamp = new Date().getTime();
                 let new_name = timestamp + file.name;
                 getQiNiuToken({name:new_name}).then((res) => {
+                    this.$message.info("开始上传图片");
                     this.postData.key = new_name;
                     this.postData.token = res.token;
                     this.$refs.upload.submit();

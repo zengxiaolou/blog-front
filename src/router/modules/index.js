@@ -1,14 +1,14 @@
 /*
-@AUTHOR:  zeng_xiao_yu
-@GITHUB:  https://github.com/zengxiaolou
-@EMAIL:   zengevent@gmail.com
-@TIME:    2020/5/10-17:08
+../..AUTHOR:  zeng_xiao_yu
+../..GITHUB:  https://github.com/zengxiaolou
+../..EMAIL:   zengevent../..gmail.com
+../..TIME:    2020/5/10-17:08
 */
 
 const indexRouter = [
     {
         path: '/base-style',
-        component: () => import('@/views/index/index'),
+        component: () => import('../../views/index/index'),
         name: 'base-style',
         meta: {
             title: '基础页',
@@ -17,7 +17,7 @@ const indexRouter = [
         children:[
             {
                 path: "/index",
-                component: () => import('@/views/home/index'),
+                component: () => import('../../views/home/index'),
                 name: 'index',
                 meta: {
                     title: "首页",
@@ -26,7 +26,7 @@ const indexRouter = [
             },
             {
                 path: "/archive",
-                component: () => import("@/views/archive/index"),
+                component: () => import("../../views/archive/index"),
                 name: "archive",
                 meta: {
                     title: "归档",
@@ -35,7 +35,7 @@ const indexRouter = [
             },
             {
                 path: "/about",
-                component: () => import("@/views/blog/index"),
+                component: () => import("../../views/blog/index"),
                 name: "blog",
                 meta: {
                     title: "关于博客",
@@ -44,7 +44,7 @@ const indexRouter = [
             },
             {
                 path: "/introduction",
-                component: () => import("@/views/introduction/index"),
+                component: () => import("../../views/introduction/index"),
                 name: "introduction",
                 meta: {
                     title: "自我简介",
@@ -53,7 +53,7 @@ const indexRouter = [
             },
             {
                 path: "/sponsor",
-                component: () => import("@/views/sponsor/index"),
+                component: () => import("../../views/sponsor/index"),
                 name: "sponsor",
                 meta: {
                     title: "请我喝咖啡",
@@ -62,7 +62,7 @@ const indexRouter = [
             },
             {
                 path: "/detail",
-                component: () => import("@/views/detail/index"),
+                component: () => import("../../views/detail/index"),
                 name: "detail",
                 meta: {
                     title: "文章详情",
@@ -71,7 +71,7 @@ const indexRouter = [
             },
             {
                 path: "/article",
-                component: () => import("@/views/article/index"),
+                component: () => import("../../views/article/index"),
                 name: "article",
                 meta: {
                     title: "文章搜索结果",
@@ -80,7 +80,7 @@ const indexRouter = [
             },
             {
                 path: "/label",
-                component: () => import("@/views/label/index"),
+                component: () => import("../../views/label/index"),
                 name: "label",
                 meta: {
                     title: "标签搜索结果",
@@ -89,7 +89,7 @@ const indexRouter = [
             },
             {
                 path: "/search",
-                component: () => import("@/views/search/index"),
+                component: () => import("../../views/search/index"),
                 name: "search",
                 meta: {
                     title: "全文搜索结果",
@@ -98,10 +98,10 @@ const indexRouter = [
             },
             {
                 path: "/creation",
-                component: () => import("@/views/creation/index"),
+                component: () => import("../../views/creation/index"),
                 name: "creation",
                 meta: {
-                    title: "全文搜索结果",
+                    title: "创作中心",
                     auth: false
                 }
             },
