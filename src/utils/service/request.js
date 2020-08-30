@@ -51,7 +51,7 @@ service.interceptors.response.use(
                     error.message = "未授权，请登录";
                     router.push({name: 'error_401'});
                     removeToken();
-                    router.push({name: 'login'});
+                    router.push({name: 'index'});
                     break;
                 case 403:
                     error.message = "拒绝访问";

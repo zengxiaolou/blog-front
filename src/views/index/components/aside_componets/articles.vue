@@ -14,7 +14,7 @@ INTRODUCTION    文件简介
         <div v-for="(value, index) in categoryArray" :key="index" class="text item category">
             <router-link to="">
                 <el-row type="flex" justify="space-between">
-                    <el-col :span="5">{{value.name}}</el-col>
+                    <el-col :span="5">{{value.category}}</el-col>
                     <el-col :span="4"><div class="article-num"> {{value.num}}</div></el-col>
                 </el-row>
             </router-link>
@@ -23,21 +23,36 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
+    import {getCategory} from "../../../../api/article";
+
     export default {
         name: "articles",
         data() {
             return {
                 categoryArray: [
-                    {ID: 1, name: "Python", num: 0 },
-                    {ID: 2, name: "Golang", num: 0 },
-                    {ID: 3, name: "Linux",  num: 0 },
-                    {ID: 4, name: "Vue",    num: 0 },
-                    {ID: 5, name: "Tools",  num: 0 },
-                    {ID: 6, name: "DB",     num: 0 },
-                    {ID: 7, name: "Docker", num: 0 },
-                    {ID: 8, name: "Other",  num: 0 }
+                    {ID: 1, category: "Python", num: 0 },
+                    {ID: 2, category: "Golang", num: 0 },
+                    {ID: 3, category: "Linux",  num: 0 },
+                    {ID: 4, category: "Vue",    num: 0 },
+                    {ID: 5, category: "Tools",  num: 0 },
+                    {ID: 6, category: "DB",     num: 0 },
+                    {ID: 7, category: "Docker", num: 0 },
+                    {ID: 8, category: "Other",  num: 0 }
                 ]
             }
+        },
+        methods: {
+            getCategory(){
+                getCategory().then(res => {
+                    this.categoryArray = res.results;
+                    console.log(res.results)
+                }).catch(err => {
+
+                })
+            }
+        },
+        mounted() {
+            this.getCategory()
         }
     }
 </script>

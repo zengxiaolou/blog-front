@@ -5,7 +5,7 @@ import indexRouter from "./modules/index";
 const routes = [
     ...errors,
     ...indexRouter,
-    loginRouter,
+    // loginRouter,
 
 ];
 export default routes;
