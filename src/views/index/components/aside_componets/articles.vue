@@ -45,7 +45,6 @@ INTRODUCTION    文件简介
             getCategory(){
                 getCategory().then(res => {
                     this.categoryArray = res.results;
-                    console.log(res.results)
                 }).catch(err => {
 
                 })

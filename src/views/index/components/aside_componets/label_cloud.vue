@@ -12,19 +12,33 @@ INTRODUCTION    文件描述
         </div>
         <router-link to="">
             <el-tag v-for="(value, index) in tags" :key="index">
-                {{value}}
+                {{"# " + value.tag}}
             </el-tag>
         </router-link>
     </el-card>
 </template>
 
 <script>
+    import {getTag} from "../../../../api/article";
+
     export default {
         name: "label_cloud",
         data() {
             return {
-                tags:["# 有用", "# 真好", "# 有帮助", "# 有错"]
+                tags:[]
             }
+        },
+        methods: {
+            getTag(){
+                getTag().then(res => {
+                    this.tags = res.results;
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        },
+        mounted() {
+            this.getTag()
         }
     }
 </script>
