@@ -112,7 +112,7 @@ INTRODUCTION    头像组件
                 password: "",
                 form: {
                     username: "xiaolou",
-                    password: "zzxxyy12",
+                    password: "zzxxyy123",
                     captcha: "",
                 },
                 captcha_key: "",

@@ -37,7 +37,32 @@ INTRODUCTION    mark-down组件
                         el: document.querySelector("#editorSection"),
                         initialEditType: "markdown",
                         previewStyle: "vertical",
-                        height: "500px"
+                        height: "400px",
+                        useCommandShortcut: true,
+                        usageStatistics: false,
+                        hideModeSwitch: false,
+                        toolbarItems: [
+                            'heading',
+                            'bold',
+                            'italic',
+                            'strike',
+                            'divider',
+                            'hr',
+                            'quote',
+                            'divider',
+                            'ul',
+                            'ol',
+                            'task',
+                            'indent',
+                            'outdent',
+                            'divider',
+                            'table',
+                            'image',
+                            'link',
+                            'divider',
+                            'code',
+                            'codeblock'
+                        ]
                     });
 
                     this.tuieditor.getHtml();

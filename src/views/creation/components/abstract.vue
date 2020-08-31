@@ -12,6 +12,7 @@ INTRODUCTION    文件简介
         <el-divider></el-divider>
         <el-form-item  prop="title">
             <el-input
+                    @change="changeTitle"
                     v-model="form.title"
                     class="title-input"
                     prefix-icon="icon iconfont icon-title"
@@ -21,6 +22,7 @@ INTRODUCTION    文件简介
         </el-form-item>
         <el-form-item  prop="abstract">
             <el-input
+                    @change="changeAbstract"
                     type="textarea"
                     v-model="form.abstract"
                     class="abstract-input"
@@ -30,12 +32,6 @@ INTRODUCTION    文件简介
                     placeholder="请输入文章简介">
             </el-input>
         </el-form-item>
-        <el-row type="flex" justify="start">
-            <el-col :span="4">
-                <el-button type="primary" class="submit">提交摘要</el-button>
-            </el-col>
-        </el-row>
-
     </el-form>
 </template>
 
@@ -50,10 +46,20 @@ INTRODUCTION    文件简介
                 },
                 rules: {},
             }
+        },
+        methods: {
+            changeTitle() {
+                this.$emit('changeTitle', this.form.title)
+            },
+            changeAbstract() {
+                this.$emit('changeAbstract', this.form.abstract)
+            }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-
+    .el-divider{
+        margin: 10px 0;
+    }
 </style>

@@ -92,12 +92,15 @@ INTRODUCTION    文件简介
                 this.$message.error(res)
             },
             uploadSuccess(){
-                this.$message.success('图片上传成功')
+                this.$message.success('图片上传成功');
+                this.$emit('changeCover', this.cover)
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-
+    .el-divider{
+        margin: 10px 0;
+    }
 </style>
