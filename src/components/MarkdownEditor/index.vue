@@ -7,45 +7,43 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <editor
-            v-model="content"
-            :initialValue="editorText"
-            :options="editorOptions"
-            height="400px"
-            @blur="onEditorChange"
-            ref="editor"
-    />
+    <div id="editorSection" @change="onEditorChange"></div>
 </template>
 <script>
-    import 'codemirror/lib/codemirror.css';
-    import '@toast-ui/editor/dist/toastui-editor.css';
-
+    import "tui-editor/dist/tui-editor.css"; // editor's ui
+    import "tui-editor/dist/tui-editor-contents.css"; // editor's content
+    import "codemirror/lib/codemirror.css"; // codemirror
     import Option from './default-options'
-    import { Editor } from '@toast-ui/vue-editor';
+    import Editor  from 'tui-editor';
 
     export default {
         name: "index",
-        components: {
-            editor: Editor
+        props: {
+            content: String,
+            value: String
         },
-        data() {
-            return {
-                content:"",
-                editorText: 'This is initialValue.',
-                editorOptions: Option,
-            };
+        mounted() {
+            this.initialize();
+        },
+        beforeDestroy() {
+            this.tuieditor = null;
+            delete this.tuieditor;
         },
         methods: {
-            // initEditor(){
-            //   this.editor = new Editor({
-            //       el: document.getElementById(this.id),
-            //       ...this.editorOptions
-            //   })
-            // },
+            initialize() {
+                if (this.$el) {
+                    this.tuieditor = new Editor({
+                        el: document.querySelector("#editorSection"),
+                        initialEditType: "markdown",
+                        previewStyle: "vertical",
+                        height: "300px"
+                    });
+
+                    this.tuieditor.getMarkdown();
+                }
+            },
             onEditorChange(){
-                // console.log(this.$refs.editor);
-                console.log(this.content);
-                this.$emit('changeEditor',this.content)
+                console.log(this.tuieditor.getMarkdown())
             }
         }
     };
