@@ -8,6 +8,7 @@ INTRODUCTION    文件简介
 
 <template>
     <editor
+            v-model="content"
             :initialValue="editorText"
             :options="editorOptions"
             height="400px"
@@ -29,15 +30,22 @@ INTRODUCTION    文件简介
         },
         data() {
             return {
+                content:"",
                 editorText: 'This is initialValue.',
-                editorOptions: Option
+                editorOptions: Option,
             };
         },
         methods: {
-            onEditorChange(value){
-                console.log(this.$refs.editor);
-                // console.log(value);
-                this.$emit('changeEditor', value)
+            // initEditor(){
+            //   this.editor = new Editor({
+            //       el: document.getElementById(this.id),
+            //       ...this.editorOptions
+            //   })
+            // },
+            onEditorChange(){
+                // console.log(this.$refs.editor);
+                console.log(this.content);
+                this.$emit('changeEditor',this.content)
             }
         }
     };

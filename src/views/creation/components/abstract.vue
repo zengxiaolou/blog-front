@@ -12,7 +12,7 @@ INTRODUCTION    文件简介
         <el-divider></el-divider>
         <el-form-item  prop="title">
             <el-input
-                    @change="changeTitle"
+                    @blur="changeTitle"
                     v-model="form.title"
                     class="title-input"
                     prefix-icon="icon iconfont icon-title"
@@ -22,7 +22,7 @@ INTRODUCTION    文件简介
         </el-form-item>
         <el-form-item  prop="abstract">
             <el-input
-                    @change="changeAbstract"
+                    @blur="changeAbstract"
                     type="textarea"
                     v-model="form.abstract"
                     class="abstract-input"

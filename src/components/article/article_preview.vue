@@ -38,7 +38,7 @@ INTRODUCTION    文件描述
                     "comment": "00",
                     "like": "00",
                     "summary": "心中的抑郁就像只黑狗，一有机会就咬住我不放。——丘吉尔",
-                    "url": require("../../assets/images/others/horizontal.png")
+                    "url": "http://qfeasoeh9.hn-bkt.clouddn.com/1598885223976179.png"
                 }
             }
         }

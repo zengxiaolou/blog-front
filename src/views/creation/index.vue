@@ -36,7 +36,7 @@ INTRODUCTION    创作中心
         <el-card class="markdown">
             <span>文章内容</span>
             <el-divider></el-divider>
-            <markDown v-model="content"  v-on:changeEditor="changeEditor"></markDown>
+            <markDown v-on:changeEditor="changeEditor"></markDown>
             <el-row type="flex" justify="end" >
                 <el-col :span="3">
                     <el-button type="primary" round plain size="mini" > 保存草稿</el-button>
@@ -64,7 +64,6 @@ INTRODUCTION    创作中心
         components: {markDown, myBgm, myAbstract, myCategory, myTags},
         data() {
             return {
-                content: "tuieditor富文本编辑器初始值",
                 category: 'Python',
                 tags: [],
                 cover: [],
@@ -97,7 +96,7 @@ INTRODUCTION    创作中心
             changeEditor:function (content) {
                 console.log(content);
                 this.content = content
-            }
+            },
         }
 
     };
