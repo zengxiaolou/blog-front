@@ -11,8 +11,8 @@ INTRODUCTION    文件简介
         <span>分类选择</span>
         <el-divider></el-divider>
         <div>
-            <el-radio-group  v-model="category" size="mini">
-                <el-radio  @change="submit" v-for="(value, index) in categoryArray" :key=index :label=value.category></el-radio>
+            <el-radio-group  v-model="category"  size="mini">
+                <el-radio  @change="submit" v-for="(value, index) in categoryArray" :key=index :label=value.category ></el-radio>
             </el-radio-group>
         </div>
         <el-row type="flex" justify="end" class="handle-button">

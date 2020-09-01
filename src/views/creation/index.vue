@@ -42,7 +42,7 @@ INTRODUCTION    创作中心
                     <el-button type="primary" round plain size="mini" > 保存草稿</el-button>
                 </el-col>
                 <el-col :span="3">
-                    <el-button type="primary" round plain size="mini" >发布文章</el-button>
+                    <el-button type="primary" round plain size="mini"  :loading="loading" @click.prevent="uploadArticle">发布文章</el-button>
                 </el-col>
             </el-row>
         </el-card>
@@ -65,10 +65,11 @@ INTRODUCTION    创作中心
             return {
                 category: 'Python',
                 tags: [],
-                cover: [],
+                cover: '',
                 abstract: '',
                 title: '',
                 content: '',
+                loading: false,
             };
         },
         methods: {
@@ -97,6 +98,71 @@ INTRODUCTION    创作中心
                 console.log(content);
                 this.content = content
             },
+            // 上传文章
+            uploadArticle(){
+                this.loading = true;
+                if (!this.checkedArticle()){
+                    return
+                }
+                const data = {
+                    'summary': this.summary,
+                    'title': this.title,
+                    'cover': this.cover,
+                    'content': this.content,
+                    'category': this.category,
+                    'tag': this.tags,
+                    'str_num': this.content.length
+                };
+                uploadArticle(data).then(res =>{
+                    console.log(res);
+                    this.loading = false
+                }).catch(err =>{
+                    const key = Object.keys(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                })
+            },
+            // 检查各各上传数据
+            checkedArticle(){
+                // 摘要字符判断
+                if (this.summary === ""){
+                    this.$notify.error("摘要不能为空");
+                    return false
+                }else if(this.summary.length < 10 || this.summary.length > 300){
+                    this.$notify.error("摘要长度应在10-300字符");
+                    return false
+                }
+                // 封面判断
+                if (this.cover === ""){
+                    this.$notify.error("封面url不能为空");
+                    return false
+                }else if(this.cover.length < 20 || this.cover.length >100){
+                    this.$notify.error("封面url长度不正确");
+                    return false
+                }else if(!(/^https?:\/\/([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+/.test(this.cover))){
+                    this.$notify.error("封面url不满足utl格式")
+                }
+                // 标题判断
+                if (this.title === ""){
+                    this.$notify.error("标题不能为空");
+                    return false
+                }else if(this.title < 1 || this.title > 40){
+                    this.$notify.error("标题长度应为1～40个字符");
+                    return false
+                }
+                // 分类判断
+                if (this.category === ""){
+                    this.$notify.error("分类不能为空");
+                    return false
+                }else if (!(Number.isInteger(this.category))){
+                    this.$notify.error("分类应为整数");
+                    return false
+                }else if (this.category < 0){
+                    this.$notify.error("分类应大约0");
+                    return false
+                }
+                return true
+            }
         }
 
     };

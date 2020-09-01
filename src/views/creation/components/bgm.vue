@@ -65,7 +65,7 @@ INTRODUCTION    文件简介
                     token: "",
                     key: "",
                 },
-                cover: [],
+                cover: '',
             };
         },
         methods: {
@@ -84,8 +84,7 @@ INTRODUCTION    文件简介
                     this.postData.key = new_name;
                     this.postData.token = res.token;
                     this.$refs.upload.submit();
-                    let imageUrl = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name;
-                    this.cover.push(imageUrl)
+                    this.cover = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name
                 });
             },
             uploadFail(res){
