@@ -33,7 +33,8 @@ INTRODUCTION    文件简介
         data() {
             return{
                 checkedTags: [],
-                tags: []
+                tags: [],
+                ids: [],
             }
         },
         methods:{
@@ -68,7 +69,16 @@ INTRODUCTION    文件简介
                 })
             },
             changeTags() {
-                this.$emit('changeTags', this.checkedTags)
+                this.ids = [];
+                for (let i in this.checkedTags){
+                    for (let key of Object.keys(this.tags)){
+                        if (this.tags[key]['tag'] === this.checkedTags[i]){
+                            this.ids.push(this.tags[key]['id'])
+                        }
+                    }
+                }
+                console.log(this.ids);
+                this.$emit('changeTags', this.ids)
             }
         },
         mounted() {

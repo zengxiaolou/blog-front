@@ -32,6 +32,7 @@ export default {
             return{
                 category: 'Python',
                 categoryArray:[],
+                id: 1,
             }
         },
     methods: {
@@ -66,7 +67,14 @@ export default {
             });
         },
         submit(){
-            this.$emit('changeCategory', this.category)
+            for (let key of Object.keys(this.categoryArray)){
+                if (this.categoryArray[key]['category'] === this.category){
+                    this.id = this.categoryArray[key]['id'];
+                    break
+                }
+            }
+            console.log(this.id);
+            this.$emit('changeCategory', this.id)
         }
     },
     mounted() {

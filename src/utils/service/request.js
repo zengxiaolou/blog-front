@@ -10,6 +10,7 @@ const service = axios.create({
     baseURL: 'http://0.0.0.0:8000/api/v1/',
 });
 
+
 //请求拦截器
 service.interceptors.request.use(function (config) {
     const token = getToken('token');
@@ -48,13 +49,14 @@ service.interceptors.response.use(
                     break;
                 case 401:
                     error.message = "未授权，请登录";
-                    router.push({name: 'error_401'});
+                    Message.error("权限不够，请先登录");
                     removeToken();
-                    router.push({name: 'index'});
+                    router.push({name: 'error_401'});
                     break;
                 case 403:
                     error.message = "拒绝访问";
-                    console.log(error.response.data);
+                    Message.error.error("权限不够，请先登录");
+                    removeToken();
                     router.push({name: 'error_403'});
                     break;
                 case 404:

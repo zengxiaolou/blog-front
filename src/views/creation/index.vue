@@ -70,6 +70,7 @@ INTRODUCTION    创作中心
                 title: '',
                 content: '',
                 loading: false,
+
             };
         },
         methods: {
@@ -102,10 +103,11 @@ INTRODUCTION    创作中心
             uploadArticle(){
                 this.loading = true;
                 if (!this.checkedArticle()){
+                    this.loading = false;
                     return
                 }
                 const data = {
-                    'summary': this.summary,
+                    'summary': this.abstract,
                     'title': this.title,
                     'cover': this.cover,
                     'content': this.content,
@@ -125,10 +127,10 @@ INTRODUCTION    创作中心
             // 检查各各上传数据
             checkedArticle(){
                 // 摘要字符判断
-                if (this.summary === ""){
+                if ( this.abstract === undefined || this.abstract === "" ){
                     this.$notify.error("摘要不能为空");
                     return false
-                }else if(this.summary.length < 10 || this.summary.length > 300){
+                }else if(this.abstract.length < 10 || this.abstract.length > 300){
                     this.$notify.error("摘要长度应在10-300字符");
                     return false
                 }

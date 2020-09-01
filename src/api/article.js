@@ -11,7 +11,7 @@ import request from "../utils/service/request"
 // 上传文章相关数据
 export function uploadArticle(data) {
     return request({
-        url:"article/add/",
+        url:"article/article-add/",
         method: "post",
         data: data
     })

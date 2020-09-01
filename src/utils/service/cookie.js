@@ -11,5 +11,6 @@ export  function setToken(token, time) {
     });
 }
 export  function removeToken() {
+    localStorage.role = false;
     return Cookies.remove(TokenKey);
 }
