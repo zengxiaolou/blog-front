@@ -2,49 +2,51 @@
 AUTHOR:         zeng_xiao_yu
 GITHUB:         https://github.com/zengxiaolou
 EMAIL:          zengevent@gmail.com
-TIME:           2020/8/31-17:04
+TIME:           2020/9/1-09:38
 INTRODUCTION    文件简介
 -->
 
 <template>
-    <div id="editorSection" @change="onEditorChange"></div>
+    <div id="editor" @blur="changeValue"></div>
 </template>
-<script>
-    import "tui-editor/dist/tui-editor.css"; // editor's ui
-    import "tui-editor/dist/tui-editor-contents.css"; // editor's content
-    import "codemirror/lib/codemirror.css"; // codemirror
-    import Option from './default-options'
-    import Editor  from 'tui-editor';
 
+<script>
+    import 'codemirror/lib/codemirror.css'; // Editor's Dependency Style
+    import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
+    import Editor from '@toast-ui/editor';
     export default {
         name: "index",
-        props: {
-            content: String,
-            value: String
-        },
-        mounted() {
-            this.initialize();
-        },
-        beforeDestroy() {
-            this.tuieditor = null;
-            delete this.tuieditor;
+        data() {
+            return{
+            }
         },
         methods: {
-            initialize() {
-                if (this.$el) {
-                    this.tuieditor = new Editor({
-                        el: document.querySelector("#editorSection"),
-                        initialEditType: "markdown",
-                        previewStyle: "vertical",
-                        height: "300px"
-                    });
+            initialize(){
+                this.editor = new Editor({
+                    el: document.querySelector('#editor'),
+                    height: '400px',
+                    initialEditType: 'markdown',
+                    previewStyle: 'vertical',
+                    initialValue: "这里书写文章主内容"
+                });
 
-                    this.tuieditor.getMarkdown();
-                }
+                this.editor.getHtml();
             },
-            onEditorChange(){
-                console.log(this.tuieditor.getMarkdown())
+            changeValue(){
+                this.$emit('changeContent', this.editor.getMarkdown())
             }
+        },
+        mounted() {
+            this.initialize()
+        },
+        beforeDestroy() {
+            this.editor = null;
+            delete this.editor;
         }
-    };
+
+    }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

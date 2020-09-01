@@ -36,8 +36,8 @@ INTRODUCTION    创作中心
         <el-card class="markdown">
             <span>文章内容</span>
             <el-divider></el-divider>
-            <markDown v-on:changeEditor="changeEditor"></markDown>
-            <el-row type="flex" justify="end" >
+            <markDown v-on:changeContent="changeContent"></markDown>
+            <el-row type="flex" justify="end" class="handle-bottom">
                 <el-col :span="3">
                     <el-button type="primary" round plain size="mini" > 保存草稿</el-button>
                 </el-col>
@@ -50,7 +50,6 @@ INTRODUCTION    创作中心
 </template>
 
 <script>
-    // tuieditor富文本编辑器
     import markDown from "../../components/MarkdownEditor/index";
     import myBgm from "./components/bgm";
     import myAbstract from "./components/abstract";
@@ -69,6 +68,7 @@ INTRODUCTION    创作中心
                 cover: [],
                 abstract: '',
                 title: '',
+                content: '',
             };
         },
         methods: {
@@ -93,7 +93,7 @@ INTRODUCTION    创作中心
                 this.title = title
             },
             // 传递正文
-            changeEditor:function (content) {
+            changeContent:function (content) {
                 console.log(content);
                 this.content = content
             },
@@ -117,6 +117,9 @@ INTRODUCTION    创作中心
 
         .el-divider{
             margin: 10px 0;
+        }
+        .handle-bottom{
+            margin-top: 10px;
         }
     }
 
