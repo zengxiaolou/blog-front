@@ -20,9 +20,17 @@ export function uploadArticle(data) {
 // 上传文章草稿箱
 export function uploadDraft(data) {
     return request({
-        url: "article/draft/",
+        url: "article/draft/add/",
         method: "post",
         data: data
+    })
+}
+
+// 获取草稿箱
+export function getDraft() {
+    return request({
+        url: "article/draft/search/",
+        method: "get",
     })
 }
 

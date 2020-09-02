@@ -16,8 +16,8 @@ INTRODUCTION    创作中心
                 </el-card>
             </el-col>
             <el-col :span="12">
-                <el-card class="abstract">
-                    <my-abstract v-on:changeAbstract="changeAbstract" v-on:changeTitle="changeTitle"></my-abstract>
+                <el-card class="abstract" >
+                    <my-abstract v-on:changeAbstract="changeAbstract" v-on:changeTitle="changeTitle" :title.sync="title"></my-abstract>
                 </el-card>
             </el-col>
         </el-row>
@@ -49,6 +49,20 @@ INTRODUCTION    创作中心
                 </el-col>
             </el-row>
         </el-card>
+        <el-dialog title="草稿箱" :visible.sync="draftVisible" center width="30%">
+            <el-select v-model="draftValue" placeholder="请选择要编写的草稿" class="draft-select">
+                <el-option
+                        v-for="item in draftOptions"
+                        :key="item.id"
+                        :label="item.title"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="draftVisible = false">取 消</el-button>
+                <el-button type="primary" @click="selectDraft">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -58,7 +72,7 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle, uploadDraft} from "../../api/article";
+    import {uploadArticle, uploadDraft, getDraft} from "../../api/article";
 
 
     export default {
@@ -75,6 +89,9 @@ INTRODUCTION    创作中心
                 loading: false,
                 markdown: "",
                 draftLoading: false,
+                draftVisible: false,
+                draftValue: '',
+                draftOptions: [],
             };
         },
         methods: {
@@ -141,10 +158,11 @@ INTRODUCTION    创作中心
                     'category': this.category,
                     'tag': this.tags,
                 };
-                uploadDraft().then(res =>{
+                uploadDraft(data).then(res =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
+                    console.log(err.response.data);
                     this.$message.error(err.response.data[key][0].toString());
                     this.loading = false
                 })
@@ -152,7 +170,29 @@ INTRODUCTION    创作中心
             },
             // 草稿箱
             draft(){
-
+                getDraft().then(res =>{
+                    this.draftOptions = res.results
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    console.log(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                });
+                this.draftVisible = true
+            },
+            // 选择草稿
+            selectDraft(){
+                for (let key of Object.keys(this.draftOptions)){
+                    if (this.draftOptions[key]['id'] === this.draftValue){
+                        let option = this.draftOptions[key];
+                        this.title = option['title'];
+                        this.content = option['content'];
+                        this.abstract = option['summary'];
+                        this.cover  = option.cover;
+                        break
+                    }
+                }
+                this.draftVisible = false
             },
             // 检查各各上传数据
             checkedArticle(){
@@ -223,6 +263,9 @@ INTRODUCTION    创作中心
         }
         .handle-bottom{
             margin-top: 10px;
+        }
+        .draft-select{
+            width: 90%;
         }
     }
 

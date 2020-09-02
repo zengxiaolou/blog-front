@@ -11,7 +11,7 @@ INTRODUCTION    文件描述
             <span>标签☁️</span>
         </div>
         <router-link to="">
-            <el-tag v-for="(value, index) in tags" :key="index">
+            <el-tag size="mini"  v-for="(value, index) in tags" :key="index" :type="value.type">
                 {{"# " + value.tag}}
             </el-tag>
         </router-link>
@@ -31,6 +31,13 @@ INTRODUCTION    文件描述
         methods: {
             getTag(){
                 getTag().then(res => {
+                    Array.prototype.randomElement = function () {
+                        return this[Math.floor(Math.random() * this.length)]
+                    };
+                    let tagType = ['success', 'info', 'warning', 'danger', ""];
+                    for (let key of Object.keys(res.results)){
+                        res.results[key]['type'] = tagType.randomElement()
+                    }
                     this.tags = res.results;
                 }).catch(err => {
                     console.log(err)
@@ -54,11 +61,13 @@ INTRODUCTION    文件描述
             font-weight: 500;
         }
         /deep/ .el-card__body {
-            padding: 5px 5px;
+            padding: 10px 5px;
+
             .el-tag {
                 border-radius: 25px;
                 margin-right: 10px;
                 margin-top: 5px;
+
             }
         }
 
