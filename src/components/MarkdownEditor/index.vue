@@ -7,7 +7,7 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <div id="editor" @blur="changeValue"></div>
+    <div id="editor" @change="changeValue"></div>
 </template>
 
 <script>
@@ -33,7 +33,8 @@ INTRODUCTION    文件简介
                 this.editor.getHtml();
             },
             changeValue(){
-                this.$emit('changeContent', this.editor.getMarkdown())
+                this.$emit('changeContent', this.editor.getHtml());
+                this.$emit('changeMarkdown', this.editor.getMarkdown())
             }
         },
         mounted() {

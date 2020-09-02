@@ -77,7 +77,6 @@ INTRODUCTION    文件简介
                         }
                     }
                 }
-                console.log(this.ids);
                 this.$emit('changeTags', this.ids)
             }
         },

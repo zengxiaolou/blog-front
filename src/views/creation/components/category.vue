@@ -73,7 +73,6 @@ export default {
                     break
                 }
             }
-            console.log(this.id);
             this.$emit('changeCategory', this.id)
         }
     },

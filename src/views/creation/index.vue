@@ -36,10 +36,13 @@ INTRODUCTION    创作中心
         <el-card class="markdown">
             <span>文章内容</span>
             <el-divider></el-divider>
-            <markDown v-on:changeContent="changeContent"></markDown>
+            <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown"></markDown>
             <el-row type="flex" justify="end" class="handle-bottom">
                 <el-col :span="3">
-                    <el-button type="primary" round plain size="mini" > 保存草稿</el-button>
+                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
+                </el-col>
+                <el-col :span="3">
+                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="saveDraft"> 保存草稿</el-button>
                 </el-col>
                 <el-col :span="3">
                     <el-button type="primary" round plain size="mini"  :loading="loading" @click.prevent="uploadArticle">发布文章</el-button>
@@ -55,7 +58,7 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle} from "../../api/article";
+    import {uploadArticle, uploadDraft} from "../../api/article";
 
 
     export default {
@@ -68,9 +71,10 @@ INTRODUCTION    创作中心
                 cover: '',
                 abstract: '',
                 title: '',
-                content: '',
+                content: '初始化内容',
                 loading: false,
-
+                markdown: "",
+                draftLoading: false,
             };
         },
         methods: {
@@ -96,8 +100,11 @@ INTRODUCTION    创作中心
             },
             // 传递正文
             changeContent:function (content) {
-                console.log(content);
                 this.content = content
+            },
+            // 传递草稿
+            changeMarkdown:function(markdown){
+                this.markdown = markdown
             },
             // 上传文章
             uploadArticle(){
@@ -116,13 +123,36 @@ INTRODUCTION    创作中心
                     'str_num': this.content.length
                 };
                 uploadArticle(data).then(res =>{
-                    console.log(res);
+                    this.$message.success("文章上传成功");
                     this.loading = false
                 }).catch(err =>{
                     const key = Object.keys(err.response.data);
                     this.$message.error(err.response.data[key][0].toString());
                     this.loading = false
                 })
+            },
+            // 保存草稿
+            saveDraft(){
+                const data = {
+                    'summary': this.abstract,
+                    'title': this.title,
+                    'cover': this.cover,
+                    'content': this.content,
+                    'category': this.category,
+                    'tag': this.tags,
+                };
+                uploadDraft().then(res =>{
+                    this.$message.success("文章保存成功")
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                })
+
+            },
+            // 草稿箱
+            draft(){
+
             },
             // 检查各各上传数据
             checkedArticle(){
@@ -161,6 +191,11 @@ INTRODUCTION    创作中心
                     return false
                 }else if (this.category < 0){
                     this.$notify.error("分类应大约0");
+                    return false
+                }
+                // 文章内容判断
+                if (this.content.length < 20){
+                    this.$notify.error("文章内容过短");
                     return false
                 }
                 return true
