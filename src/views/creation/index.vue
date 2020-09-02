@@ -17,7 +17,7 @@ INTRODUCTION    创作中心
             </el-col>
             <el-col :span="12">
                 <el-card class="abstract" >
-                    <my-abstract v-on:changeAbstract="changeAbstract" v-on:changeTitle="changeTitle" :title.sync="title"></my-abstract>
+                    <my-abstract v-on:changeAbstract="changeAbstract" v-on:changeTitle="changeTitle" v-bind="{'title': title, 'abstract': abstract}" ></my-abstract>
                 </el-card>
             </el-col>
         </el-row>
@@ -113,6 +113,7 @@ INTRODUCTION    创作中心
             },
             // 传递标题
             changeTitle:function (title) {
+                console.log(title);
                 this.title = title
             },
             // 传递正文
@@ -154,7 +155,7 @@ INTRODUCTION    创作中心
                     'summary': this.abstract,
                     'title': this.title,
                     'cover': this.cover,
-                    'content': this.content,
+                    'content': this.markdown,
                     'category': this.category,
                     'tag': this.tags,
                 };
@@ -268,5 +269,4 @@ INTRODUCTION    创作中心
             width: 90%;
         }
     }
-
 </style>
