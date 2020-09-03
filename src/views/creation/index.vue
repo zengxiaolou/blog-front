@@ -34,9 +34,7 @@ INTRODUCTION    创作中心
             </el-col>
         </el-row>
         <el-card class="markdown">
-            <span>文章内容</span>
-            <el-divider></el-divider>
-            <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown"></markDown>
+            <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown" :markdown="content"></markDown>
             <el-row type="flex" justify="end" class="handle-bottom">
                 <el-col :span="2">
                     <el-button type="info" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
@@ -147,19 +145,25 @@ INTRODUCTION    创作中心
                     'content': this.content,
                     'category': this.category,
                     'tag': this.tags,
-                    'str_num': this.content.length
+                    'str_num': this.content.length,
+                    'markdown': this.markdown,
                 };
                 uploadArticle(data).then(() =>{
                     this.$message.success("文章上传成功");
                     this.loading = false
                 }).catch(err =>{
+                    this.loading = false;
                     const key = Object.keys(err.response.data);
+                    console.log(err.response.data);
                     this.$message.error(err.response.data[key][0].toString());
-                    this.loading = false
+
                 })
             },
             // 检查各各上传数据
             checkedArticle(){
+                if (this.category === 'Python'){
+                    this.category = 1
+                }
                 // 摘要字符判断
                 if ( this.abstract === undefined || this.abstract === "" ){
                     this.$notify.error("摘要不能为空");
@@ -218,13 +222,15 @@ INTRODUCTION    创作中心
                     this.$message.success("文章保存成功")
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
-                    console.log(err.response.data);
                     this.$message.error(err.response.data[key][0].toString());
                     this.loading = false
                 })
             },
             // 更新草稿
             saveDraft(){
+                if (this.category === 'Python'){
+                    this.category = 1
+                }
                 const data = {
                     'summary': this.abstract,
                     'title': this.title,
@@ -237,7 +243,7 @@ INTRODUCTION    创作中心
                     this.$message.error('该草稿还未创建，请选择【新建草稿】');
                     return
                 }
-                uploadDraft(data, this.draftOptions.id).then(() =>{
+                uploadDraft(data, this.checkedOptions.id).then(() =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
@@ -302,9 +308,6 @@ INTRODUCTION    创作中心
             }
         }
 
-        .el-divider{
-            margin: 10px 0;
-        }
         .handle-bottom{
             margin-top: 10px;
         }

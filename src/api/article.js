@@ -21,8 +21,8 @@ export function uploadArticle(data) {
 // 上传文章草稿箱
 export function uploadDraft(data, id) {
     return request({
-        url: `article/draft/${id}`,
-        method: "put",
+        url: `article/draft/${id}/`,
+        method: "patch",
         data: data
     })
 }
@@ -48,7 +48,7 @@ export function getDraft(params) {
 // 删除草稿
 export function deleteDraft(id) {
     return request({
-        url: `article/draft/${id}`,
+        url: `article/draft/${id}/`,
         method: 'delete'
     })
 }
@@ -100,7 +100,7 @@ export function addTag(data) {
 // 删除文章标签
 export function deleteTag(id) {
     return request({
-        url: `article/tag/${id}`,
+        url: `article/tag/${id}/`,
         method: "delete",
     })
 }

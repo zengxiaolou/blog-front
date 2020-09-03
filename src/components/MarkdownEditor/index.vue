@@ -7,7 +7,11 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <div id="editor" @change="changeValue"></div>
+    <div>
+        <span @click="change">文章内容</span>
+        <el-divider></el-divider>
+        <div id="editor" @change="changeValue"></div>
+    </div>
 </template>
 
 <script>
@@ -16,6 +20,7 @@ INTRODUCTION    文件简介
     import Editor from '@toast-ui/editor';
     export default {
         name: "index",
+        props: ['markdown'],
         data() {
             return{
             }
@@ -29,12 +34,13 @@ INTRODUCTION    文件简介
                     previewStyle: 'vertical',
                     initialValue: "这里书写文章主内容"
                 });
-
-                this.editor.getHtml();
             },
             changeValue(){
                 this.$emit('changeContent', this.editor.getHtml());
                 this.$emit('changeMarkdown', this.editor.getMarkdown())
+            },
+            change(){
+                this.editor.setMarkdown(this.markdown)
             }
         },
         mounted() {
@@ -49,5 +55,7 @@ INTRODUCTION    文件简介
 </script>
 
 <style lang="scss" scoped>
-
+    .el-divider{
+        margin: 10px 0;
+    }
 </style>
