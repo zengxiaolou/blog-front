@@ -8,7 +8,7 @@ INTRODUCTION    文件简介
 
 <template>
     <div>
-        <span>封面图片</span>
+        <span><a :href="covers" target="_blank">封面图片</a></span>
         <el-divider></el-divider>
         <el-upload
                 :action=uploadHost
@@ -55,6 +55,7 @@ INTRODUCTION    文件简介
 
     export default {
         name: "bgm",
+        props:['covers'],
         data() {
             return {
                 dialogImageUrl: '',
@@ -93,7 +94,7 @@ INTRODUCTION    文件简介
             uploadSuccess(){
                 this.$message.success('图片上传成功');
                 this.$emit('changeCover', this.cover)
-            }
+            },
         }
     }
 </script>

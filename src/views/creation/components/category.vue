@@ -19,25 +19,29 @@ INTRODUCTION    文件简介
             <el-col :span="3">
                 <el-button type="primary" round plain size="mini" @click="open">新增</el-button>
             </el-col>
+            <el-col :offset="1" :span="3">
+                <el-button  type="danger" round plain size="mini" @click="cancel">删除</el-button>
+            </el-col>
         </el-row>
     </div>
 </template>
 
 <script>
-import {getCategory, addCategory} from "../../../api/article";
+import {getCategory, addCategory, deleteCategory} from "../../../api/article";
 
 export default {
-        name: "category",
-        data() {
-            return{
-                category: 'Python',
-                categoryArray:[],
-                id: 1,
-            }
-        },
+    inject:['reload'],
+    name: "category",
+    data() {
+        return{
+            category: 'Python',
+            categoryArray:[],
+            id: 1,
+        }
+    },
     methods: {
         getCategory(){
-            getCategory().then(res => {
+            getCategory({"size":20}).then(res => {
                 this.categoryArray = res.results;
             }).catch(err => {
                 const key = Object.keys(err.response.data);
@@ -49,7 +53,7 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
             }).then(({ value }) => {
-                addCategory({category: value}).then(res =>{
+                addCategory({category: value}).then(() =>{
                     this.getCategory();
                     this.$message({
                         type: 'success',
@@ -63,6 +67,35 @@ export default {
                 this.$message({
                     type: 'info',
                     message: '取消输入'
+                });
+            });
+        },
+        cancel(){
+            this.$confirm('此操作将删除该分类, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                for (let key of Object.keys(this.categoryArray)){
+                    if (this.categoryArray[key]['category'] === this.category){
+                        this.id = this.categoryArray[key]['id'];
+                        break
+                    }
+                }
+                deleteCategory(this.id).then(() =>{
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    this.getCategory()
+                }).catch(() =>{
+
+                });
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
             });
         },
@@ -94,5 +127,6 @@ export default {
             margin-top: 20px;
             margin-bottom: 20px;
         }
+
     }
 </style>

@@ -12,7 +12,7 @@ INTRODUCTION    创作中心
         <el-row type="flex" justify="center" class="info">
             <el-col :span="12">
                 <el-card  class="upload">
-                    <my-bgm v-on:changeCover="changeCover"></my-bgm>
+                    <my-bgm v-on:changeCover="changeCover" :covers="cover"></my-bgm>
                 </el-card>
             </el-col>
             <el-col :span="12">
@@ -39,19 +39,19 @@ INTRODUCTION    创作中心
             <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown"></markDown>
             <el-row type="flex" justify="end" class="handle-bottom">
                 <el-col :span="2">
-                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
+                    <el-button type="info" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
                 </el-col>
-                <el-col offset="1" :span="2">
+                <el-col :offset="1" :span="2">
                     <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="newDraft"> 新建草稿</el-button>
                 </el-col>
-                <el-col offset="1"  :span="2">
+                <el-col :offset="1"  :span="2">
                     <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="saveDraft"> 保存草稿</el-button>
                 </el-col>
-                <el-col offset="1"  :span="2">
-                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="deleteDraft"> 删除草稿</el-button>
+                <el-col :offset="1"  :span="2">
+                    <el-button type="danger" round plain size="mini"  :loading="draftLoading" @click="deleteDraft"> 删除草稿</el-button>
                 </el-col>
-                <el-col offset="1" :span="2">
-                    <el-button type="primary" round plain size="mini"  :loading="loading" @click.prevent="uploadArticle">发布文章</el-button>
+                <el-col :offset="1" :span="2">
+                    <el-button type="success" round plain size="mini"  :loading="loading" @click.prevent="uploadArticle">发布文章</el-button>
                 </el-col>
             </el-row>
         </el-card>
@@ -99,6 +99,7 @@ INTRODUCTION    创作中心
                 draftVisible: false,
                 draftValue: '',
                 draftOptions: [],
+                checkedOptions: {},
             };
         },
         methods: {
@@ -148,7 +149,7 @@ INTRODUCTION    创作中心
                     'tag': this.tags,
                     'str_num': this.content.length
                 };
-                uploadArticle(data).then(res =>{
+                uploadArticle(data).then(() =>{
                     this.$message.success("文章上传成功");
                     this.loading = false
                 }).catch(err =>{
@@ -213,7 +214,7 @@ INTRODUCTION    创作中心
                     'category': this.category,
                     'tag': this.tags,
                 };
-                newDraft(data).then(res =>{
+                newDraft(data).then(() =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
@@ -232,7 +233,11 @@ INTRODUCTION    创作中心
                     'category': this.category,
                     'tag': this.tags,
                 };
-                uploadDraft(data, this.draftOptions.id).then(res =>{
+                if (this.checkedOptions.id === '' || this.checkedOptions.id === undefined){
+                    this.$message.error('该草稿还未创建，请选择【新建草稿】');
+                    return
+                }
+                uploadDraft(data, this.draftOptions.id).then(() =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
@@ -242,7 +247,7 @@ INTRODUCTION    创作中心
             },
             // 草稿箱
             draft(){
-                getDraft().then(res =>{
+                getDraft({"size": 50}).then(res =>{
                     this.draftOptions = res.results
                 }).catch(err => {
                     const key = Object.keys(err.response.data);
@@ -256,11 +261,11 @@ INTRODUCTION    创作中心
             selectDraft(){
                 for (let key of Object.keys(this.draftOptions)){
                     if (this.draftOptions[key]['id'] === this.draftValue){
-                        let option = this.draftOptions[key];
-                        this.title = option['title'];
-                        this.content = option['content'];
-                        this.abstract = option['summary'];
-                        this.cover  = option.cover;
+                        this.checkedOptions = this.draftOptions[key];
+                        this.title = this.checkedOptions.title;
+                        this.content = this.checkedOptions.content;
+                        this.abstract = this.checkedOptions.summary;
+                        this.cover  = this.checkedOptions.cover;
                         break
                     }
                 }
@@ -268,7 +273,11 @@ INTRODUCTION    创作中心
             },
             // 删除草稿
             deleteDraft(){
-                deleteDraft(this.draftOptions.id).then(res => {
+                if (this.checkedOptions.id === '' || this.checkedOptions.id === undefined){
+                    this.$message.error("还未选中需要删除的草稿");
+                    return
+                }
+                deleteDraft(this.checkedOptions.id).then(() => {
                     this.reload()
                 }).catch(err => {
                     const key = Object.keys(err.response.data);

@@ -30,15 +30,18 @@ export function uploadDraft(data, id) {
 // 新建草稿
 export function newDraft(data) {
     return request({
-        url: "article/draft/"
+        url: "article/draft/",
+        method: "post",
+        data:data
     })
 }
 
 // 获取草稿箱
-export function getDraft() {
+export function getDraft(params) {
     return request({
         url: "article/search/draft/",
         method: "get",
+        params: params
     })
 }
 
@@ -51,10 +54,11 @@ export function deleteDraft(id) {
 }
 /////////////////////////////////////////分类与标签///////////////////////////////////
 // 获取文章分类
-export function getCategory() {
+export function getCategory(params) {
     return request({
-        url: "article/category/",
-        method: "get"
+        url: "article/get/category/",
+        method: "get",
+        params: params,
     })
 }
 
@@ -76,10 +80,11 @@ export function deleteCategory(id) {
 }
 
 // 获取文章标签
-export function getTag() {
+export function getTag(params) {
     return request({
-        url: "article/tag/",
+        url: "article/get/tag/",
         method: "get",
+        params: params
     })
 }
 

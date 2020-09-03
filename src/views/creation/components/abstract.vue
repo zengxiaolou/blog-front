@@ -51,8 +51,8 @@ INTRODUCTION    文件简介
             title(val){
                 this.newTitle = val
             },
-            abstract(val1){
-                this.newAbstract = val1
+            abstract(val){
+                this.newAbstract = val
             }
         },
         methods: {
