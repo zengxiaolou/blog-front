@@ -48,7 +48,7 @@ INTRODUCTION    我的社交
                     {"name": "zhihu",    "style": "gam-zhihu",     "local": "top-end" ,    "icon": "icon iconfont icon-zhihu",           "url": "https://www.zhihu.com/people/xiao-lu-63-18-15"},
                     {"name": "leetcode", "style": "gam-leetcode",  "local": "bottom-end" , "icon": "icon iconfont icon-leetcode",        "url": "https://leetcode-cn.com/u/zengxiaolou/"},
                     {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
-                ],
+                    ],
                 size: "medium",
                 wxQR: require("../../../../assets/images/others/wx_qr.jpg"),
                 dialogVisible: false,
