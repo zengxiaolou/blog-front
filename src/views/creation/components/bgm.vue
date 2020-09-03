@@ -52,6 +52,7 @@ INTRODUCTION    文件简介
 
 <script>
     import {getQiNiuToken} from "../../../api/utils";
+    import {errorTips} from "../../../utils/tools/message";
 
     export default {
         name: "bgm",
@@ -86,6 +87,8 @@ INTRODUCTION    文件简介
                     this.postData.token = res.token;
                     this.$refs.upload.submit();
                     this.cover = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name
+                }).catch(err =>{
+                    errorTips(err);
                 });
             },
             uploadFail(res){

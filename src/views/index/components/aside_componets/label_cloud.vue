@@ -20,6 +20,7 @@ INTRODUCTION    文件描述
 
 <script>
     import {getTag} from "../../../../api/article";
+    import {errorTips} from "../../../../utils/tools/message";
 
     export default {
         name: "label_cloud",
@@ -40,7 +41,7 @@ INTRODUCTION    文件描述
                     }
                     this.tags = res.results;
                 }).catch(err => {
-                    console.log(err)
+                    errorTips(err);
                 })
             }
         },

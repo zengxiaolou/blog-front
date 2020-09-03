@@ -77,7 +77,7 @@ INTRODUCTION    创作中心
     import myCategory from "./components/category";
     import myTags from "./components/tags"
     import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft} from "../../api/article";
-
+    import {errorTips} from "../../utils/tools/message";
 
     export default {
         inject: ['reload'],
@@ -153,9 +153,7 @@ INTRODUCTION    创作中心
                     this.loading = false
                 }).catch(err =>{
                     this.loading = false;
-                    const key = Object.keys(err.response.data);
-                    console.log(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err)
 
                 })
             },
@@ -221,8 +219,7 @@ INTRODUCTION    创作中心
                 newDraft(data).then(() =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err);
                     this.loading = false
                 })
             },
@@ -246,8 +243,7 @@ INTRODUCTION    创作中心
                 uploadDraft(data, this.checkedOptions.id).then(() =>{
                     this.$message.success("文章保存成功")
                 }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err);
                     this.loading = false
                 })
             },
@@ -256,9 +252,7 @@ INTRODUCTION    创作中心
                 getDraft({"size": 50}).then(res =>{
                     this.draftOptions = res.results
                 }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    console.log(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err);
                     this.loading = false
                 });
                 this.draftVisible = true
@@ -286,8 +280,7 @@ INTRODUCTION    创作中心
                 deleteDraft(this.checkedOptions.id).then(() => {
                     this.reload()
                 }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err);
                     this.loading = false
                 })},
         }

@@ -71,6 +71,7 @@ INTRODUCTION    头像组件
     import {captcha, checkCaptcha} from "../../../../api/utils";
     import {login} from "../../../../api/user";
     import {getToken, removeToken} from "../../../../utils/service/cookie";
+    import {errorTips} from "../../../../utils/tools/message";
     export default {
         inject: ['reload'],
         name: "avatar",
@@ -188,8 +189,7 @@ INTRODUCTION    头像组件
                                 this.dialogVisible =false;
                                 this.reload()
                             }).catch((err) => {
-                                const key = Object.keys(err.response.data);
-                                this.$message.error(err.response.data[key][0].toString());
+                                errorTips(err);
                                 this.form.captcha = '';
                                 this.loading = false;
                                 this.changeCaptcha();

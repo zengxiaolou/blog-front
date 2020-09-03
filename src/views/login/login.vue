@@ -57,6 +57,7 @@
 
 <script>
     import {captcha} from "../../api/utils";
+    import {errorTips} from "../../utils/tools/message";
 
     export default {
         name: "login",
@@ -133,8 +134,7 @@
                                     this.loading = false;
                                 })
                                 .catch((err)=>{
-                                    const key = Object.keys(err.response.data);
-                                    this.$message.error(err.response.data[key][0].toString());
+                                    errorTips(err);
                                     this.infoForm.captcha_value ='';
                                 })
                         }).catch(() =>{
@@ -161,8 +161,7 @@
                         this.captchaForm.captcha_key = res.captcha_key;
                         this.validate = 'data:image/png;base64,' + res.captcha_image;
                     }).catch((err) => {
-                        const key = Object.keys(err.response.data);
-                        this.$message.error(err.response.data[key][0].toString());
+                        errorTips(err);
                         this.getValidateCode();
                 })
             },
@@ -174,7 +173,6 @@
 
     .login-page{
         height: 100%;
-        background-image: url('/images/BGI.jpg');
         .login-header{
             height: 5%;
             p{
