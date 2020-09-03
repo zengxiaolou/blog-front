@@ -11,29 +11,45 @@ import request from "../utils/service/request"
 // 上传文章相关数据
 export function uploadArticle(data) {
     return request({
-        url:"article/article-add/",
+        url:"article/article/",
         method: "post",
         data: data
     })
 }
 
+/////////////////////////////////////////草稿相关///////////////////////////////////
 // 上传文章草稿箱
-export function uploadDraft(data) {
+export function uploadDraft(data, id) {
     return request({
-        url: "article/draft/add/",
-        method: "post",
+        url: `article/draft/${id}`,
+        method: "put",
         data: data
+    })
+}
+
+// 新建草稿
+export function newDraft(data) {
+    return request({
+        url: "article/draft/"
     })
 }
 
 // 获取草稿箱
 export function getDraft() {
     return request({
-        url: "article/draft/search/",
+        url: "article/search/draft/",
         method: "get",
     })
 }
 
+// 删除草稿
+export function deleteDraft(id) {
+    return request({
+        url: `article/draft/${id}`,
+        method: 'delete'
+    })
+}
+/////////////////////////////////////////分类与标签///////////////////////////////////
 // 获取文章分类
 export function getCategory() {
     return request({

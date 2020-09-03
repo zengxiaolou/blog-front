@@ -38,13 +38,19 @@ INTRODUCTION    创作中心
             <el-divider></el-divider>
             <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown"></markDown>
             <el-row type="flex" justify="end" class="handle-bottom">
-                <el-col :span="3">
+                <el-col :span="2">
                     <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
                 </el-col>
-                <el-col :span="3">
+                <el-col offset="1" :span="2">
+                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="newDraft"> 新建草稿</el-button>
+                </el-col>
+                <el-col offset="1"  :span="2">
                     <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="saveDraft"> 保存草稿</el-button>
                 </el-col>
-                <el-col :span="3">
+                <el-col offset="1"  :span="2">
+                    <el-button type="primary" round plain size="mini"  :loading="draftLoading" @click="deleteDraft"> 删除草稿</el-button>
+                </el-col>
+                <el-col offset="1" :span="2">
                     <el-button type="primary" round plain size="mini"  :loading="loading" @click.prevent="uploadArticle">发布文章</el-button>
                 </el-col>
             </el-row>
@@ -72,10 +78,11 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle, uploadDraft, getDraft} from "../../api/article";
+    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft} from "../../api/article";
 
 
     export default {
+        inject: ['reload'],
         name: "App",
         components: {markDown, myBgm, myAbstract, myCategory, myTags},
         data() {
@@ -95,6 +102,7 @@ INTRODUCTION    创作中心
             };
         },
         methods: {
+            /////////////////////////子传父////////////////
             // 传递分类
             changeCategory:function (category) {
                 this.category = category;
@@ -113,7 +121,6 @@ INTRODUCTION    创作中心
             },
             // 传递标题
             changeTitle:function (title) {
-                console.log(title);
                 this.title = title
             },
             // 传递正文
@@ -124,6 +131,7 @@ INTRODUCTION    创作中心
             changeMarkdown:function(markdown){
                 this.markdown = markdown
             },
+            //////////////////////文章相关/////////////////
             // 上传文章
             uploadArticle(){
                 this.loading = true;
@@ -148,52 +156,6 @@ INTRODUCTION    创作中心
                     this.$message.error(err.response.data[key][0].toString());
                     this.loading = false
                 })
-            },
-            // 保存草稿
-            saveDraft(){
-                const data = {
-                    'summary': this.abstract,
-                    'title': this.title,
-                    'cover': this.cover,
-                    'content': this.markdown,
-                    'category': this.category,
-                    'tag': this.tags,
-                };
-                uploadDraft(data).then(res =>{
-                    this.$message.success("文章保存成功")
-                }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    console.log(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
-                    this.loading = false
-                })
-
-            },
-            // 草稿箱
-            draft(){
-                getDraft().then(res =>{
-                    this.draftOptions = res.results
-                }).catch(err => {
-                    const key = Object.keys(err.response.data);
-                    console.log(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
-                    this.loading = false
-                });
-                this.draftVisible = true
-            },
-            // 选择草稿
-            selectDraft(){
-                for (let key of Object.keys(this.draftOptions)){
-                    if (this.draftOptions[key]['id'] === this.draftValue){
-                        let option = this.draftOptions[key];
-                        this.title = option['title'];
-                        this.content = option['content'];
-                        this.abstract = option['summary'];
-                        this.cover  = option.cover;
-                        break
-                    }
-                }
-                this.draftVisible = false
             },
             // 检查各各上传数据
             checkedArticle(){
@@ -240,7 +202,79 @@ INTRODUCTION    创作中心
                     return false
                 }
                 return true
-            }
+            },
+            ///////////////////////////////////草稿箱相关////////////////////////////
+            newDraft(){
+                const data = {
+                    'summary': this.abstract,
+                    'title': this.title,
+                    'cover': this.cover,
+                    'content': this.markdown,
+                    'category': this.category,
+                    'tag': this.tags,
+                };
+                newDraft(data).then(res =>{
+                    this.$message.success("文章保存成功")
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    console.log(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                })
+            },
+            // 更新草稿
+            saveDraft(){
+                const data = {
+                    'summary': this.abstract,
+                    'title': this.title,
+                    'cover': this.cover,
+                    'content': this.markdown,
+                    'category': this.category,
+                    'tag': this.tags,
+                };
+                uploadDraft(data, this.draftOptions.id).then(res =>{
+                    this.$message.success("文章保存成功")
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                })
+            },
+            // 草稿箱
+            draft(){
+                getDraft().then(res =>{
+                    this.draftOptions = res.results
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    console.log(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                });
+                this.draftVisible = true
+            },
+            // 选择草稿
+            selectDraft(){
+                for (let key of Object.keys(this.draftOptions)){
+                    if (this.draftOptions[key]['id'] === this.draftValue){
+                        let option = this.draftOptions[key];
+                        this.title = option['title'];
+                        this.content = option['content'];
+                        this.abstract = option['summary'];
+                        this.cover  = option.cover;
+                        break
+                    }
+                }
+                this.draftVisible = false
+            },
+            // 删除草稿
+            deleteDraft(){
+                deleteDraft(this.draftOptions.id).then(res => {
+                    this.reload()
+                }).catch(err => {
+                    const key = Object.keys(err.response.data);
+                    this.$message.error(err.response.data[key][0].toString());
+                    this.loading = false
+                })},
         }
 
     };
