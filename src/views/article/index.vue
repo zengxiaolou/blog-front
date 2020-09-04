@@ -15,8 +15,8 @@ INTRODUCTION    文件简介
         </el-breadcrumb>
         <el-divider></el-divider>
             <el-scrollbar>
-            <ul class="infinite-list"   v-infinite-scroll="load">
-                <li v-for="i in count" class="infinite-list-item">
+            <ul class="infinite-list"   v-infinite-scroll="getArticle" :loading="loading">
+                <li v-for="i in article.length" class="infinite-list-item">
                     <my-article-preview></my-article-preview>
                 </li>
             </ul>
@@ -26,18 +26,33 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
-    import myArticlePreview from "../../components/article/article_preview"
+    import myArticlePreview from "../../components/article/article_preview";
+    import {getArticle} from "../../api/article";
+    import {errorTips} from "../../utils/tools/message";
+
     export default {
         name: "index",
         components: {myArticlePreview},
         data() {
             return {
-                count: 0,
+                pageSize: 5,
+                pageNum: 1,
+                loading: false,
+                article: [],
             };
         },
         methods: {
-            load () {
-                this.count += 1
+            getArticle(){
+                const params = {
+                    "size": this.pageSize,
+                    'page': this.pageNum,
+                };
+                getArticle(params).then(res =>{
+                    this.article = res.results;
+                    this.pageNum += 1
+                }).catch(err => {
+                    errorTips(err)
+                })
             }
         }
     }

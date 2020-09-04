@@ -9,8 +9,12 @@ import ElementUI from 'element-ui';
 import '@/assets/css/index.scss'
 // 引入自定以图标
 import '@/assets/iconfont/iconfont.css'
+// 引入过滤器
+import filter from './filters/index'
 
 
+
+Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.mixin(mixins);

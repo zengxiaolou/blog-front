@@ -150,7 +150,10 @@ INTRODUCTION    创作中心
                 };
                 uploadArticle(data).then(() =>{
                     this.$message.success("文章上传成功");
-                    this.loading = false
+                    this.loading = false;
+                    if (this.checkedOptions.id){
+                        this.deleteDraft()
+                    }
                 }).catch(err =>{
                     this.loading = false;
                     errorTips(err)

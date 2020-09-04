@@ -8,40 +8,33 @@ INTRODUCTION    文件描述
 <template>
     <div class="content">
         <div class="content-header">
-            <el-image :src=content.url fit="contain"></el-image>
+            <el-image :src=article.cover fit="contain"></el-image>
             <router-link to="/detail">
-                <h1 class="content-title">这是一个标题</h1>
+                <h1 class="content-title">{{article.title}}</h1>
             </router-link>
         </div>
         <el-row  :gutter="20" class="introduction">
-            <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{content.date}}</el-col>
-            <el-col :span="2" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{content.str}}</el-col>
-            <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{content.time}}</el-col>
-            <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{content.view}}</el-col>
-            <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{content.comment}}</el-col>
-            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{content.like}}</el-col>
+            <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{article.created|formatDateTime('YYYY-MM-DD')}}</el-col>
+            <el-col :span="3" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{"总共"+ article.str_num + "字"}}</el-col>
+            <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article.reading_time + "分"}}</el-col>
+            <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{article.views_num}}</el-col>
+            <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article.comments_num}}</el-col>
+            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article.like_num}}</el-col>
         </el-row>
-        <p class="summary">{{content.summary}}</p>
+        <p class="summary">{{article.summary}}</p>
     </div>
 </template>
 
 <script>
+
     export default {
         name: "article_preview",
+        props: ['article'],
         data() {
             return {
-                content: {
-                    "date": "2020年08月12日",
-                    "str": "2k字",
-                    "time": "大约2分钟",
-                    "view": "00",
-                    "comment": "00",
-                    "like": "00",
-                    "summary": "心中的抑郁就像只黑狗，一有机会就咬住我不放。——丘吉尔",
-                    "url": "http://qfeasoeh9.hn-bkt.clouddn.com/1598885223976179.png"
-                }
+
             }
-        }
+        },
     }
 </script>
 

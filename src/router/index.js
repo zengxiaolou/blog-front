@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import {Message} from "element-ui";
 import routes from './routes';
 import {getToken} from '../utils/service/cookie';
 import {title} from "@/utils/tools/title";
@@ -21,7 +22,9 @@ const router = new Router({
   }
 });
 
-router.afterEach((to, from, next) => {
+
+
+router.afterEach((to, from) => {
   window.scrollTo(0, 0);
   // 更改标题
   title(to.meta.title)
@@ -33,6 +36,8 @@ router.afterEach((to, from) =>{
     if (res.meta.title === "创作中心"){
       const token = getToken();
       if (token === undefined || localStorage.role === 'false'){
+        Message.error('未登录,请先登录');
+        localStorage.role = "false";
         router.push({name: 'index'})
       }
     }

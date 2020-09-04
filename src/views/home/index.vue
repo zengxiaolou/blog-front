@@ -7,28 +7,45 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <el-scrollbar>
-        <ul class="infinite-list"   v-infinite-scroll="load" >
-            <li v-for="i in count" class="infinite-list-item">
-                <my-article-preview></my-article-preview>
+    <el-scrollbar class="page-component__scroll">
+        <ul class="infinite-list"   v-infinite-scroll="getArticle" >
+            <li v-for="i in article.length" class="infinite-list-item">
+                <my-article-preview :article="article[i-1]"></my-article-preview>
             </li>
         </ul>
+        <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
 
 <script>
     import myArticlePreview from "../../components/article/article_preview"
+    import {getArticle} from "../../api/article";
+    import {errorTips} from "../../utils/tools/message";
     export default {
         name: "home",
         components: {myArticlePreview},
         data () {
             return {
-                count: 0,
-            }
+                pageSize: 2,
+                pageNum: 1,
+                loading: false,
+                article: [],
+            };
         },
         methods: {
-            load () {
-                this.count += 2
+            getArticle(){
+                const params = {
+                    "size": this.pageSize,
+                    'page': this.pageNum,
+                };
+                getArticle(params).then(res =>{
+                    for (let key of Object.keys(res.results)){
+                        this.article.push(res.results[key])
+                    }
+                    this.pageNum += 1
+                }).catch(() => {
+                    this.$message.info('没有了，别再拉啦！！！在拉裤子要掉了！！！！')
+                })
             }
         }
     }
@@ -41,5 +58,9 @@ INTRODUCTION    文件简介
     }
     /deep/ .el-scrollbar__wrap {
         overflow-x:hidden;
+        height: 100%;
+    }
+    .page-component__scroll{
+        height: 100%;
     }
 </style>

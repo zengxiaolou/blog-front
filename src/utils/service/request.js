@@ -61,7 +61,7 @@ service.interceptors.response.use(
                     break;
                 case 404:
                     error.message = `请求地址出错：${error.response.config.url}`;
-                    router.push({name: 'error_404'});
+                    // router.push({name: 'error_404'});
                     break;
                 case 408:
                     error.message = '请求超时';

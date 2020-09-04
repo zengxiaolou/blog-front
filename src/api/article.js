@@ -104,3 +104,12 @@ export function deleteTag(id) {
         method: "delete",
     })
 }
+
+// 获取文章
+export  function  getArticle(params) {
+    return request({
+        url: `article/search/article`,
+        method: 'get',
+        params: params,
+    })
+}
