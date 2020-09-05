@@ -44,7 +44,7 @@ INTRODUCTION    文件简介
                     }
                     this.pageNum += 1
                 }).catch(() => {
-                    this.$message.info('没有了，别再拉啦！！！在拉裤子要掉了！！！！')
+                    this.$message.info('没有了，别再拉啦！！！再拉裤子要掉了！！！！')
                 })
             }
         }

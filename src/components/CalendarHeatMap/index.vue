@@ -9,6 +9,7 @@ INTRODUCTION    文件简介
 <template>
     <div >
         <div id="myChart"></div>
+
     </div>
 </template>
 
@@ -18,7 +19,6 @@ INTRODUCTION    文件简介
         name: "index",
         data() {
             return{
-
             }
         },
         methods: {
@@ -27,7 +27,7 @@ INTRODUCTION    文件简介
                 let option = {
                     visualMap: {
                         min: 0,
-                        max: 10000,
+                        max: 5,
                         inRange: {
                             color: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39']
                         },
@@ -66,7 +66,7 @@ INTRODUCTION    文件简介
                 for (let time = thatday; time < today; time += dayTime) {
                     data.push([
                         echarts.format.formatTime('yyyy-MM-dd', time),
-                        Math.floor(Math.random() * 10000)
+                        1
                     ]);
                 }
                 return {
@@ -85,10 +85,9 @@ INTRODUCTION    文件简介
 
 <style lang="scss" scoped>
     #myChart{
-
         margin: 10px auto;
         height: 150px;
         width: 830px;
-        border: 1px solid #e1e4e8;
+        /*border: 1px solid #e1e4e8;*/
     }
 </style>

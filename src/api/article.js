@@ -17,6 +17,14 @@ export function uploadArticle(data) {
     })
 }
 
+// 获取文章
+export  function  getArticle(params) {
+    return request({
+        url: `article/search/article`,
+        method: 'get',
+        params: params,
+    })
+}
 /////////////////////////////////////////草稿相关///////////////////////////////////
 // 上传文章草稿箱
 export function uploadDraft(data, id) {
@@ -105,11 +113,11 @@ export function deleteTag(id) {
     })
 }
 
-// 获取文章
-export  function  getArticle(params) {
+//////////////////////////归档/////////////////////
+export function getArchive(params) {
     return request({
-        url: `article/search/article`,
+        url: 'article/archive/',
         method: 'get',
-        params: params,
+        params:params
     })
 }
