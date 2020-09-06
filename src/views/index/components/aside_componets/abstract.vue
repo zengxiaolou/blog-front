@@ -21,9 +21,9 @@ INTRODUCTION    文章摘要
         data() {
             return{
                 detail: [
-                    {name: "文章", "path": "/index"},
-                    {name: "标签", "path": "/label"},
-                    {name: "分类", "path": "/article"},
+                    {name: "Article", "path": "/index"},
+                    {name: "View", "path": "/label"},
+                    {name: "star", "path": "/article"},
                     {name: "089",  "path": "/index"},
                     {name: "088",  "path": "/label"},
                     {name: "000",  "path": "/article"}
