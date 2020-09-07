@@ -16,7 +16,12 @@ export function getViewAndLike() {
     })
 }
 
-
+export function GeLastYearData() {
+    return request({
+        url: 'article/last-data/',
+        method: 'get,'
+    })
+}
 
 ////////////////////////////////////文章相关//////////////////////////////
 // 上传文章相关数据
