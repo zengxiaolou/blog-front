@@ -8,6 +8,17 @@ INTRODUCTION    文章相关
 
 import request from "../utils/service/request"
 
+///////////////////////////////////获取概要//////////////////////////////
+export function getViewAndLike() {
+    return request({
+        url: 'article/view-like/',
+        method: 'get',
+    })
+}
+
+
+
+////////////////////////////////////文章相关//////////////////////////////
 // 上传文章相关数据
 export function uploadArticle(data) {
     return request({
