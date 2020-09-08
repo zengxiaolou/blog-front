@@ -2,37 +2,36 @@
 AUTHOR:         zeng_xiao_yu
 GITHUB:         https://github.com/zengxiaolou
 EMAIL:          zengevent@gmail.com
-TIME:           2020/8/16-00:19
-INTRODUCTION    文件描述
+TIME:           2020/9/8-10:55
+INTRODUCTION    文件简介
 -->
+
 <template>
     <div class="content">
         <div class="content-header">
-            <router-link :to=path>
-                <el-image :src=article.cover fit="contain"></el-image>
-                <h1 class="content-title">{{article.title}}</h1>
-            </router-link>
+            <el-image :src=article.cover fit="contain"></el-image>
+            <h1 class="content-title">{{article.title}}</h1>
         </div>
         <el-row  :gutter="20" class="introduction">
             <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{article.created|formatDateTime('YYYY-MM-DD')}}</el-col>
             <el-col :span="3" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{"总共"+ article.str_num + "字"}}</el-col>
-            <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article.reading_time + "分"}}</el-col>
+            <el-col :span="4" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article.reading_time + "分"}}</el-col>
             <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{article.views_num}}</el-col>
             <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article.comments_num}}</el-col>
             <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article.like_num}}</el-col>
         </el-row>
-        <p class="summary">{{article.summary}}</p>
+        <div class="main-body" v-html="article.content">
+        </div>
     </div>
 </template>
 
 <script>
-
     export default {
-        name: "article_preview",
+        name: "contents",
         props: ['article'],
         data() {
             return {
-                path: '/detail/' + this.article.id
+
             }
         },
     }

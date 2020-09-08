@@ -25,6 +25,15 @@ const indexRouter = [
                 }
             },
             {
+                path: "/index/:search",
+                component: () => import('../../views/home/index'),
+                name: 'index',
+                meta: {
+                    title: "首页",
+                    auth: false,
+                }
+            },
+            {
                 path: "/archive",
                 component: () => import("../../views/archive/index"),
                 name: "archive",
@@ -61,7 +70,7 @@ const indexRouter = [
                 }
             },
             {
-                path: "/detail",
+                path: "/detail/:detail",
                 component: () => import("../../views/detail/index"),
                 name: "detail",
                 meta: {
@@ -112,7 +121,7 @@ const indexRouter = [
     {
         path: '/',
         redirect: {
-            path: '/index',
+            path: '/index/all',
         }
     },
 ];

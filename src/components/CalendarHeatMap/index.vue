@@ -9,7 +9,6 @@ INTRODUCTION    文件简介
 <template>
     <div >
         <div id="myChart"></div>
-
     </div>
 </template>
 
@@ -17,13 +16,20 @@ INTRODUCTION    文件简介
     import echarts from 'echarts'
     export default {
         name: "index",
+        props: ['date'],
         data() {
             return{
             }
         },
+        watch:{
+          date(val){
+              this.initialize()
+          }
+        },
         methods: {
             initialize(){
                 this.myChart = echarts.init(document.getElementById('myChart'));
+                let data = this.getVirtulData();
                 let option = {
                     visualMap: {
                         min: 0,
@@ -36,7 +42,7 @@ INTRODUCTION    文件简介
                     tooltip: {},
                     calendar: {
                         cellSize: [14, 14],
-                        range: [this.getVirtulData()['thatday'], this.getVirtulData()['today']],
+                        range: [data['thatday'], data['today']],
                         itemStyle: {
                             borderColor: '#fff',
                             borderWidth: 4
@@ -52,7 +58,7 @@ INTRODUCTION    文件简介
                     series: {
                         type: 'heatmap',
                         coordinateSystem: 'calendar',
-                        data: this.getVirtulData()['data']
+                        data: data['data']
                     }
                 };
                 this.myChart.setOption(option);
@@ -61,12 +67,18 @@ INTRODUCTION    文件简介
                 let today = echarts.number.parseDate(new Date());
                 let dayTime = 3600 * 24 * 1000;
                 let thatday = today - dayTime * 365;
-
                 let data = [];
                 for (let time = thatday; time < today; time += dayTime) {
                     data.push([
                         echarts.format.formatTime('yyyy-MM-dd', time),
-                        1
+                        0
+                    ]);
+                }
+                for (let i of Object.keys(this.date)){
+                    let singleDate = echarts.format.formatTime('yyyy-MM-dd', this.date[i].create);
+                    data.push([
+                        singleDate,
+                        this.date[i].count
                     ]);
                 }
                 return {
@@ -74,12 +86,9 @@ INTRODUCTION    文件简介
                     today: echarts.format.formatTime('yyyy-MM-dd', today),
                     thatday: echarts.format.formatTime('yyyy-MM-dd', thatday)
                 };
-            }
+            },
 
         },
-        mounted() {
-            this.initialize()
-        }
     }
 </script>
 

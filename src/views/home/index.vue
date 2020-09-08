@@ -23,6 +23,7 @@ INTRODUCTION    文件简介
     import {errorTips} from "../../utils/tools/message";
     export default {
         name: "home",
+        inject: ['reload'],
         components: {myArticlePreview},
         data () {
             return {
@@ -32,11 +33,21 @@ INTRODUCTION    文件简介
                 article: [],
             };
         },
+        watch: {
+            $route(to, from) {
+                this.reload()
+            },
+        },
         methods: {
             getArticle(){
-                const params = {
+                let search = this.$route.params.search;
+                if (search === 'all'){
+                    search = null
+                }
+                let params = {
                     "size": this.pageSize,
                     'page': this.pageNum,
+                    'search': search
                 };
                 getArticle(params).then(res =>{
                     for (let key of Object.keys(res.results)){

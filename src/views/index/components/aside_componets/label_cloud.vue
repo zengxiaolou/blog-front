@@ -10,11 +10,12 @@ INTRODUCTION    文件描述
         <div slot="header" >
             <span>标签☁️</span>
         </div>
-        <router-link to="">
-            <el-tag size="mini"  v-for="(value, index) in tags" :key="index" :type="value.type">
+        <el-tag size="mini"  v-for="(value, index) in tags" :key="index" :type="value.type">
+            <router-link :to="'/index/' + value.tag">
                 {{"# " + value.tag}}
-            </el-tag>
-        </router-link>
+            </router-link>
+        </el-tag>
+
     </el-card>
 </template>
 

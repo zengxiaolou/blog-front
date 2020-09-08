@@ -8,8 +8,8 @@ INTRODUCTION    文章归档页面
 <template>
     <el-scrollbar>
         <el-card class = "archive-header">
-            <el-divider>最近一年共编写20篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
-            <my-charts></my-charts>
+            <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
+            <my-charts :date="date"></my-charts>
         </el-card>
         <el-card class = "archive-body">
             <el-divider>文章归档</el-divider>
@@ -28,8 +28,7 @@ INTRODUCTION    文章归档页面
 
 <script>
     import myCharts from '../../components/CalendarHeatMap/index'
-    import {getArchive} from "../../api/article";
-    const baseUrl = 'http://0.0.0.0:8000/api/v1/' + 'article/detail/';
+    import {getArchive, getLastYearData} from "../../api/article";
 
     const color ={
         'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
@@ -44,6 +43,8 @@ INTRODUCTION    文章归档页面
                 pageSize: 20,
                 pageNum: 1,
                 total: '',
+                lastTotal: '',
+                date: [],
             };
         },
         methods: {
@@ -59,7 +60,7 @@ INTRODUCTION    文章归档页面
                         let archive = {};
                         archive.content = res.results[key].created.substring(0,10) + " " + res.results[key].title;
                         archive.color = color[res.results[key].category.category];
-                        archive.detail = baseUrl + res.results[key].id;
+                        archive.detail = 'detail/'+ res.results[key].id;
                         this.activities.push(archive);
                     }
                 }).catch(() =>{
@@ -78,11 +79,17 @@ INTRODUCTION    文章归档页面
                     this.getArchive()
                 }
             },
-
+            getLastYearData(){
+                getLastYearData().then(res =>{
+                    this.lastTotal = res.results.article;
+                    this.date = res.results.date
+                })
+            }
         },
         mounted() {
             this.getArchive();
             window.addEventListener('scroll',this.handleScroll,true)
+            this.getLastYearData()
         },
         beforeDestroy(){
             window.removeEventListener("scroll",this.handleScroll,true)

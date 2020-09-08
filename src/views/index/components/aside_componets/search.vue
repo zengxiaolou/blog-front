@@ -9,9 +9,10 @@ INTRODUCTION    站内文章搜索
     <div class="search-box">
         <el-input
            placeholder="站内搜索"
-           v-model="search"
+           v-model="searchWord"
            clearable
            suffix-icon="el-icon-search"
+           @change="search"
         >
         </el-input>
     </div>
@@ -22,7 +23,12 @@ INTRODUCTION    站内文章搜索
         name: "search",
         data(){
             return{
-                search:""
+                searchWord:""
+            }
+        },
+        methods: {
+            search(){
+                this.$router.push('/index/'+ this.searchWord)
             }
         }
     }

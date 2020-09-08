@@ -16,10 +16,10 @@ export function getViewAndLike() {
     })
 }
 
-export function GeLastYearData() {
+export function getLastYearData() {
     return request({
         url: 'article/last-data/',
-        method: 'get,'
+        method: 'get'
     })
 }
 
@@ -33,14 +33,23 @@ export function uploadArticle(data) {
     })
 }
 
-// 获取文章
-export  function  getArticle(params) {
+// 条件获取文章文章
+export function getArticle(params) {
     return request({
-        url: `article/search/article`,
+        url: `article/search/article/`,
         method: 'get',
         params: params,
     })
 }
+
+// 获取指定文章
+export function getArticleByID(id) {
+    return request({
+        url: `article/search/article/${id}`,
+        method: 'get',
+    })
+}
+
 /////////////////////////////////////////草稿相关///////////////////////////////////
 // 上传文章草稿箱
 export function uploadDraft(data, id) {
