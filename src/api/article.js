@@ -11,7 +11,7 @@ import request from "../utils/service/request"
 ///////////////////////////////////获取概要//////////////////////////////
 export function getViewAndLike() {
     return request({
-        url: 'article/view-like/',
+        url: 'article/info/',
         method: 'get',
     })
 }

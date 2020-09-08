@@ -154,6 +154,7 @@ INTRODUCTION    创作中心
                     if (this.checkedOptions.id){
                         this.deleteDraft()
                     }
+                    this.$router.push('/index')
                 }).catch(err =>{
                     this.loading = false;
                     errorTips(err)

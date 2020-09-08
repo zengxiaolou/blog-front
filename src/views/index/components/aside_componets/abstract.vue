@@ -37,9 +37,9 @@ INTRODUCTION    文章摘要
             getViewAndLike(){
                 getViewAndLike().then(res => {
                     this.total = [
-                        {"name": res.results.article, 'path': '/index/' },
-                        {"name": res.results.view, 'path': '/index/views_num' },
-                        {"name": res.results.like, 'path': '/index/like_num' },
+                        {"name": res.results[0].article_num, 'path': '/index/' },
+                        {"name": res.results[0].view_num, 'path': '/index/views_num' },
+                        {"name": res.results[0].like_num, 'path': '/index/like_num' },
                      ]
                 }).catch(err => {
                     errorTips(err)
