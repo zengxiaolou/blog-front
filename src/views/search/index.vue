@@ -22,7 +22,7 @@ INTRODUCTION    文件简介
             </el-col>
         </el-row>
         <el-divider></el-divider>
-        <span class="result">找到约{{total}}条结果（用时0.01秒）</span>
+        <span class="result">找到约{{total}}条结果</span>
         <el-scrollbar>
             <ul>
                 <li v-for="i in article.length">

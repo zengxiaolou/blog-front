@@ -36,6 +36,7 @@ INTRODUCTION    文章标签
                     :page-sizes = pageSizes
                     :page-size= pageSize
                     :total=total
+                    background
                     layout="total, sizes, prev, pager, next, jumper">
             </el-pagination>
         </div>

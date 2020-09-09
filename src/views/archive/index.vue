@@ -32,7 +32,7 @@ INTRODUCTION    文章归档页面
 
     const color ={
         'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
-        'Docker': '#1980AD', 'DB': '#27C5FD', 'Tools': '#5B5B5B', 'Other': '#EEEEEE'
+        'Docker': '#1980AD', 'DB': '#27C5FD', 'Tools': '#5B5B5B', 'Other': '#FF8F3D'
     };
     export default {
         name: "archive",
@@ -88,11 +88,11 @@ INTRODUCTION    文章归档页面
         },
         mounted() {
             this.getArchive();
-            window.addEventListener('scroll',this.handleScroll,true)
+            // window.addEventListener('scroll',this.handleScroll,true);
             this.getLastYearData()
         },
         beforeDestroy(){
-            window.removeEventListener("scroll",this.handleScroll,true)
+            // window.removeEventListener("scroll",this.handleScroll,true)
         }
     }
 </script>

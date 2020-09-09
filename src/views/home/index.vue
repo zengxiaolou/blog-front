@@ -19,7 +19,7 @@ INTRODUCTION    文件简介
 
 <script>
     import myArticlePreview from "../../components/article/article_preview"
-    import {getArticle} from "../../api/article";
+    import {getOverview} from "../../api/article";
     import {errorTips} from "../../utils/tools/message";
     export default {
         name: "home",
@@ -33,23 +33,13 @@ INTRODUCTION    文件简介
                 article: [],
             };
         },
-        watch: {
-            $route(to, from) {
-                this.reload()
-            },
-        },
         methods: {
             getArticle(){
-                let search = this.$route.params.search;
-                if (search === 'all'){
-                    search = null
-                }
                 let params = {
                     "size": this.pageSize,
                     'page': this.pageNum,
-                    'search': search
                 };
-                getArticle(params).then(res =>{
+                getOverview(params).then(res =>{
                     for (let key of Object.keys(res.results)){
                         this.article.push(res.results[key])
                     }

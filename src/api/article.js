@@ -42,6 +42,15 @@ export function getArticle(params) {
     })
 }
 
+// 文章预览
+export function getOverview(params) {
+    return request({
+        url: `article/overview/`,
+        method: 'get',
+        params: params
+    })
+}
+
 // 获取指定文章
 export function getArticleByID(id) {
     return request({

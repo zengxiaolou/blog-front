@@ -23,7 +23,7 @@ INTRODUCTION    文章摘要
 
 <script>
     import {getViewAndLike} from "../../../../api/article";
-    import {errorTips} from "../../../../utils/tools/message";
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "abstract",
@@ -33,21 +33,32 @@ INTRODUCTION    文章摘要
                 total:[]
             }
         },
+        computed:{
+            ...mapGetters([
+                'article_num', 'view_num', 'like_num'
+                ])
+        },
+        watch: {
+            article_num(val){
+                this.init()
+            }
+        },
         methods: {
             getViewAndLike(){
-                getViewAndLike().then(res => {
-                    this.total = [
-                        {"name": res.results[0].article_num, 'path': '/index/' },
-                        {"name": res.results[0].view_num, 'path': '/index/views_num' },
-                        {"name": res.results[0].like_num, 'path': '/index/like_num' },
+                this.$store.dispatch('getViewAndLike')
+            },
+            init(){
+                console.log(this.view_num);
+                this.total = [
+                        {"name": this.article_num, 'path': '/index/' },
+                        {"name": this.view_num, 'path': '/index/views_num' },
+                        {"name": this.like_num, 'path': '/index/like_num' },
                      ]
-                }).catch(err => {
-                    errorTips(err)
-                })
             }
         },
         mounted() {
-            this.getViewAndLike()
+            this.getViewAndLike();
+            this.init()
         }
     }
 </script>

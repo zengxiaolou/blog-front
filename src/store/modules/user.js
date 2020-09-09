@@ -5,7 +5,6 @@ import {Message} from "element-ui";
 const state = {
     token: getToken(),
     username: '',
-    method: 'login',
 };
 
 const mutations = {

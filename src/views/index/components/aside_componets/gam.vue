@@ -64,7 +64,7 @@ INTRODUCTION    我的社交
 
 <style lang="scss" scoped>
     .el-card {
-        margin: 0 auto;
+        margin: 10px auto;
         width: 80%;
         border-radius: 16px;
         /deep/ .el-card__header{

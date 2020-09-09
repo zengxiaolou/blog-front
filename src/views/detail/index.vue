@@ -31,7 +31,8 @@ INTRODUCTION    文件简介
             getArticleByID(){
                 let id = this.$route.params.detail;
                 getArticleByID(id).then(res => {
-                    this.content = res
+                    this.content = res;
+                    this.$store.dispatch('getViewAndLike')
                 }).catch(err => {
                     errorTips(err)
                 })
