@@ -21,6 +21,7 @@ INTRODUCTION    文件简介
 
     export default {
         name: "detail",
+        inject: ['reload'],
         components: {myContent},
         data(){
             return{

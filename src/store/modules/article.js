@@ -34,9 +34,7 @@ const actions = {
             let like_num = res.results[0].like_num;
             commit('SET_ARTICLE_NUM', article_num);
             commit('SET_VIEW_NUM', view_num);
-            commit('SET_LIKE_NUM', like_num);
-            console.log(view_num);
-    })
+            commit('SET_LIKE_NUM', like_num);})
     }
 };
 
