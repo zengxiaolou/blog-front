@@ -28,7 +28,7 @@ INTRODUCTION    站内文章搜索
         },
         methods: {
             search(){
-                this.$router.push('/index/'+ this.searchWord)
+                this.$router.push('/search/'+ this.searchWord)
             }
         }
     }

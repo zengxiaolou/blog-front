@@ -12,7 +12,7 @@ INTRODUCTION    文件简介
             <span>文章分类</span>
         </div>
         <div v-for="(value, index) in categoryArray" :key="index" class="text item category">
-            <router-link :to="'/index/' + value.category">
+            <router-link :to="'/article/' + value.category">
                 <el-row type="flex" justify="space-between">
                     <el-col :span="5">{{value.category}}</el-col>
                     <el-col :span="4"><div class="article-num"> {{value.num}}</div></el-col>

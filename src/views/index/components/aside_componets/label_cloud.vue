@@ -11,7 +11,7 @@ INTRODUCTION    文件描述
             <span>标签☁️</span>
         </div>
         <el-tag size="mini"  v-for="(value, index) in tags" :key="index" :type="value.type">
-            <router-link :to="'/index/' + value.tag">
+            <router-link :to="'/label/' + value.tag">
                 {{"# " + value.tag}}
             </router-link>
         </el-tag>

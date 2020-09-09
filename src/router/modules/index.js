@@ -79,7 +79,7 @@ const indexRouter = [
                 }
             },
             {
-                path: "/article",
+                path: "/article/:article",
                 component: () => import("../../views/article/index"),
                 name: "article",
                 meta: {
@@ -88,7 +88,7 @@ const indexRouter = [
                 }
             },
             {
-                path: "/label",
+                path: "/label/:label",
                 component: () => import("../../views/label/index"),
                 name: "label",
                 meta: {
@@ -97,7 +97,16 @@ const indexRouter = [
                 }
             },
             {
-                path: "/search",
+                path: "/search/",
+                component: () => import("../../views/search/index"),
+                name: "search",
+                meta: {
+                    title: "全文搜索结果",
+                    auth: false
+                }
+            },
+            {
+                path: "/search/:search",
                 component: () => import("../../views/search/index"),
                 name: "search",
                 meta: {
