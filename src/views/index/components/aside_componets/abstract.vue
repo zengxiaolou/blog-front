@@ -39,21 +39,26 @@ INTRODUCTION    文章摘要
                 ])
         },
         watch: {
-            article_num(val){
+            view_num(val, ){
                 this.init()
-            }
+            },
+            article_num(val, ){
+                this.init()
+            },
+            like_num(val, ){
+                this.init()
+            },
         },
         methods: {
             getViewAndLike(){
                 this.$store.dispatch('getViewAndLike')
             },
             init(){
-                console.log(this.view_num);
-                this.total = [
+                this.total = [].concat([
                         {"name": this.article_num, 'path': '/index/' },
                         {"name": this.view_num, 'path': '/index/views_num' },
                         {"name": this.like_num, 'path': '/index/like_num' },
-                     ]
+                     ])
             }
         },
         mounted() {

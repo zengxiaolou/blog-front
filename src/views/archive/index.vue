@@ -6,7 +6,7 @@ TIME:           2020/8/15-08:50
 INTRODUCTION    文章归档页面
 -->
 <template>
-    <el-scrollbar>
+    <div class="main">
         <el-card class = "archive-header">
             <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
             <my-charts :date="date"></my-charts>
@@ -23,12 +23,13 @@ INTRODUCTION    文章归档页面
                 </el-timeline-item>
             </el-timeline>
         </el-card>
-    </el-scrollbar>
+    </div>
 </template>
 
 <script>
     import myCharts from '../../components/CalendarHeatMap/index'
     import {getArchive, getLastYearData} from "../../api/article";
+    import { VueBetterScroll } from 'vue2-better-scroll'
 
     const color ={
         'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
@@ -36,11 +37,11 @@ INTRODUCTION    文章归档页面
     };
     export default {
         name: "archive",
-        components: {myCharts},
+        components: {myCharts, VueBetterScroll},
         data() {
             return {
                 activities: [],
-                pageSize: 20,
+                pageSize: 13,
                 pageNum: 1,
                 total: '',
                 lastTotal: '',
@@ -58,26 +59,17 @@ INTRODUCTION    文章归档页面
                     this.total = res.count;
                     for (let key in Object.keys(res.results)){
                         let archive = {};
-                        archive.content = res.results[key].created.substring(0,10) + " " + res.results[key].title;
-                        archive.color = color[res.results[key].category.category];
-                        archive.detail = 'detail/'+ res.results[key].id;
-                        this.activities.push(archive);
+                        if (res.results[key].created){
+                            archive.content = res.results[key].created.substring(0,10) + " " + res.results[key].title;
+                            archive.color = color[res.results[key].category.category];
+                            archive.detail = 'detail/'+ res.results[key].id;
+                            this.activities.push(archive);
+                        }
                     }
-                }).catch(() =>{
+                }).catch((err) =>{
+                    console.log(err);
                     this.$message.info('没有了，别再拉啦！！！再拉裤子要掉了！！！！')
                 });
-            },
-            handleScroll(e){
-                let dom = document.querySelector('.main_content');
-                //文档内容实际高度（包括超出视窗的溢出部分）
-                let scrollHeight = Math.max(dom.scrollHeight, dom.scrollHeight);
-                //滚动条滚动距离
-                let scrollTop = e.target.scrollTop;
-                //窗口可视范围高度
-                let clientHeight = dom.innerHeight || Math.min(dom.clientHeight,dom.clientHeight);
-                if(clientHeight + scrollTop >= scrollHeight){
-                    this.getArchive()
-                }
             },
             getLastYearData(){
                 getLastYearData().then(res =>{
@@ -88,19 +80,14 @@ INTRODUCTION    文章归档页面
         },
         mounted() {
             this.getArchive();
-            // window.addEventListener('scroll',this.handleScroll,true);
             this.getLastYearData()
         },
-        beforeDestroy(){
-            // window.removeEventListener("scroll",this.handleScroll,true)
-        }
     }
 </script>
 
 <style lang="scss" scoped>
     * { margin:0; padding:0; }
-    .el-scrollbar {
-        height: 100%;
+
         .title {
             margin-top: 20px;
             margin-left: 20px;
@@ -128,7 +115,6 @@ INTRODUCTION    文章归档页面
         .archive-body {
             margin: 20px;
         }
-    }
     /deep/ .el-scrollbar__wrap {
         overflow-x:hidden;
     }
