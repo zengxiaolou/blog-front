@@ -17,8 +17,8 @@
     "tui-editor": "^1.4.10",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
-    "vuex": "^3.1.2",
-    "vue2-better-scroll": "latest"
+    "vue2-better-scroll": "^1.2.1",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",
