@@ -11,25 +11,27 @@ INTRODUCTION    文章归档页面
             <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
             <my-charts :date="date"></my-charts>
         </el-card>
-        <el-card class = "archive-body">
-            <el-divider>文章归档</el-divider>
-            <el-timeline>
-                <el-timeline-item
-                    hide-timestamp
-                    v-for="(activity, index) in activities"
-                    :key="index"
-                    :color="activity.color">
-                    <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
-                </el-timeline-item>
-            </el-timeline>
-        </el-card>
+        <el-scrollbar>
+            <el-card class = "archive-body">
+                <el-divider>文章归档</el-divider>
+                    <el-timeline  class="infinite-list" v-infinite-scroll="getArchive" style="overflow:auto">
+                        <el-timeline-item
+                            class="infinite-list-item"
+                            hide-timestamp
+                            v-for="(activity, index) in activities"
+                            :key="index"
+                            :color="activity.color">
+                            <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
+                        </el-timeline-item>
+                    </el-timeline>
+            </el-card>
+        </el-scrollbar>
     </div>
 </template>
 
 <script>
     import myCharts from '../../components/CalendarHeatMap/index'
     import {getArchive, getLastYearData} from "../../api/article";
-    import { VueBetterScroll } from 'vue2-better-scroll'
 
     const color ={
         'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
@@ -37,11 +39,11 @@ INTRODUCTION    文章归档页面
     };
     export default {
         name: "archive",
-        components: {myCharts, VueBetterScroll},
+        components: {myCharts},
         data() {
             return {
                 activities: [],
-                pageSize: 13,
+                pageSize: 2,
                 pageNum: 1,
                 total: '',
                 lastTotal: '',
@@ -112,9 +114,13 @@ INTRODUCTION    文章归档页面
             margin: 20px;
             /*background-color: rgba(255,255,255,0);*/
         }
+        .el-scrollbar {
+            height: 92%;
+        }
         .archive-body {
             margin: 20px;
         }
+
     /deep/ .el-scrollbar__wrap {
         overflow-x:hidden;
     }

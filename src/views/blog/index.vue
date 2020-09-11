@@ -9,9 +9,11 @@ INTRODUCTION    文件描述
 
 </template>
 
+
 <script>
     export default {
-        name: "blog"
+        name: "blog",
+
     }
 </script>
 

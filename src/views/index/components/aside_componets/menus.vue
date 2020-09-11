@@ -26,6 +26,8 @@ INTRODUCTION    菜单组件
 </template>
 
 <script>
+    import {getToken} from "../../../../utils/service/cookie";
+
     export default {
         name: "menus",
         data() {
@@ -44,7 +46,8 @@ INTRODUCTION    菜单组件
         },
         methods: {
             isShowCreation(){
-                if (localStorage.role === 'true'){
+                let token = getToken();
+                if (localStorage.role === 'true' && token){
                     this.role = 1
                 }else {
                     this.role = 0

@@ -63,7 +63,7 @@ INTRODUCTION    文件描述
             font-weight: 500;
         }
         /deep/ .el-card__body {
-            padding: 10px 5px;
+            padding: 10px 5px 10px 10px;
 
             .el-tag {
                 border-radius: 25px;
