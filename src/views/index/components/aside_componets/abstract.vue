@@ -22,7 +22,6 @@ INTRODUCTION    文章摘要
 </template>
 
 <script>
-    import {getViewAndLike} from "../../../../api/article";
     import {mapGetters} from 'vuex';
 
     export default {
@@ -39,13 +38,13 @@ INTRODUCTION    文章摘要
                 ])
         },
         watch: {
-            view_num(val, ){
+            view_num(){
                 this.init()
             },
-            article_num(val, ){
+            article_num(){
                 this.init()
             },
-            like_num(val, ){
+            like_num(){
                 this.init()
             },
         },
@@ -55,9 +54,9 @@ INTRODUCTION    文章摘要
             },
             init(){
                 this.total = [].concat([
-                        {"name": this.article_num, 'path': '/index/' },
-                        {"name": this.view_num, 'path': '/index/views_num' },
-                        {"name": this.like_num, 'path': '/index/like_num' },
+                        {"name": this.article_num},
+                        {"name": this.view_num},
+                        {"name": this.like_num},
                      ])
             }
         },

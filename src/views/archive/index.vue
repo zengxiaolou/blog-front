@@ -14,16 +14,18 @@ INTRODUCTION    文章归档页面
         <el-scrollbar>
             <el-card class = "archive-body">
                 <el-divider>文章归档</el-divider>
-                    <el-timeline  class="infinite-list" v-infinite-scroll="getArchive" style="overflow:auto">
-                        <el-timeline-item
-                            class="infinite-list-item"
-                            hide-timestamp
-                            v-for="(activity, index) in activities"
-                            :key="index"
-                            :color="activity.color">
-                            <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
-                        </el-timeline-item>
-                    </el-timeline>
+
+                        <el-timeline  class="infinite-list" v-infinite-scroll="getArchive">
+                            <el-timeline-item
+                                class="infinite-list-item"
+                                hide-timestamp
+                                v-for="(activity, index) in activities"
+                                :key="index"
+                                :color="activity.color">
+                                <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
+                            </el-timeline-item>
+                        </el-timeline>
+
             </el-card>
         </el-scrollbar>
     </div>
@@ -31,7 +33,7 @@ INTRODUCTION    文章归档页面
 
 <script>
     import myCharts from '../../components/CalendarHeatMap/index'
-    import {getArchive, getLastYearData} from "../../api/article";
+    import {getArchive, getLastYearData} from "api/article";
 
     const color ={
         'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
@@ -43,7 +45,7 @@ INTRODUCTION    文章归档页面
         data() {
             return {
                 activities: [],
-                pageSize: 2,
+                pageSize: 20,
                 pageNum: 1,
                 total: '',
                 lastTotal: '',
@@ -58,13 +60,13 @@ INTRODUCTION    文章归档页面
                 };
                 getArchive(params).then(res =>{
                     this.pageNum += 1;
-                    this.total = res.count;
-                    for (let key in Object.keys(res.results)){
+                    this.total = res['count'];
+                    for (let key in Object.keys(res['results'])){
                         let archive = {};
-                        if (res.results[key].created){
-                            archive.content = res.results[key].created.substring(0,10) + " " + res.results[key].title;
-                            archive.color = color[res.results[key].category.category];
-                            archive.detail = 'detail/'+ res.results[key].id;
+                        if (res['results'][key].created){
+                            archive.content = res['results'][key].created.substring(0,10) + " " + res['results'][key].title;
+                            archive.color = color[res['results'][key].category.category];
+                            archive.detail = 'detail/'+ res['results'][key].id;
                             this.activities.push(archive);
                         }
                     }
@@ -75,13 +77,13 @@ INTRODUCTION    文章归档页面
             },
             getLastYearData(){
                 getLastYearData().then(res =>{
-                    this.lastTotal = res.results.article;
-                    this.date = res.results.date
+                    this.lastTotal = res['results'].article;
+                    this.date = res['results'].date
                 })
             }
         },
         mounted() {
-            this.getArchive();
+            // this.getArchive();
             this.getLastYearData()
         },
     }
@@ -89,14 +91,11 @@ INTRODUCTION    文章归档页面
 
 <style lang="scss" scoped>
     * { margin:0; padding:0; }
-
-        .title {
-            margin-top: 20px;
-            margin-left: 20px;
-        }
+    .main {
+      height: 100%;
         #calendar{
             width: 100%;
-            height: 200px;
+            //height: 200px;
         }
         .el-divider {
             margin-top: 20px;
@@ -111,17 +110,17 @@ INTRODUCTION    文章归档页面
             }
         }
         .archive-header {
-            margin: 20px;
+            margin: 0 20px;
             /*background-color: rgba(255,255,255,0);*/
         }
-        .el-scrollbar {
-            height: 92%;
-        }
         .archive-body {
-            margin: 20px;
+            margin: 20px 20px 0;
         }
-
-    /deep/ .el-scrollbar__wrap {
-        overflow-x:hidden;
+        .el-scrollbar {
+            height: 82%;
+        }
+        /deep/ .el-scrollbar__wrap {
+            overflow-x:hidden;
+        }
     }
 </style>

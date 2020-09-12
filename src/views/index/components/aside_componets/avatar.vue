@@ -68,10 +68,9 @@ INTRODUCTION    头像组件
 </template>
 
 <script>
-    import {captcha, checkCaptcha} from "../../../../api/utils";
-    import {login} from "../../../../api/user";
-    import {getToken, removeToken} from "../../../../utils/service/cookie";
-    import {errorTips} from "../../../../utils/tools/message";
+    import {captcha, checkCaptcha} from "api/utils";
+    import {getToken, removeToken} from "@/utils/service/cookie";
+    import {errorTips} from "@/utils/tools/message";
     export default {
         inject: ['reload'],
         name: "avatar",
@@ -171,8 +170,8 @@ INTRODUCTION    头像组件
             // 刷新验证码
             changeCaptcha() {
                 captcha().then((res) =>{
-                    this.captcha_key = res.captcha_key;
-                    this.url = 'data:image/png;base64,' + res.captcha_image;
+                    this.captcha_key = res['captcha_key'];
+                    this.url = 'data:image/png;base64,' + res['captcha_image'];
                 })
             },
             // 登录

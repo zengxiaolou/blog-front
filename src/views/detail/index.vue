@@ -32,8 +32,8 @@ INTRODUCTION    文件简介
 
 <script>
     import myContent from './components/contents';
-    import {getArticleByID} from "../../api/article";
-    import {errorTips} from "../../utils/tools/message";
+    import {getArticleByID} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "detail",
@@ -51,12 +51,13 @@ INTRODUCTION    文件简介
             getArticleByID(){
                 let id = this.$route.params.detail;
                 getArticleByID(id).then(res => {
-                    if (res.like_user !== null){
-                        res.like_num = res.like_user.length
+                    if (res['like_user'] !== null){
+                        res.like_num = res['like_user'].length
                     }else {
                         res.like_num = 0
                     }
                     this.content = res;
+                    console.log(res)
                     this.$store.dispatch('getViewAndLike')
                 }).catch(err => {
                     errorTips(err)

@@ -22,10 +22,12 @@ module.exports = {
 
     },
     productionSourceMap: false,
+
     devServer:{
         port: 3087,
         hot: true,
         open: 'Google Chrome',
-        // devtool: "source-map"
+        // devtool: "source-map",
+
     },
 };

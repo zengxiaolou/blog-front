@@ -19,7 +19,7 @@ INTRODUCTION    文件简介
 
 <script>
     import myArticlePreview from "../../components/article/article_preview"
-    import {getOverview} from "../../api/article";
+    import {getOverview} from "api/article";
     export default {
         name: "home",
         inject: ['reload'],

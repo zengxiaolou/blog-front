@@ -27,7 +27,7 @@ const indexRouter = [
             {
                 path: "/index/:search",
                 component: () => import('../../views/home/index'),
-                name: 'index',
+                name: 'indexDetail',
                 meta: {
                     title: "首页",
                     auth: false,
@@ -108,7 +108,7 @@ const indexRouter = [
             {
                 path: "/search/:search",
                 component: () => import("../../views/search/index"),
-                name: "search",
+                name: "searchDetail",
                 meta: {
                     title: "全文搜索结果",
                     auth: false

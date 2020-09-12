@@ -10,7 +10,7 @@ INTRODUCTION    文件简介
     <div>
         <span @click="change">文章内容</span>
         <el-divider></el-divider>
-        <div id="editor" @change="changeValue"></div>
+        <div id="editor" @change="changeValue" @blur="changeValue"></div>
     </div>
 </template>
 
