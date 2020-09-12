@@ -76,8 +76,8 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft} from "../../api/article";
-    import {errorTips} from "../../utils/tools/message";
+    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         inject: ['reload'],
@@ -254,7 +254,7 @@ INTRODUCTION    创作中心
             // 草稿箱
             draft(){
                 getDraft({"size": 50}).then(res =>{
-                    this.draftOptions = res.results
+                    this.draftOptions = res['results']
                 }).catch(err => {
                     errorTips(err);
                     this.loading = false

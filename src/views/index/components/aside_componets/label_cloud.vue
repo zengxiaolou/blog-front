@@ -20,8 +20,8 @@ INTRODUCTION    文件描述
 </template>
 
 <script>
-    import {getTag} from "../../../../api/article";
-    import {errorTips} from "../../../../utils/tools/message";
+    import {getTag} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "label_cloud",
@@ -37,10 +37,10 @@ INTRODUCTION    文件描述
                         return this[Math.floor(Math.random() * this.length)]
                     };
                     let tagType = ['success', 'info', 'warning', 'danger', ""];
-                    for (let key of Object.keys(res.results)){
-                        res.results[key]['type'] = tagType.randomElement()
+                    for (let key of Object.keys(res['results'])){
+                        res['results'][key]['type'] = tagType.randomElement()
                     }
-                    this.tags = res.results;
+                    this.tags = res['results'];
                 }).catch(err => {
                     errorTips(err);
                 })

@@ -1,8 +1,6 @@
 import axios from 'axios';
 import {Message} from "element-ui";
-import store from '@/store';
 import {getToken,removeToken} from "@/utils/service/cookie";
-import el from "element-ui/src/locale/lang/el";
 import router from "@/router";
 
 const service = axios.create({
@@ -51,45 +49,45 @@ service.interceptors.response.use(
                     error.message = "未授权，请登录";
                     Message.error("权限不够，请先登录");
                     removeToken();
-                    router.push({name: 'error_401'});
+                    router['push']({name: 'error_401'});
                     break;
                 case 403:
                     error.message = "拒绝访问";
                     Message.error.error("权限不够，请先登录");
                     removeToken();
-                    router.push({name: 'error_403'});
+                    router['push']({name: 'error_403'});
                     break;
-                case 404:
+                // case 404:
                     // error.message = `请求地址出错：${error.response.config.url}`;
-                    // router.push({name: 'error_404'});
-                    break;
+                    // router['push']({name: 'error_404'});
+                    // break;
                 case 408:
                     error.message = '请求超时';
-                    router.push({name: 'error_408'});
+                    router['push']({name: 'error_408'});
                     break;
                 case 500:
                     error.message = '服务器内部错误';
-                    router.push({name: 'error_500'});
+                    router['push']({name: 'error_500'});
                     break;
                 case 501:
                     error.message = "服务未实现";
-                    router.push({name: 'error_501'});
+                    router['push']({name: 'error_501'});
                     break;
                 case 502:
                     error.message = "网关错误";
-                    router.push({name: 'error_502'});
+                    router['push']({name: 'error_502'});
                     break;
                 case 503:
                     error.message = "服务器不可用";
-                    router.push({name: 'error_503'});
+                    router['push']({name: 'error_503'});
                     break;
                 case 504:
                     error.message = "网关超时";
-                    router.push({name: 'error_504'});
+                    router['push']({name: 'error_504'});
                     break;
                 case 505:
                     error.message = "HTTP版本不受支持";
-                    router.push({name: 'error_504'});
+                    router['push']({name: 'error_504'});
                     break;
                 default: break
             }

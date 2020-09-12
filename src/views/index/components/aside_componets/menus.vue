@@ -26,7 +26,7 @@ INTRODUCTION    菜单组件
 </template>
 
 <script>
-    import {getToken} from "../../../../utils/service/cookie";
+    import {getToken} from "@/utils/service/cookie";
 
     export default {
         name: "menus",

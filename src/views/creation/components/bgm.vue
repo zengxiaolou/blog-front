@@ -51,8 +51,8 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
-    import {getQiNiuToken} from "../../../api/utils";
-    import {errorTips} from "../../../utils/tools/message";
+    import {getQiNiuToken} from "api/utils";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "bgm",
@@ -84,7 +84,7 @@ INTRODUCTION    文件简介
                 getQiNiuToken({name:new_name}).then((res) => {
                     this.$message.info("开始上传图片");
                     this.postData.key = new_name;
-                    this.postData.token = res.token;
+                    this.postData.token = res['token'];
                     this.$refs.upload.submit();
                     this.cover = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name
                 }).catch(err =>{

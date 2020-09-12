@@ -29,7 +29,8 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
-    import {getTag, addTag, deleteTag} from "../../../api/article";
+    import {getTag, addTag, deleteTag} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "tags",
@@ -46,7 +47,7 @@ INTRODUCTION    文件简介
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(({ value }) => {
-                    addTag({tag: value}).then(res =>{
+                    addTag({tag: value}).then(() =>{
                         this.getTag();
                         this.$message({
                             type: 'success',
@@ -65,7 +66,7 @@ INTRODUCTION    文件简介
             },
             getTag(){
                 getTag({"size":100}).then(res => {
-                    this.tags = res.results;
+                    this.tags = res['results'];
                 }).catch( err => {
                     const key = Object.keys(err.response.data);
                     this.$message.error(err.response.data[key][0].toString());
@@ -74,9 +75,11 @@ INTRODUCTION    文件简介
             changeTags() {
                 this.ids = [];
                 for (let i in this.checkedTags){
-                    for (let key of Object.keys(this.tags)){
-                        if (this.tags[key]['tag'] === this.checkedTags[i]){
-                            this.ids.push(this.tags[key]['id'])
+                    if (this.checkedTags.hasOwnProperty(i)){
+                        for (let key of Object.keys(this.tags)){
+                            if (this.tags[key]['tag'] === this.checkedTags[i]){
+                                this.ids.push(this.tags[key]['id'])
+                            }
                         }
                     }
                 }
@@ -90,24 +93,27 @@ INTRODUCTION    文件简介
                 }).then(() => {
                     this.ids = [];
                     for (let i in this.checkedTags){
-                        for (let key of Object.keys(this.tags)){
-                            if (this.tags[key]['tag'] === this.checkedTags[i]){
-                                this.ids.push(this.tags[key]['id'])
+                        if (this.checkedTags.hasOwnProperty(i)){
+                            for (let key of Object.keys(this.tags)){
+                                if (this.tags[key]['tag'] === this.checkedTags[i]){
+                                    this.ids.push(this.tags[key]['id'])
+                                }
                             }
                         }
                     }
                     for (let i in this.ids){
-                        if ( i <= this.ids.length){
-                            console.log(this.ids[i]);
-                            deleteTag(this.ids[i]).then(res =>{
-                                this.$message({
-                                    type: 'success',
-                                    message: '删除成功!'
+                        if (this.ids.hasOwnProperty(i)) {
+                            if ( i <= this.ids.length){
+                                deleteTag(this.ids[i]).then(() => {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '删除成功!'
+                                    });
+                                    this.getTag()
+                                }).catch(err => {
+                                    errorTips(err)
                                 });
-                                this.getTag()
-                            }).catch(err =>{
-
-                            });
+                            }
                         }
                     }
 

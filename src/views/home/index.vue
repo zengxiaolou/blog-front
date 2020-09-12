@@ -39,13 +39,13 @@ INTRODUCTION    文件简介
                     'page': this.pageNum,
                 };
                 getOverview(params).then(res =>{
-                    for (let key of Object.keys(res.results)){
-                        if (res.results[key].like_user !== null){
-                            res.results[key].like_num = res.results[key].like_user.length
+                    for (let key of Object.keys(res['results'])){
+                        if (res['results'][key]['like_user'] !== null){
+                            res['results'][key].like_num = res['results'][key]['like_user'].length
                         }else {
-                            res.results[key].like_num = 0
+                            res['results'][key].like_num = 0
                         }
-                        this.article.push(res.results[key])
+                        this.article.push(res['results'][key])
                     }
                     this.pageNum += 1
                 }).catch(() => {

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import {Message} from "element-ui";
 import routes from './routes';
-import {getToken} from '../utils/service/cookie';
+import {getToken} from '@/utils/service/cookie';
 import {title} from "@/utils/tools/title";
 
 Vue.use(Router);
@@ -24,13 +24,13 @@ const router = new Router({
 
 
 
-router.afterEach((to, from) => {
+router.afterEach((to) => {
   window.scrollTo(0, 0);
   // 更改标题
   title(to.meta.title)
 });
 
-router.afterEach((to, from) =>{
+router.afterEach((to,) =>{
 
   if (to.matched.some(res => {
     if (res.meta.title === "创作中心"){
@@ -38,7 +38,7 @@ router.afterEach((to, from) =>{
       if (token === undefined || localStorage.role === 'false'){
         Message.error('未登录,请先登录');
         localStorage.role = "false";
-        router.push({name: 'index'})
+        router.push({name: 'index'}).then(() => {})
       }
     }
   }));

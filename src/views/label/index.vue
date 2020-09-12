@@ -45,8 +45,8 @@ INTRODUCTION    文章标签
 
 <script>
     import myArticlePreview from "../../components/article/article_preview";
-    import {getArticle} from "../../api/article";
-    import {errorTips} from "../../utils/tools/message";
+    import {getArticle} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "index",
@@ -65,7 +65,7 @@ INTRODUCTION    文章标签
             };
         },
         watch: {
-            $route(to, from) {
+            $route() {
                 this.getArticle()
             },
         },
@@ -78,8 +78,8 @@ INTRODUCTION    文章标签
                     'search': this.search
                 };
                 getArticle(params).then(res => {
-                    this.total = parseInt(res.count);
-                    this.article  = res.results;
+                    this.total = parseInt(res['count']);
+                    this.article  = res['results'];
                 }).catch(err => {
                     errorTips(err)
                 })
@@ -93,8 +93,8 @@ INTRODUCTION    文章标签
                 };
                 this.pageSize = val;
                 getArticle(params).then(res => {
-                    this.total = parseInt(res.count);
-                    this.article  = res.results;
+                    this.total = parseInt(res['count']);
+                    this.article  = res['results'];
                 })
             },
             handleCurrentChange(val) {
@@ -105,8 +105,8 @@ INTRODUCTION    文章标签
                 };
                 this.page = val;
                 getArticle(params).then(res => {
-                    this.total = parseInt(res.count);
-                    this.article = res.results;
+                    this.total = parseInt(res['count']);
+                    this.article = res['results'];
                 })
             },
         },

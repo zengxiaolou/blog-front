@@ -25,11 +25,3 @@ export function register(data) {
         data
     })
 }
-
-//登出
-export function logout() {
-    return request({
-        url:'user/logout/',
-        method: 'post'
-    })
-}

@@ -28,7 +28,7 @@ INTRODUCTION    文件简介
         },
         methods: {
             initialize(){
-                this.myChart = echarts.init(document.getElementById('myChart'));
+                this.myChart = echarts['init'](document.getElementById('myChart'));
                 let data = this.getData();
                 let option = {
                     visualMap: {
@@ -41,7 +41,7 @@ INTRODUCTION    文件简介
                     },
                     tooltip: {
                         formatter: function (p) {
-                        let format = echarts.format.formatTime('MM-dd', p.data[0]);
+                        let format = echarts['format'].formatTime('MM-dd', p.data[0]);
                         return format + ': ' + p.data[1];
                       }
                     },
@@ -69,7 +69,7 @@ INTRODUCTION    文件简介
                 this.myChart.setOption(option);
             },
             getData() {
-                let today = echarts.number.parseDate(new Date());
+                let today = echarts['number'].parseDate(new Date());
                 let dayTime = 3600 * 24 * 1000;
                 let thatDay = today - dayTime * 363;
                 let data = [];
@@ -88,8 +88,8 @@ INTRODUCTION    文件简介
                 }
                 return {
                     data,
-                    today: echarts.format.formatTime('yyyy-MM-dd', today),
-                    thatDay: echarts.format.formatTime('yyyy-MM-dd', thatDay)
+                    today: echarts['format'].formatTime('yyyy-MM-dd', today),
+                    thatDay: echarts['format'].formatTime('yyyy-MM-dd', thatDay)
                 };
             },
 

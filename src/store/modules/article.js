@@ -5,7 +5,7 @@
 @TIME:    2020/9/9-16:56
 */
 
-import {getViewAndLike} from "../../api/article";
+import {getViewAndLike} from "api/article";
 
 const state = {
     article_num: '',
@@ -29,9 +29,9 @@ const mutations = {
 const actions = {
     async getViewAndLike({commit}){
         await getViewAndLike().then(res => {
-            let article_num = res.results[0].article_num;
-            let view_num = res.results[0].view_num;
-            let like_num = res.results[0].like_num;
+            let article_num = res['results'][0].article_num;
+            let view_num = res['results'][0].view_num;
+            let like_num = res['results'][0].like_num;
             commit('SET_ARTICLE_NUM', article_num);
             commit('SET_VIEW_NUM', view_num);
             commit('SET_LIKE_NUM', like_num);})

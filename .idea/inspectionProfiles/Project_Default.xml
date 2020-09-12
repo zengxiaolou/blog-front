@@ -1,10 +1,20 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="v-infinite-scroll" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="21">
+          <list size="33">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -26,6 +36,18 @@
             <item index="18" class="java.lang.String" itemvalue="el-form" />
             <item index="19" class="java.lang.String" itemvalue="el-input" />
             <item index="20" class="java.lang.String" itemvalue="el-tooltip" />
+            <item index="21" class="java.lang.String" itemvalue="el-upload" />
+            <item index="22" class="java.lang.String" itemvalue="el-radio-group" />
+            <item index="23" class="java.lang.String" itemvalue="el-radio" />
+            <item index="24" class="java.lang.String" itemvalue="el-select" />
+            <item index="25" class="java.lang.String" itemvalue="el-option" />
+            <item index="26" class="java.lang.String" itemvalue="el-checkbox-group" />
+            <item index="27" class="java.lang.String" itemvalue="el-checkbox" />
+            <item index="28" class="java.lang.String" itemvalue="el-tag" />
+            <item index="29" class="java.lang.String" itemvalue="el-menu" />
+            <item index="30" class="java.lang.String" itemvalue="el-menu-item" />
+            <item index="31" class="java.lang.String" itemvalue="el-container" />
+            <item index="32" class="java.lang.String" itemvalue="el-aside" />
           </list>
         </value>
       </option>

@@ -17,6 +17,8 @@ module.exports = {
                 'mixins':resolve('src/mixins'),
                 'store': resolve('src/store'),
                 'service':resolve('src/service'),
+                'filters':resolve('src/filters'),
+                'utils':resolve('src/utils'),
             }
         },
 

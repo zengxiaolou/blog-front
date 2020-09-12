@@ -23,7 +23,8 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
-    import {getCategory} from "../../../../api/article";
+    import {getCategory} from "api/article";
+    import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "articles",
@@ -44,9 +45,9 @@ INTRODUCTION    文件简介
         methods: {
             getCategory(){
                 getCategory().then(res => {
-                    this.categoryArray = res.results;
+                    this.categoryArray = res['results'];
                 }).catch(err => {
-
+                    errorTips(err)
                 })
             }
         },

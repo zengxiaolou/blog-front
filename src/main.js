@@ -11,14 +11,12 @@ import '@/assets/css/index.scss'
 import '@/assets/iconfont/iconfont.css'
 // 引入过滤器
 import filter from './filters/index'
-import VueBetterScroll from 'vue2-better-scroll'
 
 
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.mixin(mixins);
-Vue.use(VueBetterScroll);
 
 new Vue({
   router,

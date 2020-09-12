@@ -27,7 +27,7 @@ INTRODUCTION    文件简介
 </template>
 
 <script>
-import {getCategory, addCategory, deleteCategory} from "../../../api/article";
+import {getCategory, addCategory, deleteCategory} from "api/article";
 
 export default {
     inject:['reload'],
@@ -42,7 +42,7 @@ export default {
     methods: {
         getCategory(){
             getCategory({"size":20}).then(res => {
-                this.categoryArray = res.results;
+                this.categoryArray = res['results'];
             }).catch(err => {
                 const key = Object.keys(err.response.data);
                 this.$message.error(err.response.data[key][0].toString());
