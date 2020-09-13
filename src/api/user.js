@@ -20,7 +20,7 @@ export function getInfo(id) {
 // 注册用户
 export function register(data) {
     return request({
-        url: 'users/',
+        url: 'user/register/',
         method: 'post',
         data
     })

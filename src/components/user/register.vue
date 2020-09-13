@@ -91,7 +91,7 @@ INTRODUCTION    注册组件
             </el-form-item>
             <el-row type="flex" justify="center">
                 <el-col :span="8"><el-button :loading="loading" type="info" @click.native.prevent="changeLogin">登 录</el-button></el-col>
-                <el-button type="primary" @click.native.prevent="register">注 册</el-button>
+                <el-button type="primary" @click.native.prevent="register('form')">注 册</el-button>
             </el-row>
         </el-form>
     </el-dialog>
@@ -217,7 +217,7 @@ export default {
             this.$store.dispatch('setLoginVisible', true)
         },
         // 获取短信验证码
-        getSms(form, captcha_key,){
+        getSms(form, captcha_key){
             const {email, captcha} = form;
             if (captcha.length === 4){
                 checkCaptcha({captcha_key:captcha_key,captcha_value:captcha}).then(()=>{
@@ -242,8 +242,7 @@ export default {
                             },1000)
                         }
                     }).catch((err) => {
-                        const key = Object.keys(err.response.data);
-                        this.$message.error(err.response.data[key][0].toString());
+                        errorTips(err)
                         this.changeCaptcha();
                     })
                 }).catch((err) =>{
@@ -255,35 +254,26 @@ export default {
             }
         },
 
-        // 登录
+        // 注册
         register(formName){
-            this.$refs[formName].validate((valid) =>{
+            this.$refs[formName].validate((valid) => {
                 if (valid){
-                    checkCaptcha({captcha_key:this.captcha_key, captcha_value: this.form.captcha}).then(() =>{
-                        this.form["captcha_key"] = this.captcha_key;
-                        this.$store.dispatch('login', this.form).then(() =>{
-                            this.$router.push({path: "/index"});
+                    this.loading = true;
+                    this.$store.dispatch('register',this.form)
+                        .then(()=>{
+                            this.$router.push({path:"/"});
+                            this.$store.dispatch('setRegisterVisible', false)
                             this.loading = false;
-                            this.$message.success("欢迎回来");
-                            this.registerVisibleNew = false;
-                            this.$emit('registerVisible', false)
-                            this.reload()
-                        }).catch((err) => {
-                            errorTips(err);
-                            this.form.captcha = '';
-                            this.loading = false;
-                            this.changeCaptcha();
                         })
-                    }).catch(() => {
-                        this.changeCaptcha();
-                        this.loading = false;
-                        this.$message.error("验证码错误，请重新输入验证码");
-                    });
-                    this.form.captcha = ""
+                        .catch((err)=>{
+                            console.log(11111)
+                            console.log(err)
+                            errorTips(err)
+                            this.loading =false;
+                        })
                 }else {
                     this.loading = false;
-                    this.$message.error("输入信息格式错误，请检查");
-                    this.changeCaptcha();
+                    this.$message.error('输入信息错误格式错误，请检查');
                     return false
                 }
             });
