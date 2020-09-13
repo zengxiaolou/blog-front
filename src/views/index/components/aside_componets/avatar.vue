@@ -10,25 +10,48 @@ INTRODUCTION    头像组件
         <el-button type="text" @click="showLogin">
             <el-avatar :size="150" :src="avatar" ></el-avatar>
         </el-button>
-        <login :loginVisible="loginVisible"></login>
+        <login></login>
+        <register> </register>
     </div>
 </template>
 
 <script>
-import Login from '@/components/user/login'
-    export default {
+import Login from 'components/user/login';
+import Register from "components/user/register";
+import {getToken, removeToken} from "@/utils/service/cookie";
+
+export default {
         inject: ['reload'],
-        components: {Login},
+        components: {Login, Register},
         name: "avatar",
         data(){
             return{
                 avatar: require("../../../../assets/images/others/avatar.jpeg"),
-                loginVisible: false,
             }
         },
         methods: {
-            showLogin(){
-                this.loginVisible = true
+            showLogin() {
+                if ( getToken() === undefined){
+                    this.$store.dispatch('setLoginVisible', true);
+                } else {
+                    this.$confirm('是否退出登录, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        removeToken()
+                        this.$message({
+                            type: 'success',
+                            message: '退出成功!'
+                        });
+                        this.reload()
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '取消退出'
+                        });
+                    });
+                }
             },
         },
         mounted() {

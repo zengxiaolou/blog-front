@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "141405",
+      "name": "185078 - email mail streamline",
+      "font_class": "email",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
       "icon_id": "12542904",
       "name": "搜索",
       "font_class": "search",

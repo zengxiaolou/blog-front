@@ -12,7 +12,6 @@ INTRODUCTION    登录组件
         center
         :visible.sync="loginVisible"
         width="300px"
-        :show-close=false
         :before-close="handleClose">
         <el-form :model="form"  :rules="rules" ref="form" >
             <el-form-item  prop="username">
@@ -54,10 +53,18 @@ INTRODUCTION    登录组件
                     </el-col>
                 </el-row>
             </el-form-item>
-
+            <el-row class="gam">
+                <el-col :span="10" >社交账号登录</el-col>
+                <el-col :span="4" v-for="(value, index) in gam" :key="index">
+                    <el-tooltip class="item" effect="light" :content=value.name :placement=value.local>
+                        <a class="gam-icon" :href=value.url target="_blank">
+                            <el-avatar :size="size" :icon=value.icon :class=value.style></el-avatar></a>
+                    </el-tooltip>
+                </el-col>
+            </el-row>
             <el-row type="flex" justify="center">
-                <el-col :span="8"><el-button @click="dialogVisible = false">取 消</el-button></el-col>
                 <el-col :span="8"><el-button :loading="loading" type="primary" @click="submitForm('form')">登 录</el-button></el-col>
+                <el-button type="info" @click="showRegister">注 册</el-button>
             </el-row>
         </el-form>
     </el-dialog>
@@ -66,11 +73,10 @@ INTRODUCTION    登录组件
 <script>
 import {captcha, checkCaptcha} from "api/utils";
 import {errorTips} from "@/utils/tools/message";
-import {getToken, removeToken} from "@/utils/service/cookie";
-
+import {mapGetters} from "vuex";
     export default {
         name: "login",
-        props: ['loginVisible'],
+        inject: ['reload'],
         data() {
             let validateUsername = (rule, value, callback) => {
                 if (value === '') {
@@ -102,7 +108,6 @@ import {getToken, removeToken} from "@/utils/service/cookie";
                 }
             };
             return {
-                dialogVisible: false,
                 form: {
                     username: "xiaolou",
                     password: "zzxxyy123",
@@ -110,25 +115,30 @@ import {getToken, removeToken} from "@/utils/service/cookie";
                 },
                 captcha_key: "",
                 url: '',
+                gam: [
+                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "https://github.com/zengxiaolou"},
+                    {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"},
+                    {"name": "wechat",   "style": "gam-wechat",    "local": "bottom-end" , "icon": "icon iconfont icon-wechat",          "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
+                ],
+                size: "medium",
                 rules: {
-                    username:[
-                        {validator: validateUsername, trigger:'blur'}
-                    ],
-                    password:[
-                        {validator: validatePassword, trigger: "blur"}
-                    ],
-                    captcha:[
-                        {validator: validateCaptcha, trigger: "blur"}
-                    ]
+                    username:[{validator: validateUsername, trigger:'blur'}],
+                    password:[{validator: validatePassword, trigger: "blur"}],
+                    captcha:[{validator: validateCaptcha, trigger: "blur"}]
                 },
                 loading: false,
             }
         },
+        computed: {
+            ...mapGetters(['loginVisible',])
+
+        },
         methods: {
-            handleClose(done) {
+            // 取消登录
+            handleClose() {
                 this.$confirm('确认关闭？')
                     .then(_ => {
-                        done();
+                        this.$store.dispatch('setLoginVisible', false);
                     })
                     .catch(_ => {});
             },
@@ -139,18 +149,22 @@ import {getToken, removeToken} from "@/utils/service/cookie";
                     this.url = 'data:image/png;base64,' + res['captcha_image'];
                 })
             },
+            // 显示注册dialog
+            showRegister() {
+                this.$store.dispatch('setLoginVisible', false)
+                this.$store.dispatch('setRegisterVisible', true)
+            },
             // 登录
             submitForm(formName){
                 this.$refs[formName].validate((valid) =>{
                     if (valid){
-                        this.loading = true;
                         checkCaptcha({captcha_key:this.captcha_key, captcha_value: this.form.captcha}).then(() =>{
                             this.form["captcha_key"] = this.captcha_key;
                             this.$store.dispatch('login', this.form).then(() =>{
                                 this.$router.push({path: "/index"});
                                 this.loading = false;
                                 this.$message.success("欢迎回来");
-                                this.dialogVisible =false;
+                                this.$store.dispatch('setLoginVisible', false)
                                 this.reload()
                             }).catch((err) => {
                                 errorTips(err);
@@ -186,5 +200,21 @@ import {getToken, removeToken} from "@/utils/service/cookie";
             border: 1px solid #D7DBE2;
             border-radius: 5px;
         }
+        .gam{
+            margin-bottom: 10px;
+            .gam-github {
+                color: black;
+                background-color: rgba(25,23,23,.1);
+            }
+            .gam-qq {
+                color: #00A0F9;
+                background-color: rgba(111,201,251,.2);
+            }
+            .gam-wechat {
+                color: #00c15e;
+                background-color: rgba(0,219,107,.2);
+            }
+        }
+
     }
 </style>

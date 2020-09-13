@@ -1,10 +1,13 @@
 import { login, getInfo, register} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/service/cookie'
 import {Message} from "element-ui";
+import {errorTips} from "@/utils/tools/message";
 
 const state = {
     token: getToken(),
     username: '',
+    loginVisible: false,
+    registerVisible: false,
 };
 
 const mutations = {
@@ -17,7 +20,14 @@ const mutations = {
     },
     SET_USERNAME: (state, username) => {
         state.name = username
-    }
+    },
+    SET_LOGIN_VISIBLE: (state, login) => {
+        state.loginVisible = login
+    },
+    SET_REGISTER_VISIBLE: (state, register) => {
+        state.registerVisible =  register
+    },
+
 };
 
 const actions = {
@@ -55,22 +65,27 @@ const actions = {
             })
         })
     },
-    // 退出登录
-    logout({commit}){
-        commit('DELETE_TOKEN')
-    },
     // 获取基本信息
     getUserInfo({commit}){
         return new Promise((resolve, reject) =>{
             getInfo(localStorage.id).then(response =>{
-
                 resolve(response);
             }).catch(err => {
-                for (let key in err.response.data){
-                    Message.error(err.response.data[key].toString())
-                }
+                errorTips(err)
                 reject(err)
             })
+        })
+    },
+    setLoginVisible({commit}, val){
+        return new Promise((resolve) => {
+            commit('SET_LOGIN_VISIBLE', val)
+            resolve(val)
+        })
+    },
+    setRegisterVisible({commit}, val){
+        return new Promise((resolve) => {
+            commit('SET_REGISTER_VISIBLE', val)
+            resolve(val)
         })
     }
 };
