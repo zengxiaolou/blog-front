@@ -56,10 +56,8 @@ INTRODUCTION    登录组件
             <el-row class="gam">
                 <el-col :span="10" >社交账号登录</el-col>
                 <el-col :span="4" v-for="(value, index) in gam" :key="index">
-                    <el-tooltip class="item" effect="light" :content=value.name :placement=value.local>
-                        <a class="gam-icon" :href=value.url target="_blank">
-                            <el-avatar :size="size" :icon=value.icon :class=value.style></el-avatar></a>
-                    </el-tooltip>
+                    <a class="gam-icon" :href=value.url target="_blank">
+                        <el-avatar :size="size" :icon=value.icon :class=value.style></el-avatar></a>
                 </el-col>
             </el-row>
             <el-row type="flex" justify="center">
@@ -116,10 +114,7 @@ import {mapGetters} from "vuex";
                 captcha_key: "",
                 url: '',
                 gam: [
-                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "https://github.com/zengxiaolou"},
-                    {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"},
-                    {"name": "wechat",   "style": "gam-wechat",    "local": "bottom-end" , "icon": "icon iconfont icon-wechat",          "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
-                ],
+                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "https://github.com/zengxiaolou"},],
                 size: "medium",
                 rules: {
                     username:[{validator: validateUsername, trigger:'blur'}],

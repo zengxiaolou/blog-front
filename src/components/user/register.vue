@@ -79,7 +79,7 @@ INTRODUCTION    注册组件
                 <el-row type="flex" justify="center" class="login-code-box">
                     <el-input
                         v-model="form.sms"
-                        placeholder="请输入短信验证码"
+                        placeholder="请输入验证码"
                         prefix-icon="el-icon-chat-dot-round"
                         clearable
                         autocomplete="off">
