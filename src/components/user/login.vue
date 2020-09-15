@@ -128,6 +128,13 @@ import {mapGetters} from "vuex";
             ...mapGetters(['loginVisible',])
 
         },
+        watch: {
+            loginVisible(val){
+                if (val) {
+                    this.changeCaptcha()
+                }
+            },
+        },
         methods: {
             // 取消登录
             handleClose() {
@@ -182,9 +189,6 @@ import {mapGetters} from "vuex";
                 });
             },
         },
-        mounted() {
-            this.changeCaptcha()
-        }
     }
 </script>
 

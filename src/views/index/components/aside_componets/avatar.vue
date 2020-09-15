@@ -19,6 +19,7 @@ INTRODUCTION    头像组件
 import Login from 'components/user/login';
 import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
+import {captcha} from "api/utils";
 
 export default {
         inject: ['reload'],
@@ -30,6 +31,14 @@ export default {
             }
         },
         methods: {
+            // 刷新验证码
+            changeCaptcha() {
+                captcha().then((res) =>{
+                    this.captcha_key = res['captcha_key'];
+                    this.url = 'data:image/png;base64,' + res['captcha_image'];
+                })
+            },
+            // 显示登录dialog
             showLogin() {
                 if ( getToken() === undefined){
                     this.$store.dispatch('setLoginVisible', true);
@@ -54,8 +63,6 @@ export default {
                 }
             },
         },
-        mounted() {
-        }
     }
 </script>
 

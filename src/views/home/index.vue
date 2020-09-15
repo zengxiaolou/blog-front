@@ -40,11 +40,6 @@ INTRODUCTION    文件简介
                 };
                 getOverview(params).then(res =>{
                     for (let key of Object.keys(res['results'])){
-                        if (res['results'][key]['like_user'] !== null){
-                            res['results'][key].like_num = res['results'][key]['like_user'].length
-                        }else {
-                            res['results'][key].like_num = 0
-                        }
                         this.article.push(res['results'][key])
                     }
                     this.pageNum += 1

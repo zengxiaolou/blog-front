@@ -40,13 +40,8 @@ INTRODUCTION    文件简介
             getArticleByID(){
                 let id = this.$route.params.detail;
                 getArticleByID(id).then(res => {
-                    if (res['like_user'] !== null){
-                        res.like_num = res['like_user'].length
-                    }else {
-                        res.like_num = 0
-                    }
+                    res.like_num = res['like_user'] !== null ? res['like_user'].length : 0;
                     this.content = res;
-                    console.log(res)
                     this.$store.dispatch('getViewAndLike')
                 }).catch(err => {
                     errorTips(err)
@@ -58,7 +53,6 @@ INTRODUCTION    文件简介
         },
         mounted() {
             this.getArticleByID()
-            this.changeCaptcha()
         }
     }
 </script>

@@ -50,7 +50,6 @@ INTRODUCTION    文件简介
             this.editor = null;
             delete this.editor;
         }
-
     }
 </script>
 

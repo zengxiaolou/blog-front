@@ -22,13 +22,16 @@ INTRODUCTION    文件简介
         </el-row>
         <div class="main-body" v-html="article.content">
         </div>
+        <viewer :mainContent="article.content"></viewer>
     </div>
 </template>
 
 <script>
+import Viewer from 'components/MarkdownEditor/viewer'
     export default {
         name: "contents",
         props: ['article'],
+        components: {Viewer},
         data() {
             return {
 

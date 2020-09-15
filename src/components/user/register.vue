@@ -196,6 +196,13 @@ export default {
     computed: {
         ...mapGetters(['registerVisible']),
     },
+    watch: {
+        registerVisible(val) {
+            if (val) {
+                this.changeCaptcha()
+            }
+        },
+    },
     methods: {
         // 取消登录
         handleClose() {
@@ -279,9 +286,6 @@ export default {
             });
         },
     },
-    mounted() {
-        this.changeCaptcha()
-    }
 }
 </script>
 

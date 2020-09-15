@@ -19,7 +19,7 @@ INTRODUCTION    文件描述
             <el-col :span="3" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article['reading_time'] + "分"}}</el-col>
             <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{article['views_num']}}</el-col>
             <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article['comments_num']}}</el-col>
-            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article.like_num}}</el-col>
+            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article['like_user']}}</el-col>
         </el-row>
         <p class="summary">{{article.summary}}</p>
     </div>
