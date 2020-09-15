@@ -20,9 +20,9 @@ INTRODUCTION    文件简介
             <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article['comments_num']}}</el-col>
             <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article.like_num}}</el-col>
         </el-row>
-        <div class="main-body" v-html="article.content">
+        <div class="main-content">
+            <viewer :mainContent="article.markdown"></viewer>
         </div>
-        <viewer :mainContent="article.content"></viewer>
     </div>
 </template>
 
@@ -71,7 +71,7 @@ import Viewer from 'components/MarkdownEditor/viewer'
 
         .introduction {
             margin-top: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 40px;
             font-size: 14px;
             font-weight: 500;
 
@@ -126,13 +126,11 @@ import Viewer from 'components/MarkdownEditor/viewer'
                 color: #1a98ff;
 
             }
-
             .read-like {
                 background-color: rgba(255, 78, 106, .15);
                 color: #ff4e6a;
             }
         }
-
         .summary {
             margin-left: 20px;
         }

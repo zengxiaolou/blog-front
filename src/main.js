@@ -12,6 +12,8 @@ import '@/assets/iconfont/iconfont.css'
 // 引入过滤器
 import filter from './filters/index'
 
+import axios from 'axios';
+
 
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(ElementUI);
@@ -21,5 +23,6 @@ Vue.mixin(mixins);
 new Vue({
   router,
   store,
+  axios,
   render: h => h(App)
 }).$mount('#app');
