@@ -11,6 +11,7 @@ INTRODUCTION    文件简介
         <span >文章内容</span>
         <el-divider></el-divider>
         <div id="editor" @change="changeValue" @blur="changeValue"></div>
+        <input style="display: none" ref="files" @change="uploadFile" type="file" accept="image/*">
     </div>
 </template>
 
@@ -37,7 +38,7 @@ INTRODUCTION    文件简介
                     height: '400px',
                     initialEditType: 'markdown',
                     previewStyle: 'vertical',
-                    initialValue: "这里书写文章主内容"
+                    initialValue: "这里书写文章主内容",
                 });
             },
             changeValue(){
