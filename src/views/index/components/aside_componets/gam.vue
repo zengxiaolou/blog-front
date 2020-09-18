@@ -50,7 +50,7 @@ INTRODUCTION    我的社交
                     {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
                     ],
                 size: "medium",
-                wxQR: require("../../../../assets/images/others/wx_qr.jpg"),
+                wxQR: 'http://qfeasoeh9.hn-bkt.clouddn.com/wx_qr.4c67a998.jpg',
                 dialogVisible: false,
             }
         },

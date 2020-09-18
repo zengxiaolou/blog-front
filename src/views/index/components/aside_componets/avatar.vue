@@ -8,7 +8,7 @@ INTRODUCTION    头像组件
 <template>
     <div class="avatar-box">
         <el-button type="text" @click="showLogin">
-            <el-avatar :size="150" :src="avatar" ></el-avatar>
+            <el-avatar :size="150" src="http://qfeasoeh9.hn-bkt.clouddn.com/avatar.dcfba41f.jpeg" ></el-avatar>
         </el-button>
         <login></login>
         <register> </register>
