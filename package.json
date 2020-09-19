@@ -10,26 +10,26 @@
     "@toast-ui/editor": "^2.3.1",
     "@toast-ui/vue-editor": "^2.3.1",
     "axios": "^0.19.2",
-    "core-js": "^3.6.4",
+    "core-js": "^3.6.5",
     "echarts": "^4.9.0",
     "element-ui": "^2.13.1",
     "js-cookie": "^2.2.1",
     "tui-editor": "^1.4.10",
-    "vue": "^2.6.11",
-    "vue-router": "^3.1.5",
+    "vue": "^2.6.12",
+    "vue-router": "^3.4.3",
     "vue2-better-scroll": "^1.2.1",
-    "vuex": "^3.1.2"
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.0",
-    "@vue/cli-plugin-router": "^4.2.0",
-    "@vue/cli-plugin-vuex": "^4.2.0",
-    "@vue/cli-service": "^4.2.0",
+    "@vue/cli-plugin-babel": "^4.5.6",
+    "@vue/cli-plugin-router": "^4.5.6",
+    "@vue/cli-plugin-vuex": "^4.5.6",
+    "@vue/cli-service": "^4.5.6",
     "babel-plugin-component": "^1.1.1",
     "compression-webpack-plugin": "^6.0.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.12"
   },
   "browserslist": [
     "> 1%",
