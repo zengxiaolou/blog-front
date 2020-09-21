@@ -5,7 +5,7 @@ import router from "@/router";
 
 const service = axios.create({
     timeout: 60000,
-    baseURL: process.env.API_URL,
+    baseURL: '/api/v1/',
 });
 
 
