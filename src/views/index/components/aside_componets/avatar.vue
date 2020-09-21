@@ -8,7 +8,7 @@ INTRODUCTION    头像组件
 <template>
     <div class="avatar-box">
         <el-button type="text" @click="showLogin">
-            <el-avatar :size="150" src="http://qfeasoeh9.hn-bkt.clouddn.com/avatar.dcfba41f.jpeg" ></el-avatar>
+            <el-avatar :size="150" src="http://qiniiu.hammerc.club/wx_qr.4c67a998.jpg" ></el-avatar>
         </el-button>
         <login></login>
         <register> </register>
@@ -27,7 +27,6 @@ export default {
         name: "avatar",
         data(){
             return{
-                avatar: require("../../../../assets/images/others/avatar.jpeg"),
             }
         },
         methods: {

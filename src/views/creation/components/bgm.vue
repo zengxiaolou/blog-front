@@ -86,7 +86,7 @@ INTRODUCTION    文件简介
                     this.postData.key = new_name;
                     this.postData.token = res['token'];
                     this.$refs.upload.submit();
-                    this.cover = "http://qfeasoeh9.hn-bkt.clouddn.com/" + new_name
+                    this.cover = "http://qiniiu.hammerc.club/" + new_name
                 }).catch(err =>{
                     errorTips(err);
                 });

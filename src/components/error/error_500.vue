@@ -35,7 +35,7 @@
         name: "error_401",
         data() {
             return {
-                errGif: 'http://qfeasoeh9.hn-bkt.clouddn.com/401.gif' + '?' + +new Date(),
+                errGif: 'http://qiniiu.hammerc.club/401.gif' + '?' + +new Date(),
                 ewizardClap: 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646',
                 dialogVisible: false
             }
