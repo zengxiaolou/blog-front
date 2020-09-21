@@ -8,7 +8,7 @@ INTRODUCTION    头像组件
 <template>
     <div class="avatar-box">
         <el-button type="text" @click="showLogin">
-            <el-avatar :size="150" src="http://qiniiu.hammerc.club/wx_qr.4c67a998.jpg" ></el-avatar>
+            <el-avatar :size="150" src="http://qiniiu.hammerc.club/avatar.dcfba41f.jpeg" ></el-avatar>
         </el-button>
         <login></login>
         <register> </register>
