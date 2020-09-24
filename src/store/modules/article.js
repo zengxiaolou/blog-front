@@ -29,9 +29,9 @@ const mutations = {
 const actions = {
     async getViewAndLike({commit}){
         await getViewAndLike().then(res => {
-            let article_num = res['results'][0].article_num;
-            let view_num = res['results'][0].view_num;
-            let like_num = res['results'][0].like_num;
+            let article_num = res['total_article'];
+            let view_num = res['total_view'];
+            let like_num = res['total_like'];
             commit('SET_ARTICLE_NUM', article_num);
             commit('SET_VIEW_NUM', view_num);
             commit('SET_LIKE_NUM', like_num);})

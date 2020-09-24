@@ -28,6 +28,7 @@ INTRODUCTION    文件简介
 
 <script>
 import Viewer from 'components/MarkdownEditor/viewer'
+import {errorTips} from "utils/tools/message";
     export default {
         name: "contents",
         props: ['article'],
@@ -37,6 +38,20 @@ import Viewer from 'components/MarkdownEditor/viewer'
 
             }
         },
+        methods: {
+            getViewAndLike(){
+                getViewAndLike(this.article.id).then(res => {
+                    this.like = res['total']
+                    this.view = res['view']
+                    this.isLike = res['flag']
+                }).catch(err => {
+                    errorTips(err)
+                })
+            }
+        },
+        mounted() {
+            this.getViewAndLike()
+        }
     }
 </script>
 
