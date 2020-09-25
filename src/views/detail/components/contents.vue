@@ -23,14 +23,17 @@ INTRODUCTION    文件简介
         <div class="main-content">
             <viewer :mainContent="article.markdown"></viewer>
         </div>
-        <el-row type="flex" justify="center">
-            <el-col :span="4"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
+        <el-row type="flex" justify="center" class="operations">
+            <el-col :span="6"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
+            <el-col :span="6"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
         </el-row>
+        <reward v-show="rewardVisible"></reward>
     </div>
 </template>
 
 <script>
 import Viewer from 'components/MarkdownEditor/viewer'
+import reward from 'components/reward/reward'
 import {errorTips} from "utils/tools/message";
 import {getArticleLike} from "api/article";
 import {giveLike} from 'api/operations'
@@ -38,13 +41,14 @@ import {giveLike} from 'api/operations'
     export default {
         name: "contents",
         props: ['article'],
-        components: {Viewer},
+        components: {Viewer, reward},
         data() {
             return {
                 like: 0,
                 view: 0,
                 likeValue: "点个赞",
-                btType: "danger"
+                btType: "danger",
+                rewardVisible: false,
             }
         },
         methods: {
@@ -53,7 +57,8 @@ import {giveLike} from 'api/operations'
                 getArticleLike(params).then(res => {
                     this.like = res['total']
                     this.view = res['view']
-                    if ( res["flag"] === 0 || res['flag'] ) {this.likeValue = "已赞"}
+                    if ( res["flag"] === 0 || res['flag'] ) {this.likeValue = "已 赞"}
+                    this.btType = this.likeValue === '已 赞' ? 'info' : "danger";
                 }).catch(err => {
                     errorTips(err)
                 })
@@ -62,7 +67,7 @@ import {giveLike} from 'api/operations'
                 if (localStorage.id >= 0 ){
                     let like = this.likeValue === '点个赞';
                     giveLike(this.$route.params.detail, {"like": like}).then(res => {
-                        this.likeValue = res['result'] === '感谢点赞' ? '已赞' : "点个赞";
+                        this.likeValue = res['result'] === '感谢点赞' ? '已 赞' : "点个赞";
                         this.btType = res['result'] === '感谢点赞' ? 'info' : "danger";
                         this.getViewAndLike();
                         this.$store.dispatch('getViewAndLike')
@@ -72,6 +77,9 @@ import {giveLike} from 'api/operations'
                 }else {
                     this.$message.info('登录后方可点赞')
                 }
+            },
+            reward(){
+                this.rewardVisible = !this.rewardVisible
             }
         },
         mounted() {
@@ -173,6 +181,9 @@ import {giveLike} from 'api/operations'
         }
         .summary {
             margin-left: 20px;
+        }
+        .operations{
+            text-align: center;
         }
     }
 </style>
