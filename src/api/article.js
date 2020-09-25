@@ -9,10 +9,11 @@ INTRODUCTION    文章相关
 import request from "../utils/service/request"
 
 ///////////////////////////////////获取概要//////////////////////////////
-export function getViewAndLike() {
+export function getViewAndLike(params) {
     return request({
         url: 'article/info/',
         method: 'get',
+        params: params
     })
 }
 
@@ -20,6 +21,14 @@ export function getLastYearData() {
     return request({
         url: 'article/last-data/',
         method: 'get'
+    })
+}
+
+export function getArticleLike(params){
+    return request({
+        url: 'article/like/',
+        method: 'get',
+        params: params
     })
 }
 

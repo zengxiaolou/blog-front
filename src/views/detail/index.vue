@@ -9,9 +9,6 @@ INTRODUCTION    文件简介
 <template>
     <el-scrollbar class="page-component__scroll">
         <my-content :article="content"></my-content>
-        <el-row type="flex" justify="center">
-            <el-col :span="4"><el-button @click="giveLike">{{like}}</el-button></el-col>
-        </el-row>
     </el-scrollbar>
 </template>
 
@@ -27,7 +24,6 @@ INTRODUCTION    文件简介
         data(){
             return{
                 content: {},
-                like: '赞一个',
                 loginVisible: true,
                 form: {
                     username: '',
@@ -46,9 +42,6 @@ INTRODUCTION    文件简介
                 }).catch(err => {
                     errorTips(err)
                 })
-            },
-            giveLike(){
-                this.loginVisible = true;
             },
         },
         mounted() {

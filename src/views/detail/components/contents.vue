@@ -13,40 +13,55 @@ INTRODUCTION    文件简介
             <h1 class="content-title">{{article.title}}</h1>
         </div>
         <el-row  :gutter="20" class="introduction">
-            <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{article.created|formatDateTime('YYYY-MM-DD')}}</el-col>
+            <el-col :span="3" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{article.created|formatDateTime('YYYY-MM-DD')}}</el-col>
             <el-col :span="3" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{"总共"+ article.str_num + "字"}}</el-col>
             <el-col :span="4" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article['reading_time'] + "分"}}</el-col>
-            <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{article['views_num']}}</el-col>
+            <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{view}}</el-col>
             <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article['comments_num']}}</el-col>
-            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{article.like_num}}</el-col>
+            <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{like}}</el-col>
         </el-row>
         <div class="main-content">
             <viewer :mainContent="article.markdown"></viewer>
         </div>
+        <el-row type="flex" justify="center">
+            <el-col :span="4"><el-button @click="giveLike" >{{likeValue}}</el-button></el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
 import Viewer from 'components/MarkdownEditor/viewer'
 import {errorTips} from "utils/tools/message";
+import {getArticleLike} from "api/article";
+
     export default {
         name: "contents",
         props: ['article'],
         components: {Viewer},
         data() {
             return {
-
+                like: 0,
+                view: 0,
+                likeValue: "点个赞",
             }
         },
         methods: {
             getViewAndLike(){
-                getViewAndLike(this.article.id).then(res => {
+                let params = {"article_id" : this.$route.params.detail, "user_id": localStorage.id}
+                getArticleLike(params).then(res => {
                     this.like = res['total']
                     this.view = res['view']
-                    this.isLike = res['flag']
+                    if ( res["flag"]) {this.likeValue = "已赞"}
                 }).catch(err => {
                     errorTips(err)
                 })
+            },
+            giveLike(){
+                if (localStorage.id){
+
+                }else {
+                    this.$message.info('')
+                }
             }
         },
         mounted() {
