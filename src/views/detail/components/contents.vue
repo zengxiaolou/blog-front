@@ -24,7 +24,7 @@ INTRODUCTION    文件简介
             <viewer :mainContent="article.markdown"></viewer>
         </div>
         <el-row type="flex" justify="center">
-            <el-col :span="4"><el-button @click="giveLike" >{{likeValue}}</el-button></el-col>
+            <el-col :span="4"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
         </el-row>
     </div>
 </template>
@@ -33,6 +33,7 @@ INTRODUCTION    文件简介
 import Viewer from 'components/MarkdownEditor/viewer'
 import {errorTips} from "utils/tools/message";
 import {getArticleLike} from "api/article";
+import {giveLike} from 'api/operations'
 
     export default {
         name: "contents",
@@ -43,6 +44,7 @@ import {getArticleLike} from "api/article";
                 like: 0,
                 view: 0,
                 likeValue: "点个赞",
+                btType: "danger"
             }
         },
         methods: {
@@ -51,16 +53,24 @@ import {getArticleLike} from "api/article";
                 getArticleLike(params).then(res => {
                     this.like = res['total']
                     this.view = res['view']
-                    if ( res["flag"]) {this.likeValue = "已赞"}
+                    if ( res["flag"] === 0 || res['flag'] ) {this.likeValue = "已赞"}
                 }).catch(err => {
                     errorTips(err)
                 })
             },
             giveLike(){
-                if (localStorage.id){
-
+                if (localStorage.id >= 0 ){
+                    let like = this.likeValue === '点个赞';
+                    giveLike(this.$route.params.detail, {"like": like}).then(res => {
+                        this.likeValue = res['result'] === '感谢点赞' ? '已赞' : "点个赞";
+                        this.btType = res['result'] === '感谢点赞' ? 'info' : "danger";
+                        this.getViewAndLike();
+                        this.$store.dispatch('getViewAndLike')
+                    }).catch(err => {
+                        errorTips(err)
+                    })
                 }else {
-                    this.$message.info('')
+                    this.$message.info('登录后方可点赞')
                 }
             }
         },
@@ -147,8 +157,8 @@ import {getArticleLike} from "api/article";
             }
 
             .read-num {
-                background-color: rgba(51, 213, 122, .15);
-                color: #33D57A;
+                background-color: rgba(204, 149, 96, 0.15);
+                color: #FF9B39;
             }
 
             .read-comment {

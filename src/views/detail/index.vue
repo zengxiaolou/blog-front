@@ -36,7 +36,6 @@ INTRODUCTION    文件简介
             getArticleByID(){
                 let id = this.$route.params.detail;
                 getArticleByID(id).then(res => {
-                    res.like_num = res['like_user'] !== null ? res['like_user'].length : 0;
                     this.content = res;
                     this.$store.dispatch('getViewAndLike')
                 }).catch(err => {

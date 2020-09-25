@@ -63,7 +63,7 @@ export function getOverview(params) {
 // 获取指定文章
 export function getArticleByID(id) {
     return request({
-        url: `article/search/article/${id}`,
+        url: `article/search/article/${id}/`,
         method: 'get',
     })
 }

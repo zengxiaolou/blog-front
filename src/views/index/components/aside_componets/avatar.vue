@@ -48,6 +48,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         removeToken()
+                        localStorage.removeItem("id")
                         this.$message({
                             type: 'success',
                             message: '退出成功!'
