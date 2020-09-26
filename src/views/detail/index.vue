@@ -9,18 +9,20 @@ INTRODUCTION    文件简介
 <template>
     <el-scrollbar class="page-component__scroll">
         <my-content :article="content"></my-content>
+        <my-comment></my-comment>
     </el-scrollbar>
 </template>
 
 <script>
     import myContent from './components/contents';
+    import myComment from './components/comment';
     import {getArticleByID} from "api/article";
     import {errorTips} from "@/utils/tools/message";
 
     export default {
         name: "detail",
         inject: ['reload'],
-        components: {myContent},
+        components: {myContent, myComment},
         data(){
             return{
                 content: {},

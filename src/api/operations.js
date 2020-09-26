@@ -15,3 +15,12 @@ export function giveLike(id, data){
         data: data
     })
 }
+
+export function comment(data){
+    return request({
+        url: 'operations/comment/',
+        method: 'post',
+        data: data
+    })
+}
+

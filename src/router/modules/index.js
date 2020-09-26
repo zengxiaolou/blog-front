@@ -60,15 +60,7 @@ const indexRouter = [
                     auth: false
                 }
             },
-            {
-                path: "/sponsor",
-                component: () => import("../../views/sponsor/index"),
-                name: "sponsor",
-                meta: {
-                    title: "请我喝咖啡",
-                    auth: false
-                }
-            },
+
             {
                 path: "/detail/:detail",
                 component: () => import("../../views/detail/index"),
