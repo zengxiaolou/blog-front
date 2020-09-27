@@ -27,10 +27,28 @@ export function comment(data){
 }
 
 // 获取评论
-export function getComment(param){
+export function getComment(params){
     return request({
         url: 'operations/comment/',
         method: 'get',
-        params: param
+        params: params
     })
+}
+
+// 回复
+export function reply(data) {
+    return request({
+        url: 'operations/reply/',
+        method: 'post',
+        data: data
+    })
+}
+
+export function getReply(params){
+    return request({
+        url: 'operations/reply/',
+        method: 'get',
+        params: params
+    })
+
 }

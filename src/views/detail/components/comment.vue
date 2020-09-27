@@ -28,9 +28,10 @@ INTRODUCTION    文件简介
                     <el-col  :span="24" class="created">{{value.created|formatDateTime('YYYY-MM-DD HH:MM:SS')}}</el-col>
                     <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
                     <div class="reply created" >
-                        <el-button title="回复" type="text" icon="icon iconfont icon-comment" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply')"></el-button>
-                        <el-button title="展开" type="text" icon="icon iconfont icon-unfold" size="mini" circle class="more"></el-button>
+                        <el-button title="回复" type="text" icon="icon iconfont icon-comment" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)"></el-button>
+                        <el-button title="展开" type="text" icon="icon iconfont icon-unfold" size="mini" circle class="more" @click.prevent="replyShow(value)"></el-button>
                     </div>
+
                 </el-col>
 
             </el-row>
@@ -55,7 +56,7 @@ INTRODUCTION    文件简介
 import markdown from "components/MarkdownEditor/markdown";
 import viewer from "components/MarkdownEditor/viewer_comment";
 import replyMarkdown from "components/MarkdownEditor/reply_markdown"
-import {comment, getComment} from "api/operations";
+import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getArticle} from "api/article";
 
@@ -75,6 +76,8 @@ export default {
             page: 1,
             currentPage: 1,
             isComment: true,
+            comment: 1,
+            reply: '',
         }
     },
     methods: {
@@ -96,8 +99,10 @@ export default {
                 errorTips(err)
             })
         },
-        // 提交评论
+        // 提交评论与回复
         submit(){
+            // 通过isCommnet判断是提交评论还是回复
+            console.log(this.isComment)
             if (this.isComment){
                 let data = {
                     "content": this.markdown,
@@ -111,17 +116,34 @@ export default {
                     errorTips(err)
                 })
             }else {
-
+                let data = {
+                    "content": this.markdown,
+                    "comment": this.comment,
+                }
+                reply(data).then(() => {
+                    this.$message.success("回复成功")
+                    this.commentVisible = false
+                }).catch(err => {
+                    errorTips(err)
+                })
             }
         },
         // 显示隐藏评论box
-        commentShow(operation){
+        commentShow(operation, value){
             this.commentVisible = !this.commentVisible;
-            this.isComment = operation === "reply";
+            this.isComment = operation === "comment";
+            if (operation === 'reply'){
+                this.isComment = false;
+                this.comment = value.id
+            }else {
+                this.isComment = true
+            }
         },
         // 显示隐藏回复
-        replyShow(){
-
+        replyShow(value){
+            getReply({"search": value.id}).then(res => {
+                console.log(res)
+            }).catch(err => {errorTips(err)})
         },
         // 调整每页条数
         handleSizeChange(val) {
@@ -153,7 +175,6 @@ export default {
                 errorTips(err)
             })
         },
-
     },
     mounted() {
         this.getComments()
