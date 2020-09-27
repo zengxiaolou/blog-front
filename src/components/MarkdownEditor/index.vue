@@ -11,7 +11,6 @@ INTRODUCTION    文件简介
         <span >文章内容</span>
         <el-divider></el-divider>
         <div id="editor" @change="changeValue" @blur="changeValue"></div>
-        <input style="display: none" ref="files" @change="uploadFile" type="file" accept="image/*">
     </div>
 </template>
 

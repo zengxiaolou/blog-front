@@ -7,7 +7,7 @@ INTRODUCTION    markdown 预览
 -->
 
 <template>
-        <div id="viewer"></div>
+    <div :id="'viewer' + index" ></div>
 </template>
 
 <script>
@@ -16,22 +16,22 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 export default {
     name: "viewer",
-    props: ['mainContent'],
+    props: ['content', 'index'],
     data() {
         return {}
     },
     watch: {
-        mainContent(){
-            this.viewer.setMarkdown(this.mainContent)
+        content(val){
+            this.viewer.setMarkdown(val)
         }
     },
     methods: {
         init() {
             this.viewer = new Viewer({
-                el: document.querySelector('#viewer'),
-                height: '600px',
+                el: document.getElementById("viewer" + this.index),
+                height: '200px',
             });
-            this.viewer.setMarkdown(this.mainContent)
+            this.viewer.setMarkdown(this.content)
         },
     },
     mounted() {

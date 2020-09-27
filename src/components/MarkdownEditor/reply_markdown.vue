@@ -7,7 +7,7 @@ INTRODUCTION    文件简介
 -->
 
 <template>
-    <div id="editor" @change="changeValue" @blur="changeValue"></div>
+    <div id="'editor' + index" @change="changeValue" @blur="changeValue"></div>
 </template>
 
 <script>
@@ -15,8 +15,8 @@ import 'codemirror/lib/codemirror.css'; // Editor's Dependency Style
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
 import Editor from '@toast-ui/editor';
 export default {
-    name: "index",
-    props: ['markdown'],
+    name: "reply_markdown",
+    props: ['markdown', 'index'],
     data() {
         return{
         }
@@ -29,7 +29,7 @@ export default {
     methods: {
         initialize(){
             this.editor = new Editor({
-                el: document.querySelector('#editor'),
+                el: document.getElementById('editor' + this.index),
                 height: '300px',
                 initialEditType: 'markdown',
                 previewStyle: 'vertical',

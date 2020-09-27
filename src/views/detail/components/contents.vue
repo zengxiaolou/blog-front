@@ -24,8 +24,8 @@ INTRODUCTION    文件简介
             <viewer :mainContent="article.markdown"></viewer>
         </div>
         <el-row type="flex" justify="center" class="operations">
-            <el-col :span="6"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
-            <el-col :span="6"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
+            <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
+            <el-col :span="3"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
         </el-row>
         <reward v-show="rewardVisible"></reward>
     </div>
