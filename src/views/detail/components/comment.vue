@@ -31,7 +31,15 @@ INTRODUCTION    文件简介
                         <el-button title="回复" type="text" icon="icon iconfont icon-comment" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)"></el-button>
                         <el-button title="展开" type="text" icon="icon iconfont icon-unfold" size="mini" circle class="more" @click.prevent="replyShow(value)"></el-button>
                     </div>
+                    <el-row class="comment" v-for="(value, index) in reply" :key="index">
+                        <el-col :span="2" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
+                        <el-col :span="22" class="content">
+                            <el-col  :span="24" class="created">{{value.created|formatDateTime('YYYY-MM-DD HH:MM:SS')}}</el-col>
+                            <el-col :span="24"><viewer :content="value.content" :index="'reply' + index" ></viewer></el-col>
 
+                        </el-col>
+
+                    </el-row>
                 </el-col>
 
             </el-row>
@@ -59,6 +67,7 @@ import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getArticle} from "api/article";
+import {getToken} from "utils/service/cookie";
 
 export default {
     name: "comment",
@@ -130,6 +139,11 @@ export default {
         },
         // 显示隐藏评论box
         commentShow(operation, value){
+            // 判断是否是登录用户
+            if ( ! getToken()){
+                this.$message.error("未登录用户，无法评论，请登录")
+                return
+            }
             this.commentVisible = !this.commentVisible;
             this.isComment = operation === "comment";
             if (operation === 'reply'){
@@ -142,7 +156,7 @@ export default {
         // 显示隐藏回复
         replyShow(value){
             getReply({"search": value.id}).then(res => {
-                console.log(res)
+                this.reply = res['results']
             }).catch(err => {errorTips(err)})
         },
         // 调整每页条数

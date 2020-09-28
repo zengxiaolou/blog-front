@@ -29,7 +29,7 @@ export function comment(data){
 // 获取评论
 export function getComment(params){
     return request({
-        url: 'operations/comment/',
+        url: 'operations/comments/',
         method: 'get',
         params: params
     })
@@ -44,9 +44,10 @@ export function reply(data) {
     })
 }
 
+// 获取回复
 export function getReply(params){
     return request({
-        url: 'operations/reply/',
+        url: 'operations/replys/',
         method: 'get',
         params: params
     })
