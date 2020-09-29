@@ -31,11 +31,12 @@
 </template>
 
 <script>
+    import myBase from 'store/baseSetting'
     export default {
         name: "error_401",
         data() {
             return {
-                errGif: 'http://qiniiu.hammerc.club/401.gif' + '?' + +new Date(),
+                errGif: myBase.QiNiuHost + '401.gif' + '?' + +new Date(),
                 ewizardClap: 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646',
                 dialogVisible: false
             }

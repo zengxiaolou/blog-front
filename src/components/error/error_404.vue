@@ -2,10 +2,10 @@
     <div class="wscn-http404-container">
         <div class="wscn-http404">
             <div class="pic-404">
-                <img class="pic-404__parent" src="http://qiniiu.hammerc.club/404.png" alt="404">
-                <img class="pic-404__child left" src="http://qiniiu.hammerc.club/404_cloud.png" alt="404">
-                <img class="pic-404__child mid" src="http://qiniiu.hammerc.club/404_cloud.png" alt="404">
-                <img class="pic-404__child right" src="http://qiniiu.hammerc.club/404_cloud.png" alt="404">
+                <img class="pic-404__parent" :src=png alt="404">
+                <img class="pic-404__child left" :src=cloud alt="404">
+                <img class="pic-404__child mid" :src=cloud alt="404">
+                <img class="pic-404__child right" :src=cloud alt="404">
             </div>
             <div class="bullshit">
                 <div class="bullshit__oops">糟糕!</div>
@@ -18,12 +18,20 @@
 </template>
 
 <script>
+    import myBase from 'store/baseSetting'
     export default {
         name: "error_404",
+        data() {
+            return {
+                png: myBase.QiNiuHost + '404.png',
+                cloud: myBase.QiNiuHost + '404_cloud.png'
+            }
+        },
         computed: {
             message() {
                 return '网站管理员说您无法进入此页面...'
             },
+
         }
     }
 </script>

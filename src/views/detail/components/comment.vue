@@ -23,20 +23,36 @@ INTRODUCTION    文件简介
         </div>
         <div class="comment">
             <el-row class="comment" v-for="(value, index) in comments" :key="index">
-                <el-col :span="2" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
-                <el-col :span="22" class="content">
-                    <el-col  :span="24" class="created">{{value.created|formatDateTime('YYYY-MM-DD HH:MM:SS')}}</el-col>
-                    <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
-                    <div class="reply created" >
-                        <el-button title="回复" type="text" icon="icon iconfont icon-comment" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)"></el-button>
-                        <el-button title="展开" type="text" icon="icon iconfont icon-unfold" size="mini" circle class="more" @click.prevent="replyShow(value)"></el-button>
-                    </div>
-                    <el-row class="comment" v-for="(value, index) in reply" :key="index">
-                        <el-col :span="2" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
-                        <el-col :span="22" class="content">
-                            <el-col  :span="24" class="created">{{value.created|formatDateTime('YYYY-MM-DD HH:MM:SS')}}</el-col>
-                            <el-col :span="24"><viewer :content="value.content" :index="'reply' + index" ></viewer></el-col>
-
+                <el-col :span="2" class="avatar">
+                    <el-popover
+                        placement="right"
+                        width="100"
+                        trigger="hover">
+                        <el-row type="flex" justify="center">
+                            <el-col :span="10" ><el-avatar :size="50" :src="value.user['avatar']"></el-avatar></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col>昵称： {{value.user.username}}</el-col>
+                            <el-col>github: <el-link herf="value.user.github">github主页</el-link></el-col>
+                        </el-row>
+                        <el-avatar slot="reference" :size="40" :src="value.user['avatar']"></el-avatar>
+                    </el-popover>
+                </el-col>
+                <el-col :span="22"   class="content">
+                    <el-row>
+                        <el-col  :span="22" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
+                        <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)">回复</el-button></el-col>
+                        <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
+                    </el-row>
+                    <el-row class="reply-box" v-for="(value, index) in value['reply']" :key="index">
+                        <el-divider></el-divider>
+                        <el-col :span="1" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
+                        <el-col :span="23" class="content">
+                            <el-row >
+                                <el-col  :span="22" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
+                                <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" icon="icon iconfont icon-comment" @click.prevent="commentShow('reply', value)"></el-button></el-col>
+                                <el-col :span="24"><viewer :content="value.content" :index="'reply' + value['comment'] + index" ></viewer></el-col>
+                            </el-row>
                         </el-col>
 
                     </el-row>
@@ -132,6 +148,7 @@ export default {
                 reply(data).then(() => {
                     this.$message.success("回复成功")
                     this.commentVisible = false
+                    this.getComments()
                 }).catch(err => {
                     errorTips(err)
                 })
@@ -199,38 +216,55 @@ export default {
 <style lang="scss" scoped>
     .box-card {
         margin: 0 20px;
+
         background-color: rgba(0, 0, 0, 0);
         border-radius: 10px;
         /deep/ .el-card__header {
             padding-top: 10px;
             padding-bottom: 10px;
         }
+        /deep/ .el-calendar__body{
+            padding-left: 10px;
+
+        }
         .submit{
             margin-top: 20px;
         }
+        .avatar {
+            margin-top: 10px;
+        }
         .content {
-            padding: 10px;
+            padding: 10px  0 0 20px;
             background-color: #ffffff;
             border-radius: 10px;
             margin-bottom: 10px;
+
             .created {
                 font-size: 12px;
                 color: rgb(150, 156, 162);
             }
-            .reply {
+            .reply-btn {
                 text-align: end;
-                .reply-btn {
-                    margin-right: 5px;
-                }
+                font-size: 10px;
+                padding: 0;
+            }
+            .el-divider  {
+                margin: 5px 0;
+            }
+            .black {
+                color: #1f2d3d;
             }
 
         }
         .page {
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 10px;
          }
+        .pop {
+            text-align: center;
+        }
         .comment-box {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             .submit-bnt {
                 margin-top: 10px;
                 text-align: end;

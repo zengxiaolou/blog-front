@@ -8,7 +8,7 @@ INTRODUCTION    文件简介
 
 <template>
     <div class="record">
-        <el-link type="primary">蜀ICP备190046xxx号</el-link>
+        <el-link type="primary" href="http://beian.miit.gov.cn"  underline target="_blank">蜀ICP备2020029295号-1</el-link>
     </div>
 
 </template>

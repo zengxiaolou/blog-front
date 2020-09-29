@@ -8,7 +8,7 @@ INTRODUCTION    头像组件
 <template>
     <div class="avatar-box">
         <el-button type="text" @click="showLogin">
-            <el-avatar :size="150" src="http://qiniiu.hammerc.club/avatar.dcfba41f.jpeg" ></el-avatar>
+            <el-avatar :size="150" :src=avatar ></el-avatar>
         </el-button>
         <login></login>
         <register> </register>
@@ -20,6 +20,7 @@ import Login from 'components/user/login';
 import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
 import {captcha} from "api/utils";
+import myBase from 'store/baseSetting'
 
 export default {
         inject: ['reload'],
@@ -27,6 +28,7 @@ export default {
         name: "avatar",
         data(){
             return{
+                avatar: myBase.QiNiuHost + "avatar.dcfba41f.jpeg",
             }
         },
         methods: {
