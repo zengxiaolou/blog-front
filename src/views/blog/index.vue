@@ -14,7 +14,10 @@ INTRODUCTION    文件描述
                     fit="contain"></el-image>
             </el-carousel-item>
         </el-carousel>
-        <viewer :mainContent="blogInfo"></viewer>
+        <el-card class="box-card">
+            <viewer :mainContent="blogInfo"></viewer>
+        </el-card>
+
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
@@ -49,6 +52,9 @@ INTRODUCTION    文件描述
         margin: 0 10px;
         .el-divider{
             margin: 0;
+        }
+        .el-card{
+            border-radius: 15px;
         }
     }
     /deep/ .el-scrollbar__wrap {
