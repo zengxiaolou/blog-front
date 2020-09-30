@@ -25,15 +25,15 @@ INTRODUCTION    文件简介
             <el-row class="comment" v-for="(value, index) in comments" :key="index">
                 <el-col :span="2" class="avatar">
                     <el-popover
-                        placement="right"
-                        width="100"
+                        placement="top"
+                        width="180"
                         trigger="hover">
                         <el-row type="flex" justify="center">
-                            <el-col :span="10" ><el-avatar :size="50" :src="value.user['avatar']"></el-avatar></el-col>
+                            <el-col :span="10" ><el-avatar :size="50" :src="value.user['avatar']" ></el-avatar></el-col>
                         </el-row>
                         <el-row>
-                            <el-col>昵称： {{value.user.username}}</el-col>
-                            <el-col>github: <el-link herf="value.user.github">github主页</el-link></el-col>
+                            <el-col><i class="icon iconfont icon-user"></i> 昵称： {{value.user.username}}</el-col>
+                            <el-col><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank">github主页</el-link></el-col>
                         </el-row>
                         <el-avatar slot="reference" :size="40" :src="value.user['avatar']"></el-avatar>
                     </el-popover>
@@ -46,7 +46,20 @@ INTRODUCTION    文件简介
                     </el-row>
                     <el-row class="reply-box" v-for="(value, index) in value['reply']" :key="index">
                         <el-divider></el-divider>
-                        <el-col :span="1" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
+                        <el-popover
+                            placement="left"
+                            width="180"
+                            trigger="hover">
+                            <el-row type="flex" justify="center">
+                                <el-col :span="10" ><el-avatar :size="50" :src="value.user['avatar']" ></el-avatar></el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col><i class="icon iconfont icon-user"></i> 昵称： {{value.user.username}}</el-col>
+                                <el-col><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank">github主页</el-link></el-col>
+                            </el-row>
+                            <el-col :span="1" slot="reference" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
+                        </el-popover>
+
                         <el-col :span="23" class="content">
                             <el-row >
                                 <el-col  :span="22" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
@@ -260,8 +273,8 @@ export default {
             text-align: center;
             margin-top: 10px;
          }
-        .pop {
-            text-align: center;
+        .pop-avatar {
+            background-color: #1a98ff;
         }
         .comment-box {
             margin-bottom: 10px;

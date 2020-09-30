@@ -115,7 +115,15 @@ const indexRouter = [
                     auth: false
                 }
             },
-
+            {
+                path: "/personal",
+                component: () => import("../../views/personal/index"),
+                name: "personal",
+                meta: {
+                    title: "个人中心",
+                    auth: false
+                }
+            },
         ]
     },
 

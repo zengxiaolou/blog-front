@@ -38,6 +38,7 @@ INTRODUCTION    菜单组件
                     {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about"},
                     {"title": "站内搜索", "icon":"icon iconfont icon-search",       "path":"/search"},
                     {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
+                    {"title": "用户中心", "icon":"icon iconfont icon-personal",     "path":"/personal"},
                 ],
                 role: 0,
                 creation: {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
