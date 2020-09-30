@@ -14,14 +14,7 @@ INTRODUCTION    文件描述
                     fit="contain"></el-image>
             </el-carousel-item>
         </el-carousel>
-        <div class="content">
-            <h1>博客简介</h1>
-            <el-divider content-position="left"><span class="strip"></span></el-divider>
-            <div class="brief">
-                <p > &nbsp; &nbsp; 搭建blog在我开始编程时，便放在了计划之中，但是困于自己能力不足，而心比天高，还有就是生活所迫。拖延至今天才勉强将 blog的基本框架搭完。<br>
-                    &nbsp; &nbsp; 今后的时间我将慢慢的增加功能和优化目前这个blog项目，使之好看且使用。同时记录自己作为一个码农，在开发过程中遇到的困难与解决的思路、笔记和好用的工具推荐等等</p>
-            </div>
-        </div>
+        <viewer :mainContent="blogInfo"></viewer>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
@@ -29,13 +22,22 @@ INTRODUCTION    文件描述
 
 <script>
     import baseSetting from "store/baseSetting";
+    import viewer from "components/MarkdownEditor/viewer";
     export default {
         name: "blog",
+        components: {viewer},
         data () {
             return {
                 imgHost: baseSetting.QiNiuHost,
+                blogInfo: baseSetting.blogInfo,
                 carousel: ['python', 'golang', 'gnu', 'ubuntu', 'kernel', 'root', 'sudo', 'vim'],
             }
+        },
+        methods: {
+
+        },
+        mounted() {
+
         }
     }
 </script>
