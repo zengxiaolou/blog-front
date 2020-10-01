@@ -42,6 +42,17 @@ module.exports = {
             // 最大单个资源体积，默认250000（bytes）
             maxAssetSize: 30000000
         }
+        // config.externals = {
+        //     'vue': 'Vue',
+        //     'vue-router': 'VueRouter',
+        //     'element-ui': 'element-ui',
+        //     'echarts': 'echarts',
+        //     'codemirror': 'codemirror',
+        //     'vuex': 'vuex',
+        //     'axios':'axios',
+        //
+        // }
+        config.devtool = "source-map"
     },
 
     productionSourceMap: false,
