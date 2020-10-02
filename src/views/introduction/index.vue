@@ -256,7 +256,7 @@ INTRODUCTION    文件简介
                         </el-row>
                         <el-row >
                             <el-col :span="6" class="heading">个人博客</el-col>
-                            <el-col :span="3" :offset="2" class="heading heading-right"><el-link type="primary" href="http://www.messstack.com" target="_blank">http://www.messstack.com</el-link></el-col>
+                            <el-col :span="3" :offset="2" class="heading heading-right"><el-link type="primary" href="http://blog.messstack.com" target="_blank">http://www.messstack.com</el-link></el-col>
                         </el-row>
                     </el-col>
                 </el-row>

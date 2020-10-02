@@ -53,6 +53,7 @@ INTRODUCTION    文件简介
 <script>
     import {getQiNiuToken} from "api/utils";
     import {errorTips} from "@/utils/tools/message";
+    import baseSetting from "store/baseSetting";
 
     export default {
         name: "bgm",
@@ -86,7 +87,7 @@ INTRODUCTION    文件简介
                     this.postData.key = new_name;
                     this.postData.token = res['token'];
                     this.$refs.upload.submit();
-                    this.cover = "http://qiniiu.hammerc.club/" + new_name
+                    this.cover = baseSetting.QiNiuHost + new_name
                 }).catch(err =>{
                     errorTips(err);
                 });
