@@ -167,10 +167,10 @@ export default {
         };
         return {
             form: {
-                username: "xiaolu",
-                password: "zzxxyy123",
-                passwordAgain: 'zzxxyy123',
-                email: "zengevent@gmail.com",
+                username: "",
+                password: "",
+                passwordAgain: '',
+                email: "",
                 sms: "",
                 captcha: "",
             },

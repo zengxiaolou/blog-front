@@ -107,8 +107,8 @@ import {mapGetters} from "vuex";
             };
             return {
                 form: {
-                    username: "xiaolou",
-                    password: "zzxxyy123",
+                    username: "",
+                    password: "",
                     captcha: "",
                 },
                 captcha_key: "",
