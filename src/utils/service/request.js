@@ -5,8 +5,8 @@ import router from "@/router";
 
 const service = axios.create({
     timeout: 60000,
-    baseURL: 'http://127.0.0.1:8000/api/v1/',
-    // baseURL: '/api/v1/',
+    // baseURL: 'http://127.0.0.1:8000/api/v1/',
+    baseURL: '/api/v1/',
 });
 
 

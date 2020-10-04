@@ -51,7 +51,7 @@ import baseSetting from "store/baseSetting";
                     {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
                     ],
                 size: "medium",
-                wxQR: baseSetting.QiNiuHost + '/wx_qr.4c67a998.jpg',
+                wxQR: baseSetting.QiNiuHost + 'wx_qr.4c67a998.jpg',
                 dialogVisible: false,
             }
         },
