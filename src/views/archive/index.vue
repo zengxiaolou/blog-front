@@ -11,13 +11,12 @@ INTRODUCTION    文章归档页面
             <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
             <my-charts :date="date"></my-charts>
         </el-card>
-        <el-scrollbar>
+
             <el-card class = "archive-body">
                 <el-divider>文章归档</el-divider>
-
-                    <el-timeline  class="infinite-list" v-infinite-scroll="getArchive">
+                <el-scrollbar>
+                    <el-timeline>
                         <el-timeline-item
-                            class="infinite-list-item"
                             hide-timestamp
                             v-for="(activity, index) in activities"
                             :key="index"
@@ -25,9 +24,11 @@ INTRODUCTION    文章归档页面
                             <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
                         </el-timeline-item>
                     </el-timeline>
-
+                </el-scrollbar>
+                <el-row type="flex" justify="center" class="more">
+                 <el-col :span="3"><el-button type="primary" @click.prevent="getArchive">加载更多</el-button></el-col>
+                </el-row>
             </el-card>
-        </el-scrollbar>
     </div>
 </template>
 
@@ -36,7 +37,7 @@ INTRODUCTION    文章归档页面
     import {getArchive, getLastYearData} from "api/article";
 
     const color ={
-        'Python': '#FBD13D', 'Golang': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
+        'Python': '#FBD13D', 'Go': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
         'Docker': '#1980AD', 'DB': '#27C5FD', 'Tools': '#5B5B5B', 'Other': '#FF8F3D'
     };
     export default {
@@ -45,7 +46,7 @@ INTRODUCTION    文章归档页面
         data() {
             return {
                 activities: [],
-                pageSize: 20,
+                pageSize: 11,
                 pageNum: 1,
                 total: '',
                 lastTotal: '',
@@ -59,7 +60,7 @@ INTRODUCTION    文章归档页面
                     "page": this.pageNum
                 };
                 getArchive(params).then(res =>{
-                    this.pageNum += 1;
+                    this.pageNum += 1
                     this.total = res['count'];
                     for (let key in Object.keys(res['results'])){
                         let archive = {};
@@ -83,7 +84,7 @@ INTRODUCTION    文章归档页面
             }
         },
         mounted() {
-            // this.getArchive();
+            this.getArchive();
             this.getLastYearData()
         },
     }
@@ -99,7 +100,7 @@ INTRODUCTION    文章归档页面
         }
         .el-divider {
             margin-top: 20px;
-
+            margin-bottom: 20px;
         }
         .el-timeline {
             margin-top: 20px;
@@ -115,10 +116,14 @@ INTRODUCTION    文章归档页面
         }
         .archive-body {
             margin: 20px 20px 0;
+            .el-scrollbar {
+                height: 600px;
+            }
+            .more {
+                margin: 10px;
+            }
         }
-        .el-scrollbar {
-            height: 82%;
-        }
+
         /deep/ .el-scrollbar__wrap {
             overflow-x:hidden;
         }
