@@ -15,16 +15,16 @@ INTRODUCTION    文章归档页面
             <el-card class = "archive-body">
                 <el-divider>文章归档</el-divider>
 
-                        <el-timeline  class="infinite-list" v-infinite-scroll="getArchive">
-                            <el-timeline-item
-                                class="infinite-list-item"
-                                hide-timestamp
-                                v-for="(activity, index) in activities"
-                                :key="index"
-                                :color="activity.color">
-                                <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
-                            </el-timeline-item>
-                        </el-timeline>
+                    <el-timeline  class="infinite-list" v-infinite-scroll="getArchive">
+                        <el-timeline-item
+                            class="infinite-list-item"
+                            hide-timestamp
+                            v-for="(activity, index) in activities"
+                            :key="index"
+                            :color="activity.color">
+                            <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
+                        </el-timeline-item>
+                    </el-timeline>
 
             </el-card>
         </el-scrollbar>

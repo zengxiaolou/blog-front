@@ -37,6 +37,7 @@ INTRODUCTION    我的社交
 </template>
 
 <script>
+import baseSetting from "store/baseSetting";
     export default {
         name: "gam",
         data(){
@@ -50,7 +51,7 @@ INTRODUCTION    我的社交
                     {"name": "QQ",       "style": "gam-qq",        "local": "bottom-end" , "icon": "icon iconfont icon-QQ",              "url": "tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=564259844&website=www.oicqzone.com"}
                     ],
                 size: "medium",
-                wxQR: 'http://qiniiu.hammerc.club/wx_qr.4c67a998.jpg',
+                wxQR: baseSetting.QiNiuHost + '/wx_qr.4c67a998.jpg',
                 dialogVisible: false,
             }
         },
