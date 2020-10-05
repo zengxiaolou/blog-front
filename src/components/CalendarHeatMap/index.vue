@@ -57,7 +57,7 @@ INTRODUCTION    文件简介
                         },
                         top: 40,
                         right:35,
-                        yearLabel: { show: false },
+                        // yearLabel: { show: false },
                         // dayLabel: { show: false }
                     },
                     series: {
@@ -70,8 +70,17 @@ INTRODUCTION    文件简介
             },
             getData() {
                 let today = echarts['number'].parseDate(new Date());
+                let week = today.getDay()
+                let num = 365
+                if (week === 0){ num = 364}
+                else if(week === 1) { num = 365}
+                else if(week === 2) { num = 366}
+                else if(week === 3) { num = 367}
+                else if(week === 4) { num = 368}
+                else if(week === 5) { num = 369}
+                else if(week === 6) { num = 370}
                 let dayTime = 3600 * 24 * 1000;
-                let thatDay = today - dayTime * 363;
+                let thatDay = today - dayTime * num;
                 let data = [];
                 for (let time = thatDay; time <= today; time += dayTime) {
                     data.push([
