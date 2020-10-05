@@ -55,7 +55,7 @@ INTRODUCTION    文章归档页面
         },
         methods: {
             getArchive(){
-                const params = {
+                let params = {
                     "size": this.pageSize,
                     "page": this.pageNum
                 };
