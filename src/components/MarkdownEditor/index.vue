@@ -27,7 +27,7 @@ INTRODUCTION    文件简介
         },
         watch: {
           markdown(val){
-              this.editor.setMarkdown(val)
+              this.editor.setMarkdown(this.markdown)
           }
         },
         methods: {
@@ -41,7 +41,6 @@ INTRODUCTION    文件简介
                 });
             },
             changeValue(){
-                this.$emit('changeContent', this.editor.getHtml());
                 this.$emit('changeMarkdown', this.editor.getMarkdown())
             },
         },

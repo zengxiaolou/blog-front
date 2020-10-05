@@ -34,7 +34,7 @@ INTRODUCTION    创作中心
             </el-col>
         </el-row>
         <el-card class="markdown">
-            <markDown v-on:changeContent="changeContent" v-on:changeMarkdown="changeMarkdown" :markdown="content"></markDown>
+            <markDown  v-on:changeMarkdown="changeMarkdown" :markdown="markdown"></markDown>
             <el-row type="flex" justify="end" class="handle-bottom">
                 <el-col :span="2">
                     <el-button type="info" round plain size="mini"  :loading="draftLoading" @click="draft"> 草稿箱</el-button>
@@ -90,7 +90,6 @@ INTRODUCTION    创作中心
                 cover: '',
                 abstract: '',
                 title: '',
-                content: '初始化内容',
                 loading: false,
                 markdown: "",
                 draftLoading: false,
@@ -123,9 +122,6 @@ INTRODUCTION    创作中心
                 this.title = title
             },
             // 传递正文
-            changeContent:function (content) {
-                this.content = content
-            },
             // 传递草稿
             changeMarkdown:function(markdown){
                 this.markdown = markdown
@@ -142,10 +138,9 @@ INTRODUCTION    创作中心
                     'summary': this.abstract,
                     'title': this.title,
                     'cover': this.cover,
-                    'content': this.content,
                     'category': this.category,
                     'tag': this.tags,
-                    'str_num': this.content.length,
+                    'str_num': this.markdown.length,
                     'markdown': this.markdown,
                 };
                 uploadArticle(data).then(() =>{
@@ -204,7 +199,7 @@ INTRODUCTION    创作中心
                     return false
                 }
                 // 文章内容判断
-                if (this.content.length < 20){
+                if (this.markdown.length < 20){
                     this.$notify.error("文章内容过短");
                     return false
                 }
@@ -216,7 +211,7 @@ INTRODUCTION    创作中心
                     'summary': this.abstract,
                     'title': this.title,
                     'cover': this.cover,
-                    'content': this.markdown,
+                    'markdown': this.markdown,
                     'category': this.category,
                     'tag': this.tags,
                 };
@@ -236,7 +231,7 @@ INTRODUCTION    创作中心
                     'summary': this.abstract,
                     'title': this.title,
                     'cover': this.cover,
-                    'content': this.markdown,
+                    'markdown': this.markdown,
                     'category': this.category,
                     'tag': this.tags,
                 };
@@ -267,7 +262,7 @@ INTRODUCTION    创作中心
                     if (this.draftOptions[key]['id'] === this.draftValue){
                         this.checkedOptions = this.draftOptions[key];
                         this.title = this.checkedOptions.title;
-                        this.content = this.checkedOptions.content;
+                        this.markdown = this.checkedOptions.markdown;
                         this.abstract = this.checkedOptions.summary;
                         this.cover  = this.checkedOptions.cover;
                         break
