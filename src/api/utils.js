@@ -26,7 +26,7 @@ export function getQiNiuToken(data) {
 
 export function getSms(data){
     return request({
-        url: 'utils/get-sms/',
+        url: 'utils/sms/',
         method: 'post',
         data: data
     })

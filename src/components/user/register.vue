@@ -43,13 +43,25 @@ INTRODUCTION    注册组件
                     placeholder="请输入密码">
                 </el-input>
             </el-form-item>
-            <el-form-item prop="email">
+<!--            <el-form-item prop="email">-->
+<!--                <el-row type="flex" justify="center">-->
+<!--                    <el-input-->
+<!--                        type="text"-->
+<!--                        placeholder="请输入邮箱"-->
+<!--                        prefix-icon="iconfont icon-email"-->
+<!--                        v-model="form.email"-->
+<!--                        clearable-->
+<!--                        autocomplete="off">-->
+<!--                    </el-input>-->
+<!--                </el-row>-->
+<!--            </el-form-item>-->
+            <el-form-item prop="mobile">
                 <el-row type="flex" justify="center">
                     <el-input
                         type="text"
-                        placeholder="请输入邮箱"
+                        placeholder="请输入手机号"
                         prefix-icon="iconfont icon-email"
-                        v-model="form.email"
+                        v-model="form.mobile"
                         clearable
                         autocomplete="off">
                     </el-input>
@@ -143,13 +155,25 @@ export default {
                 callback();
             }
         };
-        // 验证Email格式
-        let validateEmail = (rule, value,callback) =>{
-            let pattern = /^([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
+        // // 验证Email格式
+        // let validateEmail = (rule, value,callback) =>{
+        //     let pattern = /^([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
+        //     if (value === ''){
+        //         callback(new Error('请输入邮箱'))
+        //     }else if(!(pattern.test(value))){
+        //         callback(new Error("邮箱格式错误"))
+        //     }else {
+        //         callback();
+        //     }
+        // };
+
+        // 验证手机号格式
+        let validateMobile = (rule, value,callback) =>{
+            let pattern = /^1[3-9]\d{9}$/;
             if (value === ''){
-                callback(new Error('请输入邮箱'))
+                callback(new Error('请输入手机号'))
             }else if(!(pattern.test(value))){
-                callback(new Error("邮箱格式错误"))
+                callback(new Error("手机号格式错误"))
             }else {
                 callback();
             }
@@ -158,9 +182,9 @@ export default {
         //验证短信验证码
         let validateSms = (rule, value,callback) =>{
             if (value === ''){
-                callback(new Error('请输入邮箱验证码'))
+                callback(new Error('请输入手机验证码'))
             }else if(value.length !== 6){
-                callback(new Error("邮箱验证码长度为6"))
+                callback(new Error("手机验证码长度为6"))
             }else {
                 callback();
             }
@@ -170,7 +194,8 @@ export default {
                 username: "",
                 password: "",
                 passwordAgain: '',
-                email: "",
+                // email: "",
+                mobile: "",
                 sms: "",
                 captcha: "",
             },
@@ -182,7 +207,7 @@ export default {
                 passwordAgain:[{validator: validatePasswordAgain, trigger: "blur"}],
                 captcha:[{validator: validateCaptcha, trigger: "blur"}],
                 sms: [{validator: validateSms, trigger:'blur'}],
-                email: [{validator: validateEmail, trigger: 'blur'}]
+                mobile: [{validator: validateMobile, trigger: 'blur'}]
             },
             smsDisabled: false,
             loading: false,
@@ -225,12 +250,12 @@ export default {
         },
         // 获取短信验证码
         getSms(form, captcha_key){
-            const {email, captcha} = form;
+            const {mobile, captcha} = form;
             if (captcha.length === 4){
                 checkCaptcha({captcha_key:captcha_key,captcha_value:captcha}).then(()=>{
-                    getSms({email: email}).then(()=>{
+                    getSms({mobile: mobile}).then(()=>{
                         this.form.sms = '';
-                        this.$message.success("邮件已发送，请稍等片刻完成注册");
+                        this.$message.success("短信已发送，请稍等片刻完成注册");
                         this.smsDisabled =true;
                         if (!this.timer){
                             this.timer = setInterval(() =>{
@@ -270,11 +295,10 @@ export default {
                         .then(()=>{
                             this.$router.push({path:"/"});
                             this.$store.dispatch('setRegisterVisible', false)
+                            this.$message.success("注册成功")
                             this.loading = false;
                         })
                         .catch((err)=>{
-                            console.log(11111)
-                            console.log(err)
                             errorTips(err)
                             this.loading =false;
                         })

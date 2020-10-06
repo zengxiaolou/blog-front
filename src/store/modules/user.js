@@ -50,10 +50,9 @@ const actions = {
     },
     //用户注册
     register({commit},userInfo){
-        const {username,password,email,sms} = userInfo;
-        console.log(userInfo)
+        const {username,password,mobile,sms} = userInfo;
         return new Promise((resolve, reject) =>{
-            register({username:username.trim(), password:password, email:email, sms:sms})
+            register({username:username.trim(), password:password, mobile:mobile, sms:sms})
                 .then(response => {
                     const {token,username,id} =response;
                     commit('SET_TOKEN', token);
