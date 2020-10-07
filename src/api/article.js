@@ -70,7 +70,7 @@ export function getArticleByID(id) {
 
 export function deleteArticle(id) {
     return request({
-        url: `article/${id}`,
+        url: `article/article/${id}`,
         method: 'delete'
     })
 }

@@ -26,7 +26,7 @@ INTRODUCTION    文件简介
         <el-row type="flex" justify="center" class="operations">
             <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
             <el-col :span="3"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
-            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="reward" type="danger" round>删 除</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="deleteArticle" type="danger" round>删 除</el-button></el-col>
             <el-col :span="3" v-if="isOwner"><el-button @click.prevent="reward" type="danger" round>修 改</el-button></el-col>
         </el-row>
         <reward v-show="rewardVisible"></reward>
@@ -37,7 +37,7 @@ INTRODUCTION    文件简介
 import Viewer from 'components/MarkdownEditor/viewer'
 import reward from 'components/reward/reward'
 import {errorTips} from "utils/tools/message";
-import {getArticleLike} from "api/article";
+import {deleteArticle, getArticleLike} from "api/article";
 import {giveLike} from 'api/operations'
 import {getToken} from "utils/service/cookie";
 import {mapGetters} from 'vuex'
@@ -101,6 +101,28 @@ import {getInfo} from "api/user";
                         errorTips(err)
                     })
                 }
+            },
+            // 删除文章
+            deleteArticle(){
+                let id = this.$route.params.detail
+                this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    deleteArticle(id).then(() => {
+                        this.$message.success("删除成功")
+                        this.$router.push('/')
+                    }).catch(err => {
+                        errorTips(err)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
             }
         },
         mounted() {
