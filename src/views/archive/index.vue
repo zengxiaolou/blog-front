@@ -26,7 +26,7 @@ INTRODUCTION    文章归档页面
                     </el-timeline>
                 </el-scrollbar>
                 <el-row type="flex" justify="center" class="more">
-                 <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
+                    <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
                 </el-row>
             </el-card>
     </div>

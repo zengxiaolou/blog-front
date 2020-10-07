@@ -73,19 +73,9 @@ INTRODUCTION    文件简介
 
             </el-row>
         </div>
-        <div class="page">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes = pageSizes
-                :page-size= pageSize
-                :total=total
-                background
-                layout="total, sizes, prev, pager, next, jumper">
-            </el-pagination>
-        </div>
-
+        <el-row type="flex" justify="center" class="more">
+            <el-col :span="3"><el-button type="text" @click.prevent="getComments" >加载更多</el-button></el-col>
+        </el-row>
     </el-card>
 </template>
 
@@ -107,12 +97,8 @@ export default {
             markdown: "",
             commentVisible: false,
             comments: [],
-            pageNum: 1,
-            total: 0,
-            pageSizes: [10, 20, 50],
             pageSize: 10,
             page: 1,
-            currentPage: 1,
             isComment: true,
             comment: 1,
             reply: '',
@@ -131,10 +117,11 @@ export default {
                 'search': this.$route.params.detail
             };
             getComment(params).then(res => {
+                this.page += 1
                 this.total = parseInt(res['count']);
                 this.comments = res['results']
             }).catch(err => {
-                errorTips(err)
+                this.$message.error("没有更多评论了！！！")
             })
         },
         // 提交评论与回复
@@ -189,36 +176,7 @@ export default {
                 this.reply = res['results']
             }).catch(err => {errorTips(err)})
         },
-        // 调整每页条数
-        handleSizeChange(val) {
-            let params = {
-                'page': this.page,
-                'size': val,
-                'search': this.$route.params.detail
-            };
-            this.pageSize = val;
-            getComment(params).then(res => {
-                this.total = parseInt(res['count']);
-                this.comments = res['results']
-            }).catch(err => {
-                errorTips(err)
-            })
-        },
-        // 翻页
-        handleCurrentChange(val) {
-            const params = {
-                'page': val,
-                'size': this.pageSize,
-                'search': this.$route.params.detail
-            };
-            this.page = val;
-            getComment(params).then(res => {
-                this.total = parseInt(res['count']);
-                this.comments = res['results']
-            }).catch(err => {
-                errorTips(err)
-            })
-        },
+
     },
     mounted() {
         this.getComments()
@@ -228,7 +186,7 @@ export default {
 
 <style lang="scss" scoped>
     .box-card {
-        margin: 0 20px;
+        margin: 0 20px 20px 20px;
 
         background-color: rgba(0, 0, 0, 0);
         border-radius: 10px;
@@ -269,10 +227,6 @@ export default {
             }
 
         }
-        .page {
-            text-align: center;
-            margin-top: 10px;
-         }
         .pop-avatar {
             background-color: #1a98ff;
         }
@@ -283,5 +237,9 @@ export default {
                 text-align: end;
             }
         }
+        .more {
+            margin-top: 10px;
+        }
+
     }
 </style>
