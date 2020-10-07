@@ -26,6 +26,8 @@ INTRODUCTION    文件简介
         <el-row type="flex" justify="center" class="operations">
             <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
             <el-col :span="3"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="reward" type="danger" round>删 除</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="reward" type="danger" round>修 改</el-button></el-col>
         </el-row>
         <reward v-show="rewardVisible"></reward>
     </div>
@@ -37,6 +39,9 @@ import reward from 'components/reward/reward'
 import {errorTips} from "utils/tools/message";
 import {getArticleLike} from "api/article";
 import {giveLike} from 'api/operations'
+import {getToken} from "utils/service/cookie";
+import {mapGetters} from 'vuex'
+import {getInfo} from "api/user";
 
     export default {
         name: "contents",
@@ -49,8 +54,12 @@ import {giveLike} from 'api/operations'
                 likeValue: "点个赞",
                 btType: "danger",
                 rewardVisible: false,
+                isOwner: false,
             }
         },
+        // computed: {
+        //     ...mapGetters([''])
+        // },
         methods: {
             getViewAndLike(){
                 let params = {"article_id" : this.$route.params.detail, "user_id": localStorage.id}
@@ -80,10 +89,23 @@ import {giveLike} from 'api/operations'
             },
             reward(){
                 this.rewardVisible = !this.rewardVisible
+            },
+            judgIsOwner(){
+                let token = getToken()
+                if (token){
+                    getInfo(localStorage.id).then(res => {
+                        if (res['is_staff']){
+                            this.isOwner = true
+                        }
+                    }).catch(err => {
+                        errorTips(err)
+                    })
+                }
             }
         },
         mounted() {
             this.getViewAndLike()
+            this.judgIsOwner()
         }
     }
 </script>

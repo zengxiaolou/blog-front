@@ -68,6 +68,13 @@ export function getArticleByID(id) {
     })
 }
 
+export function deleteArticle(id) {
+    return request({
+        url: `article/${id}`,
+        method: 'delete'
+    })
+}
+
 /////////////////////////////////////////草稿相关///////////////////////////////////
 // 上传文章草稿箱
 export function uploadDraft(data, id) {
