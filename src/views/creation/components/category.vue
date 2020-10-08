@@ -11,7 +11,7 @@ INTRODUCTION    文件简介
         <span>分类选择</span>
         <el-divider></el-divider>
         <div>
-            <el-radio-group  v-model="category"  size="mini">
+            <el-radio-group  v-model="newCategory"  size="mini">
                 <el-radio  @change="submit" v-for="(value, index) in categoryArray" :key=index :label=value.category ></el-radio>
             </el-radio-group>
         </div>
@@ -32,12 +32,19 @@ import {getCategory, addCategory, deleteCategory} from "api/article";
 export default {
     inject:['reload'],
     name: "category",
+    props: ['category'],
     data() {
         return{
-            category: 'Python',
+            // category: 'Python',
             categoryArray:[],
             id: 1,
+            newCategory: 'Python'
         }
+    },
+    watch: {
+      category(val){
+          this.newCategory = val
+      }
     },
     methods: {
         getCategory(){

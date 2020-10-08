@@ -11,7 +11,7 @@ INTRODUCTION    文件简介
         <span>标签选择</span>
         <el-divider></el-divider>
         <el-checkbox-group
-                v-model="checkedTags"
+                v-model="newCheckedTags"
                 :min="0"
                 :max="5"
                 @change="changeTags">
@@ -34,12 +34,19 @@ INTRODUCTION    文件简介
 
     export default {
         name: "tags",
+        props: ['checkedTags'],
         data() {
             return{
-                checkedTags: [],
+                // checkedTags: [],
                 tags: [],
                 ids: [],
+                newCheckedTags: []
             }
+        },
+        watch: {
+          checkedTags(val){
+              this.newCheckedTags = val
+          }
         },
         methods:{
             open(){

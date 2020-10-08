@@ -24,12 +24,12 @@ INTRODUCTION    创作中心
         <el-row type="flex" justify="center" class="info">
             <el-col :span="12">
                 <el-card >
-                    <my-category v-on:changeCategory="changeCategory"></my-category>
+                    <my-category v-on:changeCategory="changeCategory" :category="category"></my-category>
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card class="select">
-                    <my-tags v-on:changeTags="changeTags"></my-tags>
+                    <my-tags v-on:changeTags="changeTags" :checkedTags="tagsName"></my-tags>
                 </el-card>
             </el-col>
         </el-row>
@@ -76,7 +76,7 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft} from "api/article";
+    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft, getArticleContent} from "api/article";
     import {errorTips} from "@/utils/tools/message";
 
     export default {
@@ -85,8 +85,9 @@ INTRODUCTION    创作中心
         components: {markDown, myBgm, myAbstract, myCategory, myTags},
         data() {
             return {
-                category: 'Python',
+                category: '',
                 tags: [],
+                tagsName: [],
                 cover: '',
                 abstract: '',
                 title: '',
@@ -282,8 +283,27 @@ INTRODUCTION    创作中心
                     errorTips(err);
                     this.loading = false
                 })},
-        }
+            getArticle(){
+                let id = this.$route.params.id
+                if (id){
+                    getArticleContent(id).then(res => {
+                        this.title = res['title'];
+                        this.markdown = res['markdown'];
+                        this.abstract = res['summary'];
+                        this.cover = res['cover'];
+                        this.category = res['category']['category'];
+                        this.tagsName = []
+                        for (let i of Object.keys(res['tag'])){
+                             this.tagsName.push(res['tag'][i]['tag'])
+                        }
+                    })
+                }
 
+            }
+        },
+        mounted() {
+            this.getArticle()
+        }
     };
 </script>
 

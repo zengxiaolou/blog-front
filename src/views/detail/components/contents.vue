@@ -27,7 +27,7 @@ INTRODUCTION    文件简介
             <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
             <el-col :span="3"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
             <el-col :span="3" v-if="isOwner"><el-button @click.prevent="deleteArticle" type="danger" round>删 除</el-button></el-col>
-            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="reward" type="danger" round>修 改</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="updateArticle" type="danger" round>修 改</el-button></el-col>
         </el-row>
         <reward v-show="rewardVisible"></reward>
     </div>
@@ -122,7 +122,10 @@ import {getInfo} from "api/user";
                         message: '已取消删除'
                     });
                 });
-
+            },
+            updateArticle(){
+                let id = this.$route.params.detail
+                this.$router.push('/creation/' + id)
             }
         },
         mounted() {

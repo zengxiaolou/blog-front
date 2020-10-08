@@ -85,7 +85,6 @@ import viewer from "components/MarkdownEditor/viewer_comment";
 import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
-import {getArticle} from "api/article";
 import {getToken} from "utils/service/cookie";
 
 export default {
@@ -120,7 +119,7 @@ export default {
                 this.page += 1
                 this.total = parseInt(res['count']);
                 this.comments = res['results']
-            }).catch(err => {
+            }).catch(() => {
                 this.$message.error("没有更多评论了！！！")
             })
         },

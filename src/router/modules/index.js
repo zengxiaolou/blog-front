@@ -112,7 +112,16 @@ const indexRouter = [
                 name: "creation",
                 meta: {
                     title: "创作中心",
-                    auth: false
+                    auth: true
+                }
+            },
+            {
+                path: "/creation/:id",
+                component: () => import("views/creation/index"),
+                name: 'updateArticle',
+                meta: {
+                    title: "创作中心",
+                    auth: true
                 }
             },
             {
