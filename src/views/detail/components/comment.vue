@@ -80,7 +80,6 @@ INTRODUCTION    文件简介
         <el-dialog
             :visible.sync="tagDialogVisible"
             width="30%"
-            show-close=false
             center>
             <el-tag size="mini"  v-for="(value, index) in tag" :key="index" :type="value.type">
                     {{"# " + value.tag}}
@@ -107,7 +106,7 @@ import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
-import {addTag, categoryAndTag, updateArticle} from "api/article";
+import {addTag, categoryAndTag, updataArticleTag} from "api/article";
 
 export default {
     name: "comment",
@@ -152,7 +151,6 @@ export default {
         // 提交评论与回复
         submit(){
             // 通过isComment判断是提交评论还是回复
-            console.log(this.isComment)
             if (this.isComment){
                 let data = {
                     "content": this.markdown,
@@ -233,14 +231,15 @@ export default {
             addTag({"tag": this.inputValue}).then(res =>{
                 this.$message.success('增加标签成功')
                 let id = this.$route.params.detail
-                let data = {
-                    tag: [res['id']]
+                let tagsID = []
+                for (let i of Object.keys(this.tag)){
+                    if (this.tag[i]['id']){
+                        tagsID.push(this.tag[i]['id'])
+                    }
                 }
-                updateArticle(id, data).then(res => {
-                    console.log(res)
-                }).catch(err => {
-                    errorTips(err)
-                })
+                tagsID.push(res['id'])
+                let data = {"tag": tagsID}
+                updataArticleTag(id, data).catch(err => {errorTips(err)})
             }).catch(err => {
                 errorTips(err)
             })
