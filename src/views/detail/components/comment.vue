@@ -10,7 +10,8 @@ INTRODUCTION    文件简介
     <el-card class="box-card">
         <div slot="header" class="clearfix">
             <span>用户评论</span>
-            <el-button style="float: right; padding: 3px 0" type="text" @click="commentShow('comment')">评论</el-button>
+            <el-button style="float: right; padding: 3px" type="text" @click="commentShow('comment')">评论</el-button>
+            <el-button style="float: right; padding: 3px" type="text" @click="setTags()">打个标签</el-button>
         </div>
         <div class="comment-box"  v-show="commentVisible">
             <el-row type="flex" justify="end">
@@ -76,6 +77,26 @@ INTRODUCTION    文件简介
         <el-row type="flex" justify="center" class="more">
             <el-col :span="3"><el-button type="text" @click.prevent="getComments" >加载更多</el-button></el-col>
         </el-row>
+        <el-dialog
+            :visible.sync="tagDialogVisible"
+            width="30%"
+            show-close=false
+            center>
+            <el-tag size="mini"  v-for="(value, index) in tag" :key="index" :type="value.type">
+                    {{"# " + value.tag}}
+            </el-tag>
+            <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+            >
+            </el-input>
+            <el-button v-else class="button-new-tag" type="text" size="mini" @click="showInput">+ New Tag</el-button>
+        </el-dialog>
     </el-card>
 </template>
 
@@ -86,6 +107,7 @@ import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
+import {addTag, categoryAndTag, updateArticle} from "api/article";
 
 export default {
     name: "comment",
@@ -101,6 +123,10 @@ export default {
             isComment: true,
             comment: 1,
             reply: '',
+            tagDialogVisible: false,
+            tag: [],
+            inputVisible: false,
+            inputValue: ''
         }
     },
     methods: {
@@ -125,7 +151,7 @@ export default {
         },
         // 提交评论与回复
         submit(){
-            // 通过isCommnet判断是提交评论还是回复
+            // 通过isComment判断是提交评论还是回复
             console.log(this.isComment)
             if (this.isComment){
                 let data = {
@@ -175,7 +201,59 @@ export default {
                 this.reply = res['results']
             }).catch(err => {errorTips(err)})
         },
-
+        // 设置tags
+        setTags() {
+            let id = this.$route.params.detail
+            Array.prototype.randomElement = function () {
+                return this[Math.floor(Math.random() * this.length)]
+            };
+            let tagType = ['success', 'info', 'warning', 'danger', ""];
+            categoryAndTag(id).then(res => {
+                this.category = res['category']['category']
+                for (let i of Object.keys(res['tag'])){
+                    res['tag'][i]['type'] = tagType.randomElement()
+                }
+                this.tag = res['tag']
+                this.tagDialogVisible = true
+            }).catch(err => {
+                errorTips(err)
+            })
+        },
+        // 新增标签
+        handleInputConfirm() {
+            let inputValue = this.inputValue;
+            Array.prototype.randomElement = function () {
+                return this[Math.floor(Math.random() * this.length)]
+            };
+            let tagType = ['success', 'info', 'warning', 'danger', ""];
+            if (inputValue) {
+                let newTag = {"tag": inputValue, "type": tagType.randomElement()}
+                this.tag.push(newTag);
+            }
+            addTag({"tag": this.inputValue}).then(res =>{
+                this.$message.success('增加标签成功')
+                let id = this.$route.params.detail
+                let data = {
+                    tag: [res['id']]
+                }
+                updateArticle(id, data).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    errorTips(err)
+                })
+            }).catch(err => {
+                errorTips(err)
+            })
+            this.inputVisible = false;
+            this.inputValue = '';
+        },
+        // 显示标签新增输入框
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(_ => {
+                this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
     },
     mounted() {
         this.getComments()
@@ -239,6 +317,20 @@ export default {
         .more {
             margin-top: 10px;
         }
-
+        .el-tag + .el-tag {
+            margin-left: 10px;
+        }
+        .button-new-tag {
+            margin-left: 10px;
+            height: 32px;
+            line-height: 30px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .input-new-tag {
+            width: 90px;
+            margin-left: 10px;
+            vertical-align: bottom;
+        }
     }
 </style>

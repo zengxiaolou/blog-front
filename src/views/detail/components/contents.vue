@@ -20,16 +20,23 @@ INTRODUCTION    文件简介
             <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article['comments_num']}}</el-col>
             <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{like}}</el-col>
         </el-row>
+        <el-card class="category-tag">
+            <el-row type="flex" justify="space-between">
+                <el-col :span="21">标签 </el-col>
+                <el-col :span="3">分类 Python</el-col>
+            </el-row>
+        </el-card>
         <div class="main-content">
             <viewer :mainContent="article.markdown"></viewer>
         </div>
         <el-row type="flex" justify="center" class="operations">
-            <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round>{{likeValue}}</el-button></el-col>
-            <el-col :span="3"><el-button @click.prevent="reward" type="danger" round>打 赏</el-button></el-col>
-            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="deleteArticle" type="danger" round>删 除</el-button></el-col>
-            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="updateArticle" type="danger" round>修 改</el-button></el-col>
+            <el-col :span="3"><el-button @click.prevent="giveLike" :type="btType" round size="small">{{likeValue}}</el-button></el-col>
+            <el-col :span="3"><el-button @click.prevent="reward" type="danger" round size="small">打 赏</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="deleteArticle" type="danger" round size="small">删 除</el-button></el-col>
+            <el-col :span="3" v-if="isOwner"><el-button @click.prevent="updateArticle" type="danger" round size="small">修 改</el-button></el-col>
         </el-row>
         <reward v-show="rewardVisible"></reward>
+
     </div>
 </template>
 
@@ -37,7 +44,7 @@ INTRODUCTION    文件简介
 import Viewer from 'components/MarkdownEditor/viewer'
 import reward from 'components/reward/reward'
 import {errorTips} from "utils/tools/message";
-import {deleteArticle, getArticleLike} from "api/article";
+import {categoryAndTag, deleteArticle, getArticleLike} from "api/article";
 import {giveLike} from 'api/operations'
 import {getToken} from "utils/service/cookie";
 import {mapGetters} from 'vuex'
@@ -55,6 +62,8 @@ import {getInfo} from "api/user";
                 btType: "danger",
                 rewardVisible: false,
                 isOwner: false,
+                category: '',
+                tag: [],
             }
         },
         // computed: {
@@ -90,7 +99,7 @@ import {getInfo} from "api/user";
             reward(){
                 this.rewardVisible = !this.rewardVisible
             },
-            judgIsOwner(){
+            judgeIsOwner(){
                 let token = getToken()
                 if (token){
                     getInfo(localStorage.id).then(res => {
@@ -123,14 +132,33 @@ import {getInfo} from "api/user";
                     });
                 });
             },
+            // 跳转更新文章
             updateArticle(){
                 let id = this.$route.params.detail
                 this.$router.push('/creation/' + id)
+            },
+            // 获取文章对应的标签
+            getTagAndCategory() {
+                let id = this.$route.params.detail
+                Array.prototype.randomElement = function () {
+                    return this[Math.floor(Math.random() * this.length)]
+                };
+                let tagType = ['success', 'info', 'warning', 'danger', ""];
+                categoryAndTag(id).then(res => {
+                    this.category = res['category']['category']
+                    for (let i of Object.keys(res['tag'])){
+                        res['tag'][i]['type'] = tagType.randomElement()
+                    }
+                    this.tag = res['tag']
+                }).catch(err => {
+                    errorTips(err)
+                })
             }
         },
         mounted() {
             this.getViewAndLike()
-            this.judgIsOwner()
+            this.judgeIsOwner()
+            this.getTagAndCategory()
         }
     }
 </script>
@@ -163,7 +191,14 @@ import {getInfo} from "api/user";
                 width: 100%;
             }
         }
-
+        .category-tag {
+            background-color: rgba(255, 255, 255, 0);
+            font-size: 14px;
+            /deep/ .el-card__body{
+                padding: 0 20px;
+                border-radius: 25px;
+            }
+        }
         .introduction {
             margin-top: 10px;
             margin-bottom: 40px;

@@ -181,6 +181,14 @@ export function deleteTag(id) {
     })
 }
 
+// 获取指定文章的分类和标签
+export function categoryAndTag(id) {
+    return request({
+        url: `article/category-tag/${id}`,
+        method: 'get'
+    })
+}
+
 //////////////////////////归档/////////////////////
 export function getArchive(params) {
     return request({
