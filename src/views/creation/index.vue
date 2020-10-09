@@ -24,7 +24,7 @@ INTRODUCTION    创作中心
         <el-row type="flex" justify="center" class="info">
             <el-col :span="12">
                 <el-card >
-                    <my-category v-on:changeCategory="changeCategory" :category="category"></my-category>
+                    <my-category v-on:changeCategory="changeCategory" :category="categoryName"></my-category>
                 </el-card>
             </el-col>
             <el-col :span="12">
@@ -76,7 +76,15 @@ INTRODUCTION    创作中心
     import myAbstract from "./components/abstract";
     import myCategory from "./components/category";
     import myTags from "./components/tags"
-    import {uploadArticle, uploadDraft, getDraft, newDraft, deleteDraft, getArticleContent} from "api/article";
+    import {
+        uploadArticle,
+        uploadDraft,
+        getDraft,
+        newDraft,
+        deleteDraft,
+        getArticleContent,
+        updateArticle
+    } from "api/article";
     import {errorTips} from "@/utils/tools/message";
 
     export default {
@@ -86,6 +94,7 @@ INTRODUCTION    创作中心
         data() {
             return {
                 category: '',
+                categoryName: '',
                 tags: [],
                 tagsName: [],
                 cover: '',
@@ -144,18 +153,30 @@ INTRODUCTION    创作中心
                     'str_num': this.markdown.length,
                     'markdown': this.markdown,
                 };
-                uploadArticle(data).then(() =>{
-                    this.$message.success("文章上传成功");
-                    this.loading = false;
-                    if (this.checkedOptions.id){
-                        this.deleteDraft()
-                    }
-                    this.$router.push('/index')
-                }).catch(err =>{
-                    this.loading = false;
-                    errorTips(err)
+                let id = this.$route.params.id;
+                // 根据路由判断是否存在id，进行更新和新增操作
 
-                })
+                if (!id){
+                    uploadArticle(data).then(() =>{
+                        this.$message.success("文章上传成功");
+                        this.loading = false;
+                        if (this.checkedOptions.id){
+                            this.deleteDraft()
+                        }
+                        this.$router.push('/index')
+                    }).catch(err =>{
+                        this.loading = false;
+                        errorTips(err)
+
+                    })
+                }else {
+                    updateArticle(id, data).then(() => {
+                        this.$message.success('文章更新成功');
+                        this.$router.push('/detail/' + id)
+                    }).catch(err => {
+                        errorTips(err)
+                    })
+                }
             },
             // 检查各各上传数据
             checkedArticle(){
@@ -291,15 +312,14 @@ INTRODUCTION    创作中心
                         this.markdown = res['markdown'];
                         this.abstract = res['summary'];
                         this.cover = res['cover'];
-                        this.category = res['category']['category'];
+                        this.categoryName = res['category']['category'];
                         this.tagsName = []
                         for (let i of Object.keys(res['tag'])){
                              this.tagsName.push(res['tag'][i]['tag'])
                         }
                     })
                 }
-
-            }
+            },
         },
         mounted() {
             this.getArticle()

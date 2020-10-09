@@ -68,6 +68,7 @@ export function getArticleByID(id) {
     })
 }
 
+// 删除指定文章
 export function deleteArticle(id) {
     return request({
         url: `article/article/${id}`,
@@ -75,10 +76,20 @@ export function deleteArticle(id) {
     })
 }
 
+// 获取指定文章内容（为修改做准备）
 export function getArticleContent(id) {
     return request({
         url: `article/article/${id}`,
         method: 'get'
+    })
+}
+
+// 更新指定文章内容
+export function updateArticle(id, data) {
+    return request({
+        url: `article/article/${id}/`,
+        method: 'patch',
+        data: data
     })
 }
 

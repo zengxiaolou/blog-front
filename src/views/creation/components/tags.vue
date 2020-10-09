@@ -37,7 +37,6 @@ INTRODUCTION    文件简介
         props: ['checkedTags'],
         data() {
             return{
-                // checkedTags: [],
                 tags: [],
                 ids: [],
                 newCheckedTags: []
@@ -46,6 +45,7 @@ INTRODUCTION    文件简介
         watch: {
           checkedTags(val){
               this.newCheckedTags = val
+              this.changeTags()
           }
         },
         methods:{

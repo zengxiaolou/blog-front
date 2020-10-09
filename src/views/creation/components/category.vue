@@ -35,7 +35,6 @@ export default {
     props: ['category'],
     data() {
         return{
-            // category: 'Python',
             categoryArray:[],
             id: 1,
             newCategory: 'Python'
@@ -43,7 +42,8 @@ export default {
     },
     watch: {
       category(val){
-          this.newCategory = val
+          this.newCategory = val;
+          this.submit();
       }
     },
     methods: {
