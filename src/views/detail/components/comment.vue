@@ -106,10 +106,11 @@ import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
-import {addTag, categoryAndTag, updataArticleTag} from "api/article";
+import {addTag, categoryAndTag, checkTagExist, updateArticleTag} from "api/article";
 
 export default {
     name: "comment",
+    inject: ['reload'],
     components: {markdown, viewer, replyMarkdown},
     data() {
         return {
@@ -227,22 +228,27 @@ export default {
             if (inputValue) {
                 let newTag = {"tag": inputValue, "type": tagType.randomElement()}
                 this.tag.push(newTag);
-            }
-            addTag({"tag": this.inputValue}).then(res =>{
-                this.$message.success('增加标签成功')
-                let id = this.$route.params.detail
-                let tagsID = []
-                for (let i of Object.keys(this.tag)){
-                    if (this.tag[i]['id']){
-                        tagsID.push(this.tag[i]['id'])
+            };
+            if (inputValue) {
+                let params = {"tag": inputValue}
+                checkTagExist(params).then(res => {
+                    if (res['results']){
+                        let id = this.$route.params.detail
+                        let tagsID = []
+                        for (let i of Object.keys(this.tag)){
+                            if (this.tag[i]['id']){
+                                tagsID.push(this.tag[i]['id'])
+                            }
+                        }
+                        tagsID.push(res['results'])
+                        let data = {"tag": tagsID}
+                        updateArticleTag(id, data).catch(err => {errorTips(err)})
+                        this.$store.dispatch('addition', id)
                     }
-                }
-                tagsID.push(res['id'])
-                let data = {"tag": tagsID}
-                updataArticleTag(id, data).catch(err => {errorTips(err)})
-            }).catch(err => {
-                errorTips(err)
-            })
+                }) .catch(_ => {
+                    this.$message.error('标签不能为空')
+                })
+            }
             this.inputVisible = false;
             this.inputValue = '';
         },

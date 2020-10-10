@@ -23,7 +23,7 @@ INTRODUCTION    文件简介
         <el-card class="category-tag">
             <el-row type="flex" justify="space-between">
                 <el-col :span="21" >标签
-                    <el-tag size="mini"  v-for="(value, index) in tag" :key="index" :type="value.type">
+                    <el-tag size="mini"  v-for="(value, index) in tags" :key="index" :type="value.type">
                         <router-link :to="'/label/' + value.tag">
                             {{"# " + value.tag}}
                         </router-link>
@@ -72,9 +72,12 @@ import {getInfo} from "api/user";
                 btType: "danger",
                 rewardVisible: false,
                 isOwner: false,
-                category: '',
-                tag: [],
+                // category: '',
+                // tag: [],
             }
+        },
+        computed: {
+            ...mapGetters(['category', 'tags'])
         },
         methods: {
             getViewAndLike(){
@@ -147,19 +150,7 @@ import {getInfo} from "api/user";
             // 获取文章对应的标签
             getTagAndCategory() {
                 let id = this.$route.params.detail
-                Array.prototype.randomElement = function () {
-                    return this[Math.floor(Math.random() * this.length)]
-                };
-                let tagType = ['success', 'info', 'warning', 'danger', ""];
-                categoryAndTag(id).then(res => {
-                    this.category = res['category']['category']
-                    for (let i of Object.keys(res['tag'])){
-                        res['tag'][i]['type'] = tagType.randomElement()
-                    }
-                    this.tag = res['tag']
-                }).catch(err => {
-                    errorTips(err)
-                })
+                this.$store.dispatch('addition', id)
             }
         },
         mounted() {

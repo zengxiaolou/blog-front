@@ -189,8 +189,8 @@ export function categoryAndTag(id) {
     })
 }
 
-// 更新文章分类
-export function updataArticleTag(id, data) {
+// 更新文章标签
+export function updateArticleTag(id, data) {
     return request({
         url: `article/article/tag/${id}/`,
         method: 'patch',
@@ -198,6 +198,14 @@ export function updataArticleTag(id, data) {
     })
 }
 
+// 查询标签是否已存在
+export function checkTagExist(params) {
+    return request({
+        url: `article/check-tag/`,
+        method: 'get',
+        params: params
+    })
+}
 //////////////////////////归档/////////////////////
 export function getArchive(params) {
     return request({

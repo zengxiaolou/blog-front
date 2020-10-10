@@ -6,6 +6,8 @@ const getters = {
     article_num: state => state.article.article_num,
     view_num: state => state.article.view_num,
     like_num: state => state.article.like_num,
+    category: state => state.article.category,
+    tags: state => state.article.tags,
 
 };
 export default getters
