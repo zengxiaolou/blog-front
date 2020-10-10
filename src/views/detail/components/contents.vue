@@ -22,8 +22,18 @@ INTRODUCTION    文件简介
         </el-row>
         <el-card class="category-tag">
             <el-row type="flex" justify="space-between">
-                <el-col :span="21">标签 </el-col>
-                <el-col :span="3">分类 Python</el-col>
+                <el-col :span="21" >标签
+                    <el-tag size="mini"  v-for="(value, index) in tag" :key="index" :type="value.type">
+                        <router-link :to="'/label/' + value.tag">
+                            {{"# " + value.tag}}
+                        </router-link>
+                    </el-tag>
+                </el-col>
+                <el-col :span="3">分类
+                    <router-link :to="'/article/' + category">
+                        <span class="category">{{ category }}</span>
+                    </router-link>
+                </el-col>
             </el-row>
         </el-card>
         <div class="main-content">
@@ -66,9 +76,6 @@ import {getInfo} from "api/user";
                 tag: [],
             }
         },
-        // computed: {
-        //     ...mapGetters([''])
-        // },
         methods: {
             getViewAndLike(){
                 let params = {"article_id" : this.$route.params.detail, "user_id": localStorage.id}
@@ -266,6 +273,15 @@ import {getInfo} from "api/user";
         }
         .operations{
             text-align: center;
+        }
+        .el-tag {
+            margin-left: 10px;
+        }
+        .category-tag {
+            color: rgb(150, 156, 162);
+            .category {
+                color: #409EFF;
+            }
         }
     }
 </style>
