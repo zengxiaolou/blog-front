@@ -17,7 +17,7 @@ INTRODUCTION    文件简介
             <el-col :span="3" class="introduction-col word-count"><i class="icon iconfont icon-str"></i>{{"总共"+ article.str_num + "字"}}</el-col>
             <el-col :span="4" class="introduction-col read-time"><i class="icon iconfont icon-time"></i>{{"阅读时间" + article['reading_time'] + "分"}}</el-col>
             <el-col :span="2" class="introduction-col read-num"><i class="icon iconfont icon-view"></i>{{view}}</el-col>
-            <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{article['comments_num']}}</el-col>
+            <el-col :span="2" class="introduction-col read-comment"><i class="icon iconfont icon-comment"></i>{{comment}}</el-col>
             <el-col :span="2" class="introduction-col read-like"><i class="icon iconfont icon-like"></i>{{like}}</el-col>
         </el-row>
         <el-card class="category-tag">
@@ -72,6 +72,7 @@ import {getInfo} from "api/user";
                 btType: "danger",
                 rewardVisible: false,
                 isOwner: false,
+                comment: 0,
                 // category: '',
                 // tag: [],
             }
@@ -85,6 +86,7 @@ import {getInfo} from "api/user";
                 getArticleLike(params).then(res => {
                     this.like = res['total']
                     this.view = res['view']
+                    this.comment = res['comment']
                     if ( res["flag"] === 0 || res['flag'] ) {this.likeValue = "已 赞"}
                     this.btType = this.likeValue === '已 赞' ? 'info' : "danger";
                 }).catch(err => {
