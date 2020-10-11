@@ -84,7 +84,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 for (let key of Object.keys(this.categoryArray)){
-                    if (this.categoryArray[key]['category'] === this.category){
+                    if (this.categoryArray[key]['category'] === this.newCategory){
                         this.id = this.categoryArray[key]['id'];
                         break
                     }
@@ -108,7 +108,7 @@ export default {
         },
         submit(){
             for (let key of Object.keys(this.categoryArray)){
-                if (this.categoryArray[key]['category'] === this.category){
+                if (this.categoryArray[key]['category'] === this.newCategory){
                     this.id = this.categoryArray[key]['id'];
                     break
                 }

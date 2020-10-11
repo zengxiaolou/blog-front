@@ -75,16 +75,16 @@ INTRODUCTION    文件简介
                 getTag({"size":100}).then(res => {
                     this.tags = res['results'];
                 }).catch( err => {
-                    const key = Object.keys(err.response.data);
-                    this.$message.error(err.response.data[key][0].toString());
+                    errorTips(err)
                 })
             },
+            // 多选框变化
             changeTags() {
                 this.ids = [];
-                for (let i in this.checkedTags){
-                    if (this.checkedTags.hasOwnProperty(i)){
+                for (let i in this.newCheckedTags){
+                    if (this.newCheckedTags.hasOwnProperty(i)){
                         for (let key of Object.keys(this.tags)){
-                            if (this.tags[key]['tag'] === this.checkedTags[i]){
+                            if (this.tags[key]['tag'] === this.newCheckedTags[i]){
                                 this.ids.push(this.tags[key]['id'])
                             }
                         }
@@ -99,10 +99,10 @@ INTRODUCTION    文件简介
                     type: 'warning'
                 }).then(() => {
                     this.ids = [];
-                    for (let i in this.checkedTags){
-                        if (this.checkedTags.hasOwnProperty(i)){
+                    for (let i in this.newCheckedTags){
+                        if (this.newCheckedTags.hasOwnProperty(i)){
                             for (let key of Object.keys(this.tags)){
-                                if (this.tags[key]['tag'] === this.checkedTags[i]){
+                                if (this.tags[key]['tag'] === this.newCheckedTags[i]){
                                     this.ids.push(this.tags[key]['id'])
                                 }
                             }

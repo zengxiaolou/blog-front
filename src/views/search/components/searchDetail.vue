@@ -12,8 +12,8 @@ INTRODUCTION    文件简介
             <span class="title">{{article.title}}</span>
             <span class="summary">摘要： {{article.summary}}</span>
             <el-row>
-                <el-col :span="6"><span class="category">分类：{{article.category.category}}</span></el-col>
-                <el-col :span="10" class="category">标签：<el-tag v-for="(value, index) in article.tag" :key="index" >#{{value.tag}}</el-tag></el-col>
+                <el-col :span="4"><span class="category">分类：{{article.category.category}}</span></el-col>
+                <el-col :span="20" class="category">标签：<el-tag v-for="(value, index) in article.tag" :key="index" >#{{value.tag}}</el-tag></el-col>
             </el-row>
             <el-row  :gutter="20" class="introduction">
                 <el-col :span="4" class="introduction-col public-date"><i class="icon iconfont icon-date"></i>{{article.created|formatDateTime('YYYY-MM-DD')}}</el-col>
