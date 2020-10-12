@@ -51,6 +51,7 @@ export default {
                     }).then(() => {
                         removeToken()
                         localStorage.removeItem("id")
+                        localStorage.removeItem('role')
                         this.$message({
                             type: 'success',
                             message: '退出成功!'

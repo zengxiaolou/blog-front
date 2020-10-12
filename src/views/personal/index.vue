@@ -14,18 +14,17 @@ INTRODUCTION    文件简介
         <div class="personal-header base-info" v-if="isLogin">
             username | last-login
             <div class="operation">
-                <el-button type="danger">登 出</el-button>
+                <el-button type="danger" @click="logout">登 出</el-button>
             </div>
         </div>
         <div class="personal-header operation"  v-else>
-            <el-button type="danger">登 录</el-button>
-            <el-button type="primary">注 册</el-button>
+            <el-button type="danger" @click="login">登 录</el-button>
+            <el-button type="primary" @click="register">注 册</el-button>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
-            <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-            <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-            <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+            <el-tab-pane label="基础信息" name="first">基础信息</el-tab-pane>
+            <el-tab-pane label="github" name="second">github</el-tab-pane>
+            <el-tab-pane label="blog记录" name="third">blog记录</el-tab-pane>
         </el-tabs>
         <login></login>
         <register> </register>
@@ -40,44 +39,56 @@ import {getToken, removeToken} from "@/utils/service/cookie";
 import {captcha} from "api/utils";
 export default {
     name: "index",
+    inject: ['reload'],
     components: {Login, Register},
     data() {
         return{
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-            isLogin: true,
-            activeName: 'second'
+            isLogin: false,
+            activeName: 'first'
         }
     },
     methods: {
         handleClick(tab, event) {
             console.log(tab, event);
         },
-        showLogin() {
-            if ( getToken() === undefined){
-                this.$store.dispatch('setLoginVisible', true);
-            } else {
-                this.$confirm('是否退出登录, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    removeToken()
-                    localStorage.removeItem("id")
-                    this.$message({
-                        type: 'success',
-                        message: '退出成功!'
-                    });
-                    this.reload()
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '取消退出'
-                    });
-                });
+        login(){
+            this.$store.dispatch('setLoginVisible', true);
+        },
+        register(){
+            this.$store.dispatch('setRegisterVisible', true)
+        },
+        judgeLogin(){
+            if (getToken()){
+                this.isLogin = true
+                this.$store.dispatch('getUserInfo')
             }
         },
+        logout(){
+            this.$confirm('是否退出登录, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                removeToken()
+                localStorage.removeItem("id")
+                localStorage.removeItem('role')
+                this.$message({
+                    type: 'success',
+                    message: '退出成功!'
+                });
+                this.reload()
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消退出'
+                });
+            });
+        }
     },
-
+    mounted() {
+        this.judgeLogin()
+    }
 }
 </script>
 
