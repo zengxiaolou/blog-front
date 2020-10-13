@@ -48,8 +48,7 @@ export default {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
-                    }).then(() => {
-                        removeToken()
+                    }).then(() => { removeToken()
                         localStorage.removeItem("id")
                         localStorage.removeItem('role')
                         this.$message({
@@ -65,6 +64,14 @@ export default {
                     });
                 }
             },
+            // 获取用户信息
+            getUserInfo(){
+                if (getToken()){
+                    getInfo(localStorage.id).then(res => {
+                        console.log(res)
+                    })
+                }
+            }
         },
     }
 </script>
