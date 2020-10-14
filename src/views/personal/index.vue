@@ -22,12 +22,18 @@ INTRODUCTION    文件简介
             <el-button type="primary" @click="register" size="mini">注 册</el-button>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="基础信息" name="first">基础信息</el-tab-pane>
+            <el-tab-pane label="基础信息" name="first">
+                <el-card class="box-card">
+                    <div v-for="o in 4" :key="o" class="text item">
+                        {{ '列表内容 ' + o }}
+                    </div>
+                </el-card>
+            </el-tab-pane>
             <el-tab-pane label="github" name="second">github</el-tab-pane>
             <el-tab-pane label="blog记录" name="third">blog记录</el-tab-pane>
         </el-tabs>
-        <login></login>
-        <register> </register>
+        <login :path="path"></login>
+        <register :path="path"> </register>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
@@ -45,7 +51,8 @@ export default {
     data() {
         return{
             isLogin: false,
-            activeName: 'first'
+            activeName: 'first',
+            path: '/personal'
         }
     },
     computed: {
@@ -54,9 +61,6 @@ export default {
     methods: {
         handleClick(tab, event) {
             console.log(tab, event);
-        },
-        test() {
-          console.this.username
         },
         login(){
             this.$store.dispatch('setLoginVisible', true);

@@ -75,6 +75,7 @@ import {mapGetters} from "vuex";
     export default {
         name: "login",
         inject: ['reload'],
+        props: ['path'],
         data() {
             let validateUsername = (rule, value, callback) => {
                 if (value === '') {
@@ -163,7 +164,7 @@ import {mapGetters} from "vuex";
                         checkCaptcha({captcha_key:this.captcha_key, captcha_value: this.form.captcha}).then(() =>{
                             this.form["captcha_key"] = this.captcha_key;
                             this.$store.dispatch('login', this.form).then(() =>{
-                                this.$router.push({path: "/index"});
+                                this.$router.push({path: this.path});
                                 this.loading = false;
                                 this.$message.success("欢迎回来");
                                 this.$store.dispatch('setLoginVisible', false)

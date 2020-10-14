@@ -117,6 +117,7 @@ import {mapGetters} from 'vuex';
 export default {
     name: "register",
     inject: ['reload'],
+    props: ['path'],
     data() {
         let validateUsername = (rule, value, callback) => {
             if (value === '') {
@@ -291,9 +292,8 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid){
                     this.loading = true;
-                    this.$store.dispatch('register',this.form)
-                        .then(()=>{
-                            this.$router.push({path:"/"});
+                    this.$store.dispatch('register',this.form).then(()=>{
+                            this.$router.push({path: this.path});
                             this.$store.dispatch('getUserInfo')
                             this.$store.dispatch('setRegisterVisible', false)
                             this.$message.success("注册成功")

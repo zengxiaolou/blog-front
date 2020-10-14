@@ -10,8 +10,8 @@ INTRODUCTION    头像组件
         <el-button type="text" @click="showLogin">
             <el-avatar :size="150" :src=avatar ></el-avatar>
         </el-button>
-        <login></login>
-        <register> </register>
+        <login :path="path"></login>
+        <register :path="path"> </register>
     </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
         data(){
             return{
                 avatar: myBase.QiNiuHost + "avatar.dcfba41f.jpeg",
+                path: '/index'
             }
         },
         methods: {
