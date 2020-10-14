@@ -12,14 +12,14 @@ INTRODUCTION    文件简介
             <el-avatar :size="100" :src="avatar"></el-avatar>
         </div>
         <div class="personal-header base-info" v-if="isLogin">
-            username | last-login
+            {{username}}
             <div class="operation">
-                <el-button type="danger" @click="logout">登 出</el-button>
+                <el-button type="danger" @click="logout" size="mini">登 出</el-button>
             </div>
         </div>
         <div class="personal-header operation"  v-else>
-            <el-button type="danger" @click="login">登 录</el-button>
-            <el-button type="primary" @click="register">注 册</el-button>
+            <el-button type="danger" @click="login" size="mini">登 录</el-button>
+            <el-button type="primary" @click="register" size="mini">注 册</el-button>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="基础信息" name="first">基础信息</el-tab-pane>
@@ -36,21 +36,27 @@ INTRODUCTION    文件简介
 import Login from 'components/user/login';
 import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
-import {captcha} from "api/utils";
+import {mapGetters} from 'vuex'
+
 export default {
     name: "index",
     inject: ['reload'],
     components: {Login, Register},
     data() {
         return{
-            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
             isLogin: false,
             activeName: 'first'
         }
     },
+    computed: {
+      ...mapGetters(['username', 'avatar', 'last_login', 'mobile', 'email'])
+    },
     methods: {
         handleClick(tab, event) {
             console.log(tab, event);
+        },
+        test() {
+          console.this.username
         },
         login(){
             this.$store.dispatch('setLoginVisible', true);
@@ -84,7 +90,7 @@ export default {
                     message: '取消退出'
                 });
             });
-        }
+        },
     },
     mounted() {
         this.judgeLogin()

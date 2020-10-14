@@ -64,14 +64,7 @@ export default {
                     });
                 }
             },
-            // 获取用户信息
-            getUserInfo(){
-                if (getToken()){
-                    getInfo(localStorage.id).then(res => {
-                        console.log(res)
-                    })
-                }
-            }
+
         },
     }
 </script>

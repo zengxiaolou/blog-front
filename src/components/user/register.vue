@@ -294,6 +294,7 @@ export default {
                     this.$store.dispatch('register',this.form)
                         .then(()=>{
                             this.$router.push({path:"/"});
+                            this.$store.dispatch('getUserInfo')
                             this.$store.dispatch('setRegisterVisible', false)
                             this.$message.success("注册成功")
                             this.loading = false;

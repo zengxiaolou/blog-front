@@ -167,6 +167,7 @@ import {mapGetters} from "vuex";
                                 this.loading = false;
                                 this.$message.success("欢迎回来");
                                 this.$store.dispatch('setLoginVisible', false)
+                                this.$store.dispatch('getUserInfo')
                                 this.reload()
                             }).catch((err) => {
                                 errorTips(err);

@@ -6,8 +6,13 @@ import {errorTips} from "@/utils/tools/message";
 const state = {
     token: getToken(),
     username: '',
+    id: '',
     loginVisible: false,
     registerVisible: false,
+    mobile: '',
+    is_staff: false,
+    avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+    email: '',
 };
 
 const mutations = {
@@ -19,7 +24,7 @@ const mutations = {
         state.token = ''
     },
     SET_USERNAME: (state, username) => {
-        state.name = username
+        state.username = username
     },
     SET_LOGIN_VISIBLE: (state, login) => {
         state.loginVisible = login
@@ -27,7 +32,21 @@ const mutations = {
     SET_REGISTER_VISIBLE: (state, register) => {
         state.registerVisible =  register
     },
-
+    SET_AVATAR: (state, avatar) => {
+        state.avatar =  avatar
+    },
+    SET_MOBILE: (state, mobile) => {
+        state.mobile = mobile
+    },
+    SET_EMAIL: (state, email) => {
+        state.email = email
+    },
+    SET_IS_STAFF: (state, is_staff) => {
+        state.is_staff = is_staff
+    },
+    SET_ID: (state, id) => {
+        state.id = id
+    }
 };
 
 const actions = {
@@ -69,6 +88,12 @@ const actions = {
     getUserInfo({commit}){
         return new Promise((resolve, reject) =>{
             getInfo(localStorage.id).then(response =>{
+                const {id, mobile, is_staff, avatar, email} = response
+                commit('SET_ID', id)
+                commit('SET_MOBILE', mobile)
+                commit('SET_IS_STAFF', is_staff)
+                commit('SET_AVATAR', avatar)
+                commit('SET_EMAIL', email)
                 resolve(response);
             }).catch(err => {
                 errorTips(err)

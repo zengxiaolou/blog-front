@@ -8,6 +8,10 @@ const getters = {
     like_num: state => state.article.like_num,
     category: state => state.article.category,
     tags: state => state.article.tags,
+    email: state => state.user.email,
+    avatar: state => state.user.avatar,
+    is_staff: state => state.user.is_staff,
+    mobile: state => state.user.mobile,
 
 };
 export default getters
