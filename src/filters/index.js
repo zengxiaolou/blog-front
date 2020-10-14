@@ -72,8 +72,16 @@ export function formatDateTimeEx(dateStr, time){
     let date =  formatDateTime(dateStr, time)
     return date + '  ' + '(' + diff + ')'
 }
+export function nullChange(str){
+    if (str === ''){
+        return '未设置'
+    }else {
+        return str
+    }
+}
 
 export default {
     formatDateTime,
-    formatDateTimeEx
+    formatDateTimeEx,
+    nullChange
 }

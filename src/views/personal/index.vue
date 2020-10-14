@@ -24,9 +24,16 @@ INTRODUCTION    文件简介
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="基础信息" name="first">
                 <el-card class="box-card">
-                    <div v-for="o in 4" :key="o" class="text item">
-                        {{ '列表内容 ' + o }}
-                    </div>
+                    <el-row :gutter="10" v-for="(value, index) in baseInfo" :key="index">
+                        <el-col :span="4">{{value.name}}</el-col>
+                        <el-col :span="6" v-if="value.content === 'username'">{{username|nullChange}}</el-col>
+                        <el-col :span="6" v-if="value.content === 'nickname'">{{nickname|nullChange}}</el-col>
+                        <el-col :span="6" v-if="value.content === 'mobile'">{{mobile|nullChange}}</el-col>
+                        <el-col :span="6" v-if="value.content === 'email'">{{email|nullChange}}</el-col>
+                        <el-col :span="6" v-if="value.content === 'password'">*******</el-col>
+
+                        <el-col :span="6" v-if="value.change"><el-button type="text" size="mini" v-if="">修改</el-button></el-col>
+                    </el-row>
                 </el-card>
             </el-tab-pane>
             <el-tab-pane label="github" name="second">github</el-tab-pane>
@@ -52,11 +59,22 @@ export default {
         return{
             isLogin: false,
             activeName: 'first',
-            path: '/personal'
+            path: '/personal',
+            changeName: true,
+            baseInfo: [
+                {"name": "用户名", 'content': "username", "change": false},
+                {"name": "昵称",   'content': "nickname", "change": true, "visible": 'nicknameVisible'},
+                {"name": "手机号", 'content': "mobile", "change": true, "visible": 'mobileVisible'},
+                {"name": "邮箱",   'content': "email", "change": true, "visible": 'emailVisible'},
+                {"name": "密码",   'content': "password", "change": true, "visible": 'passwordVisible'}],
+            mobileVisible: false,
+            emailVisible: false,
+            nicknameVisible: false,
+            passwordVisible: false,
         }
     },
     computed: {
-      ...mapGetters(['username', 'avatar', 'last_login', 'mobile', 'email'])
+      ...mapGetters(['username', 'avatar', 'mobile', 'email', 'nickname'])
     },
     methods: {
         handleClick(tab, event) {
@@ -69,7 +87,7 @@ export default {
             this.$store.dispatch('setRegisterVisible', true)
         },
         judgeLogin(){
-            if (getToken()){
+            if (getToken()) {
                 this.isLogin = true
                 this.$store.dispatch('getUserInfo')
             }

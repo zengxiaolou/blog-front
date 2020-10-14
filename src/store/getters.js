@@ -12,6 +12,7 @@ const getters = {
     avatar: state => state.user.avatar,
     is_staff: state => state.user.is_staff,
     mobile: state => state.user.mobile,
+    nickname: state => state.user.nickname,
 
 };
 export default getters

@@ -13,6 +13,7 @@ const state = {
     is_staff: false,
     avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
     email: '',
+    nickname: '',
 };
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
     },
     SET_USERNAME: (state, username) => {
         state.username = username
+    },
+    SET_NICKNAME:(state, nickname) => {
+        state.nickname = nickname
     },
     SET_LOGIN_VISIBLE: (state, login) => {
         state.loginVisible = login
@@ -88,12 +92,13 @@ const actions = {
     getUserInfo({commit}){
         return new Promise((resolve, reject) =>{
             getInfo(localStorage.id).then(response =>{
-                const {id, mobile, is_staff, avatar, email} = response
+                const {id, mobile, is_staff, avatar, email, nickname} = response
                 commit('SET_ID', id)
                 commit('SET_MOBILE', mobile)
                 commit('SET_IS_STAFF', is_staff)
                 commit('SET_AVATAR', avatar)
                 commit('SET_EMAIL', email)
+                commit('SET_NICKNAME', nickname)
                 resolve(response);
             }).catch(err => {
                 errorTips(err)
