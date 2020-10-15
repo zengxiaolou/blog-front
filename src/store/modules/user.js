@@ -5,7 +5,7 @@ import {errorTips} from "@/utils/tools/message";
 
 const state = {
     token: getToken(),
-    username: '',
+    username: '未登录',
     id: '',
     loginVisible: false,
     registerVisible: false,
@@ -92,8 +92,9 @@ const actions = {
     getUserInfo({commit}){
         return new Promise((resolve, reject) =>{
             getInfo(localStorage.id).then(response =>{
-                const {id, mobile, is_staff, avatar, email, nickname} = response
+                const {id, mobile, is_staff, username, avatar, email, nickname} = response
                 commit('SET_ID', id)
+                commit('SET_USERNAME', username);
                 commit('SET_MOBILE', mobile)
                 commit('SET_IS_STAFF', is_staff)
                 commit('SET_AVATAR', avatar)

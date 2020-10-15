@@ -25,14 +25,12 @@ INTRODUCTION    文件简介
             <el-tab-pane label="基础信息" name="first">
                 <el-card class="box-card">
                     <el-row :gutter="10" v-for="(value, index) in baseInfo" :key="index">
-                        <el-col :span="4">{{value.name}}</el-col>
-                        <el-col :span="6" v-if="value.content === 'username'">{{username|nullChange}}</el-col>
-                        <el-col :span="6" v-if="value.content === 'nickname'">{{nickname|nullChange}}</el-col>
-                        <el-col :span="6" v-if="value.content === 'mobile'">{{mobile|nullChange}}</el-col>
-                        <el-col :span="6" v-if="value.content === 'email'">{{email|nullChange}}</el-col>
-                        <el-col :span="6" v-if="value.content === 'password'">*******</el-col>
-
-                        <el-col :span="6" v-if="value.change"><el-button type="text" size="mini" v-if="">修改</el-button></el-col>
+                        <el-col :span="4" class="baseInfo-item">{{value.name}}</el-col>
+                        <el-col :span="6" class="baseInfo-item content">{{value.content|nullChange}}</el-col>
+                        <el-col :span="6" v-if="value.change" class="baseInfo-item">
+                            <el-button type="text" size="mini" v-if="value.content">修改</el-button>
+                            <el-button type="text" size="mini" v-else>设置</el-button>
+                        </el-col>
                     </el-row>
                 </el-card>
             </el-tab-pane>
@@ -50,6 +48,7 @@ import Login from 'components/user/login';
 import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
 import {mapGetters} from 'vuex'
+import {getInfo} from "api/user";
 
 export default {
     name: "index",
@@ -61,21 +60,18 @@ export default {
             activeName: 'first',
             path: '/personal',
             changeName: true,
-            baseInfo: [
-                {"name": "用户名", 'content': "username", "change": false},
-                {"name": "昵称",   'content': "nickname", "change": true, "visible": 'nicknameVisible'},
-                {"name": "手机号", 'content': "mobile", "change": true, "visible": 'mobileVisible'},
-                {"name": "邮箱",   'content': "email", "change": true, "visible": 'emailVisible'},
-                {"name": "密码",   'content': "password", "change": true, "visible": 'passwordVisible'}],
+            baseInfo: [],
             mobileVisible: false,
             emailVisible: false,
             nicknameVisible: false,
             passwordVisible: false,
+            avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
         }
     },
-    computed: {
-      ...mapGetters(['username', 'avatar', 'mobile', 'email', 'nickname'])
-    },
+    // computed: {
+    //   ...mapGetters(['username', 'avatar', 'mobile', 'email', 'nickname'])
+    //
+    // },
     methods: {
         handleClick(tab, event) {
             console.log(tab, event);
@@ -89,7 +85,18 @@ export default {
         judgeLogin(){
             if (getToken()) {
                 this.isLogin = true
-                this.$store.dispatch('getUserInfo')
+                // this.$store.dispatch('getUserInfo')
+                getInfo(localStorage.id).then(res => {
+                    this.username = res['username']
+                    this.avatar = res['avatar']
+                    this.baseInfo = [
+                        {"name": "用户名", 'content': res['username'], "change": false},
+                        {"name": "昵称",   'content': res['nickname'], "change": true, "visible": 'nicknameVisible'},
+                        {"name": "手机号", 'content': res['mobile'], "change": true, "visible": 'mobileVisible'},
+                        {"name": "邮箱",   'content': res['email'], "change": true, "visible": 'emailVisible'},
+                        {"name": "密码",   'content': "********", "change": true, "visible": 'passwordVisible'}]
+                })
+
             }
         },
         logout(){
@@ -116,7 +123,7 @@ export default {
     },
     mounted() {
         this.judgeLogin()
-    }
+    },
 }
 </script>
 
@@ -130,6 +137,14 @@ export default {
         }
         .base-info {
             margin-top: 20px;
+
+        }
+        .baseInfo-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .content {
+            color: rgb(150, 156, 162);
         }
         .operation{
             margin-top: 20px;
