@@ -28,8 +28,8 @@ INTRODUCTION    文件简介
                         <el-col :span="4" class="baseInfo-item">{{value.name}}</el-col>
                         <el-col :span="6" class="baseInfo-item content">{{value.content|nullChange}}</el-col>
                         <el-col :span="6" v-if="value.change" class="baseInfo-item">
-                            <el-button type="text" size="mini" v-if="value.content">修改</el-button>
-                            <el-button type="text" size="mini" v-else>设置</el-button>
+                            <el-button type="text" size="mini" v-if="value.content" @click="changeInfo(value.name)">修改</el-button>
+                            <el-button type="text" size="mini" v-else @click="changeInfo(value.name)">设置</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -39,6 +39,37 @@ INTRODUCTION    文件简介
         </el-tabs>
         <login :path="path"></login>
         <register :path="path"> </register>
+        <el-dialog :title="changeName"
+                   :visible.sync="changeInfoVisible"
+                    width="30%"
+                    center>
+            <el-form :model="form">
+                <el-form-item>
+                    <el-input v-model="form.content" autocomplete="off" :placeholder="placeholder"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="changeInfoVisible = false">取 消</el-button>
+                <el-button type="primary" @click="changeInfoVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="修改密码"
+                   :visible.sync="changePasswordVisible"
+                   width="30%"
+                   center>
+            <el-form :model="passwordForm">
+                <el-form-item>
+                    <el-input v-model="form.password" autocomplete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="form.passwordAgain" autocomplete="off" placeholder="请输入确认密码"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="changePasswordVisible = false">取 消</el-button>
+                <el-button type="primary" @click="changePasswordVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
@@ -59,19 +90,23 @@ export default {
             isLogin: false,
             activeName: 'first',
             path: '/personal',
-            changeName: true,
+            username: '',
+            changeName: '修改昵称',
             baseInfo: [],
-            mobileVisible: false,
-            emailVisible: false,
-            nicknameVisible: false,
-            passwordVisible: false,
+            changeInfoVisible: false,
             avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+            form: {
+                content:'',
+            },
+            placeholder: '请输入昵称',
+            changePasswordVisible: false,
+            passwordForm: {
+                password: '',
+                passwordAgain: '',
+            }
+
         }
     },
-    // computed: {
-    //   ...mapGetters(['username', 'avatar', 'mobile', 'email', 'nickname'])
-    //
-    // },
     methods: {
         handleClick(tab, event) {
             console.log(tab, event);
@@ -91,12 +126,31 @@ export default {
                     this.avatar = res['avatar']
                     this.baseInfo = [
                         {"name": "用户名", 'content': res['username'], "change": false},
-                        {"name": "昵称",   'content': res['nickname'], "change": true, "visible": 'nicknameVisible'},
-                        {"name": "手机号", 'content': res['mobile'], "change": true, "visible": 'mobileVisible'},
-                        {"name": "邮箱",   'content': res['email'], "change": true, "visible": 'emailVisible'},
-                        {"name": "密码",   'content': "********", "change": true, "visible": 'passwordVisible'}]
+                        {"name": "昵称",   'content': res['nickname'], "change": true, "English": 'nickname'},
+                        {"name": "手机号", 'content': res['mobile'], "change": true, "English": 'mobile'},
+                        {"name": "邮箱",   'content': res['email'], "change": true, "English": 'email'},
+                        {"name": "密码",   'content': "********", "change": true, "English": 'password'}]
                 })
-
+            }
+        },
+        changeInfo(val){
+            if (val === '昵称'){
+                this.changeName = '修改' + val
+                this.placeholder = '请输入新' + val
+            }else if (val === '手机号'){
+                this.changeName = '修改' + val
+                this.placeholder = '请输入新' + val
+            }else if (val === '邮箱'){
+                this.changeName = '修改' + val
+                this.placeholder = '请输入新' + val
+            }else if (val === '密码') {
+                this.changeName = '修改' + val
+                this.placeholder = '请输入新' + val
+            }
+            if (val === '密码'){
+                this.changePasswordVisible = true
+            }else {
+                this.changeInfoVisible = true
             }
         },
         logout(){
