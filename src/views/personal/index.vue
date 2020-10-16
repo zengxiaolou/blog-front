@@ -28,8 +28,8 @@ INTRODUCTION    文件简介
                         <el-col :span="4" class="baseInfo-item">{{value.name}}</el-col>
                         <el-col :span="6" class="baseInfo-item content">{{value.content|nullChange}}</el-col>
                         <el-col :span="6" v-if="value.change" class="baseInfo-item">
-                            <el-button type="text" size="mini" v-if="value.content" @click="changeInfo(value.name)">修改</el-button>
-                            <el-button type="text" size="mini" v-else @click="changeInfo(value.name)">设置</el-button>
+                            <el-button type="text" size="mini" v-if="value.content" @click="changeInfo(value.name, 'change')">修改</el-button>
+                            <el-button type="text" size="mini" v-else @click="changeInfo(value.name, 'set')">设置</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -39,35 +39,67 @@ INTRODUCTION    文件简介
         </el-tabs>
         <login :path="path"></login>
         <register :path="path"> </register>
-        <el-dialog :title="changeName"
-                   :visible.sync="changeInfoVisible"
+<!--        修改昵称dialog-->
+        <el-dialog title="修改昵称"
+                   :visible.sync="nicknameVisible"
                     width="30%"
                     center>
-            <el-form :model="form">
+            <el-form :model="nicknameForm">
                 <el-form-item>
-                    <el-input v-model="form.content" autocomplete="off" :placeholder="placeholder"></el-input>
+                    <el-input v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入新昵称"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="changeInfoVisible = false">取 消</el-button>
-                <el-button type="primary" @click="changeInfoVisible = false">确 定</el-button>
+                <el-button @click="nicknameVisible = false">取 消</el-button>
+                <el-button type="primary" @click="changeNickname">提 交</el-button>
             </div>
         </el-dialog>
+<!--        修改密码dialog-->
         <el-dialog title="修改密码"
-                   :visible.sync="changePasswordVisible"
+                   :visible.sync="passwordVisible"
                    width="30%"
                    center>
             <el-form :model="passwordForm">
                 <el-form-item>
-                    <el-input v-model="form.password" autocomplete="off" placeholder="请输入密码"></el-input>
+                    <el-input v-model="passwordForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input v-model="form.passwordAgain" autocomplete="off" placeholder="请输入确认密码"></el-input>
+                    <el-input v-model="passwordForm.passwordAgain" autocomplete="off" placeholder="请输入确认密码"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="changePasswordVisible = false">取 消</el-button>
-                <el-button type="primary" @click="changePasswordVisible = false">确 定</el-button>
+                <el-button @click="passwordVisible = false">取 消</el-button>
+                <el-button type="primary" @click="passwordVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+<!--        修改邮箱dialog-->
+        <el-dialog title="修改邮箱"
+                    :visible.sync="emailVisible"
+                    width="30%"
+                    center>
+            <el-form :model="emailForm">
+                <el-form-item>
+                    <el-input v-model="emailForm.email" autocomplete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="emailVisible = false">取 消</el-button>
+                <el-button type="primary" @click="emailVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+<!--        修改手机号dialog-->
+        <el-dialog title="修改手机号"
+                   :visible.sync="mobileVisible"
+                   width="30%"
+                   center>
+            <el-form :model="mobileForm">
+                <el-form-item>
+                    <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="mobileVisible = false">取 消</el-button>
+                <el-button type="primary" @click="moibileVisible = false">确 定</el-button>
             </div>
         </el-dialog>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
@@ -78,8 +110,8 @@ INTRODUCTION    文件简介
 import Login from 'components/user/login';
 import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
-import {mapGetters} from 'vuex'
-import {getInfo} from "api/user";
+import {getInfo, updateInfo} from "api/user";
+import {errorTips} from "utils/tools/message";
 
 export default {
     name: "index",
@@ -91,20 +123,27 @@ export default {
             activeName: 'first',
             path: '/personal',
             username: '',
-            changeName: '修改昵称',
+            changeName: '昵称',
             baseInfo: [],
             changeInfoVisible: false,
+            passwordVisible: false,
+            nicknameVisible: false,
+            mobileVisible: false,
+            emailVisible: false,
             avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-            form: {
-                content:'',
+            nicknameForm:{
+                nickname: ''
             },
-            placeholder: '请输入昵称',
-            changePasswordVisible: false,
             passwordForm: {
                 password: '',
                 passwordAgain: '',
+            },
+            emailForm: {
+                email: ''
+            },
+            mobileForm: {
+                mobile: ''
             }
-
         }
     },
     methods: {
@@ -120,7 +159,6 @@ export default {
         judgeLogin(){
             if (getToken()) {
                 this.isLogin = true
-                // this.$store.dispatch('getUserInfo')
                 getInfo(localStorage.id).then(res => {
                     this.username = res['username']
                     this.avatar = res['avatar']
@@ -135,8 +173,7 @@ export default {
         },
         changeInfo(val){
             if (val === '昵称'){
-                this.changeName = '修改' + val
-                this.placeholder = '请输入新' + val
+                this.nicknameVisible = true
             }else if (val === '手机号'){
                 this.changeName = '修改' + val
                 this.placeholder = '请输入新' + val
@@ -153,6 +190,7 @@ export default {
                 this.changeInfoVisible = true
             }
         },
+        // 登出
         logout(){
             this.$confirm('是否退出登录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -174,6 +212,16 @@ export default {
                 });
             });
         },
+
+        // 修改昵称
+        changeNickname(){
+            updateInfo(localStorage.id,{"nickname": this.nicknameForm.nickname}).then(res => {
+               console.log(res)
+                this.nicknameVisible = false
+            }).catch(err => {
+                errorTips(err)
+            })
+        }
     },
     mounted() {
         this.judgeLogin()

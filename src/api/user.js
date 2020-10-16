@@ -25,3 +25,13 @@ export function register(data) {
         data
     })
 }
+
+// 修改用户信息
+export  function updateInfo(id, data) {
+    return request({
+        url: `user/details/${id}/`,
+        method: 'patch',
+        data
+
+    })
+}

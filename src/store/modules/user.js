@@ -59,9 +59,10 @@ const actions = {
         const {username, password,captcha_key,captcha} = userInfo;
         return new Promise((resolve, reject) =>{
             login({username:username.trim(), password:password,captcha_key:captcha_key,captcha_value:captcha}).then(response => {
-                    const {token, username,id, role} = response;
+                    const {token, username,id, role, nickname} = response;
                     commit('SET_TOKEN', token);
                     commit('SET_USERNAME', username);
+                    commit('SET_NICKNAME', nickname)
                     localStorage.id = id;
                     localStorage.role = role;
                     setToken(token);
@@ -77,9 +78,10 @@ const actions = {
         return new Promise((resolve, reject) =>{
             register({username:username.trim(), password:password, mobile:mobile, sms:sms})
                 .then(response => {
-                    const {token,username,id} =response;
+                    const {token,username,nickname, id} =response;
                     commit('SET_TOKEN', token);
                     commit('SET_USERNAME', username);
+                    commit('SET_NICKNAME', nickname)
                     localStorage.id = id;
                     setToken(token);
                     resolve(response);
