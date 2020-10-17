@@ -162,6 +162,7 @@ export default {
                 getInfo(localStorage.id).then(res => {
                     this.username = res['username']
                     this.avatar = res['avatar']
+                    this.username = res['nickname'] ? res['nickname'] : res['username']
                     this.baseInfo = [
                         {"name": "用户名", 'content': res['username'], "change": false},
                         {"name": "昵称",   'content': res['nickname'], "change": true, "English": 'nickname'},
@@ -175,8 +176,7 @@ export default {
             if (val === '昵称'){
                 this.nicknameVisible = true
             }else if (val === '手机号'){
-                this.changeName = '修改' + val
-                this.placeholder = '请输入新' + val
+                this.mobileVisible =true
             }else if (val === '邮箱'){
                 this.changeName = '修改' + val
                 this.placeholder = '请输入新' + val
@@ -215,9 +215,10 @@ export default {
 
         // 修改昵称
         changeNickname(){
-            updateInfo(localStorage.id,{"nickname": this.nicknameForm.nickname}).then(res => {
-               console.log(res)
+            updateInfo(localStorage.id,{"nickname": this.nicknameForm.nickname}).then(_ => {
+                this.reload()
                 this.nicknameVisible = false
+                this.$message.success('修改/设置昵称成功')
             }).catch(err => {
                 errorTips(err)
             })
