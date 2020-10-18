@@ -115,7 +115,7 @@ import {mapGetters} from "vuex";
                 captcha_key: "",
                 url: '',
                 gam: [
-                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "http://blog.messstack.com:/login/github/"},],
+                    {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "http://blog.messstack.com/login/github/"},],
                 size: "medium",
                 rules: {
                     username:[{validator: validateUsername, trigger:'blur'}],

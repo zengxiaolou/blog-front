@@ -35,8 +35,32 @@ INTRODUCTION    文件简介
                     </el-row>
                 </el-card>
             </el-tab-pane>
-            <el-tab-pane label="github" name="second">github</el-tab-pane>
-            <el-tab-pane label="blog记录" name="third">blog记录</el-tab-pane>
+            <el-tab-pane label="github" name="second">
+                <el-card class="box-card">
+                    <el-row :gutter="10" v-for="(value, name, index) in githubInfo" :key="index">
+                        <el-col :span="4" class="baseInfo-item">{{name}}</el-col>
+                        <el-col :span="6" class="baseInfo-item content">{{value|nullChange}}</el-col>
+                    </el-row>
+                    <el-row type="flex" justify="center" v-if="this.githubInfo === null">
+                     <el-col :span="3"><el-link :underline="false" type="primary" :href="githubLogin">绑定github</el-link>
+                     </el-col>
+                    </el-row>
+                </el-card>
+            </el-tab-pane>
+            <el-tab-pane label="点赞文章" name="third">
+                <el-card class="box-card">
+                    <div v-for="o in 4" :key="o" class="text item">
+                        {{ '列表内容 ' + o }}
+                    </div>
+                </el-card>
+            </el-tab-pane>
+            <el-tab-pane label="评论文章" name="fourth">
+                <el-card class="box-card">
+                    <div v-for="o in 4" :key="o" class="text item">
+                        {{ '列表内容 ' + o }}
+                    </div>
+                </el-card>
+            </el-tab-pane>
         </el-tabs>
         <login :path="path"></login>
         <register :path="path"> </register>
@@ -260,6 +284,7 @@ export default {
             mobile: '',
             changeName: '昵称',
             baseInfo: [],
+            githubInfo: [],
             changeInfoVisible: false,
             passwordVisible: false,
             nicknameVisible: false,
@@ -268,6 +293,7 @@ export default {
             verifyVisible: false,
             avatarVisible: false,
             avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+            githubLogin: 'http://blog.messstack.com/login/github/',
             nicknameForm:{
                 nickname: ''
             },
@@ -325,7 +351,7 @@ export default {
     },
     methods: {
         handleClick(tab, event) {
-            console.log(tab, event);
+
         },
         login(){
             this.$store.dispatch('setLoginVisible', true);
@@ -350,6 +376,7 @@ export default {
                         {"name": "手机号", 'content': res['mobile'], "change": true, "English": 'mobile'},
                         {"name": "邮箱",   'content': res['email'], "change": true, "English": 'email'},
                         {"name": "密码",   'content': "********", "change": true, "English": 'password'}]
+                    this.githubInfo = res['github_info']
                 })
             }
         },
@@ -579,6 +606,9 @@ export default {
             }).catch(err => {errorTips(err)})
 
         },
+        bindGithub(){
+
+        }
     },
     mounted() {
         this.judgeLogin()
