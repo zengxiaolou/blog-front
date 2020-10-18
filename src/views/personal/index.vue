@@ -79,7 +79,14 @@ INTRODUCTION    文件简介
                     center>
             <el-form :model="emailForm">
                 <el-form-item>
-                    <el-input v-model="emailForm.email" autocomplete="off" placeholder="请输入密码"></el-input>
+                    <el-input v-model="emailForm.email" autocomplete="off" placeholder="请输入绑定的邮箱"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="emailForm.code" autocomplete="off" placeholder="请输入验证码">
+                        <template slot="append">
+                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms()" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
+                        </template>
+                    </el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -92,24 +99,28 @@ INTRODUCTION    文件简介
                    :visible.sync="mobileVisible"
                    width="30%"
                    center>
-            <el-form :model="mobileForm">
-                <el-form-item>
+            <el-form :model="mobileForm" :rules="mobileRuler" ref="mobileForm">
+                <el-form-item prop="mobile">
                     <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入需要绑定的手机号"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入短信验证码"></el-input>
+                <el-form-item prop="sms">
+                    <el-input v-model="mobileForm.sms" autocomplete="off" placeholder="请输入短信验证码">
+                        <template slot="append">
+                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms('bind')" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
+                        </template>
+                    </el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="mobileVisible = false">取 消</el-button>
-                <el-button type="primary" @click="moibileVisible = false">确 定</el-button>
+                <el-button type="primary" @click="changeMobile('mobileForm')">确 定</el-button>
             </div>
         </el-dialog>
         <el-dialog title="身份验证"
                    :visible.sync="verifyVisible"
                    width="20%"
                    center>
-            <el-form :model="mobileForm">
+            <el-form :model="verifyForm" :rules="codeRuler" ref="verifyForm">
                 <el-form-item>
                     <el-select v-model="value" placeholder="请选择验证方式">
                         <el-option
@@ -120,17 +131,17 @@ INTRODUCTION    文件简介
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="sms">
                     <el-input v-model="verifyForm.sms" autocomplete="off" placeholder="请输入验证码">
                         <template slot="append">
-                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms()" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
+                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms('verify')" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
                         </template>
                     </el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="verifyVisible = false">取 消</el-button>
-                <el-button type="primary" @click="verify">确 定</el-button>
+                <el-button type="primary" @click="verify('verifyForm')">确 定</el-button>
             </div>
         </el-dialog>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
@@ -150,6 +161,26 @@ export default {
     inject: ['reload'],
     components: {Login, Register},
     data() {
+        // 验证验证码
+        let validateCode = (codeRuler, value, callback) => {
+            if (value === ''){
+                callback(new Error('请输入验证码'));
+            }else if(value.length !== 6){
+                callback( new Error('验证码为6位数字'))
+            }else{callback()}
+        };
+
+        // 验证手机号格式
+        let validateMobile = (mobileRuler, value,callback) =>{
+            let pattern = /^1[3-9]\d{9}$/;
+            if (value === ''){
+                callback(new Error('请输入手机号'))
+            }else if(!(pattern.test(value))){
+                callback(new Error("手机号格式错误"))
+            }else {
+                callback();
+            }
+        };
         return{
             isLogin: false,
             activeName: 'first',
@@ -177,16 +208,15 @@ export default {
                 email: ''
             },
             mobileForm: {
-                mobile: ''
+                mobile: '',
+                sms: ''
             },
             verifyForm: {
                 sms: ''
             },
-            options: [
-                {value: 'mobile', label: '短信验证'},
-                {value: 'email', label: '邮箱验证'},
-            ],
-            value: 'mobile',
+            change: '',
+            options: [],
+            value: '请选择验证类型',
             smsDisabled: false,
             loading: false,
             validate: '',
@@ -195,6 +225,13 @@ export default {
             timer: null,
             checked: true,
             isVerify: false,
+            codeRuler: {
+                sms: [{validator: validateCode, trigger: 'blur'}],
+            },
+            mobileRuler: {
+                sms: [{validator: validateCode, trigger: 'blur'}],
+                mobile: [{validator: validateMobile, trigger: 'blur'}]
+            }
         }
     },
     methods: {
@@ -215,6 +252,9 @@ export default {
                     this.username = res['nickname'] ? res['nickname'] : res['username']
                     this.mobile = res['mobile']
                     this.email = res['email']
+                    this.options = []
+                    if (this.email){this.options.push({'value': 'email', 'label': '邮箱验证'})}
+                    if (this.mobile){this.options.push( {'value': 'mobile', 'label': '短信验证'})}
                     this.baseInfo = [
                         {"name": "用户名", 'content': res['username'], "change": false},
                         {"name": "昵称",   'content': res['nickname'], "change": true, "English": 'nickname'},
@@ -224,11 +264,39 @@ export default {
                 })
             }
         },
+        // 根据不同按钮显示不同dialog
         changeInfo(val){
             if (val === '昵称'){
                 this.nicknameVisible = true
             }else {
-                if (!this.isVerify){this.verifyVisible = true}
+                if (this.mobile || this.email){
+                    if (!this.isVerify){
+                        this.verifyVisible = true
+                        if (val === '手机号') {
+                            this.change = 'mobile'
+                        }else if(val === '邮箱'){
+                            this.change = 'email'
+                        }else {
+                            this.change = 'password'
+                        }
+                    }else {
+                        if (val === '手机号'){
+                            this.mobileVisible = true
+                        }else if(val === '邮箱'){
+                            this.emailVisible = true
+                        }else {
+                            this.passwordVisible = true
+                        }
+                    }
+                }else {
+                    if (val === '手机号'){
+                        this.mobileVisible = true
+                    }else if (val === '邮箱'){
+                        this.emailVisible = true
+                    }else {
+                        this.passwordVisible = true
+                    }
+                }
             }
         },
         // 登出
@@ -266,7 +334,7 @@ export default {
         },
         // 获取验证码倒计时
         getSmsCountDown(){
-            this.$message.success("短信已发送，请稍等片刻完成注册");
+            this.$message.success("短信已发送，请稍等片刻完成验证");
             this.smsDisabled =true;
             if (!this.timer){
                 this.timer = setInterval(() =>{
@@ -286,29 +354,77 @@ export default {
             }
         },
         //获取验证码，进行身份验证
-        getSms(){
-            if (this.value === 'mobile'){
-                getSms({"mobile": this.mobile}).then(_ => {
-                    this.getSmsCountDown()
-                }).catch(err => {errorTips(err)})
+        getSms(val){
+            if (val === 'verify') {
+                if (this.value === 'mobile'){
+                    getSms({"mobile": this.mobile, 'reset': true}).then(_ => {
+                        this.getSmsCountDown()
+                    }).catch(err => {errorTips(err)})
+                }else  if(this.value === 'email'){
+                    getEmailSms({"email": this.email, 'reset': true}).then(_ => {
+                        this.getSmsCountDown()
+                    }).catch(err => {errorTips(err)})
+                }else {
+                    this.$message.error("请选择正确的验证方式")
+                }
             }else {
-                getEmailSms({"email": this.email, 'reset': true}).then(_ => {
-                    this.getSmsCountDown()
-                }).catch(err => {errorTips(err)})
+                if (this.change === 'mobile'){
+                    getSms({"mobile": this.mobileForm.mobile}).then(_ => {
+                        this.getSmsCountDown()
+                    }).catch(err => {errorTips(err)})
+                }else {
+                    getEmailSms({"email": this.emailForm.email}).then(_ => {
+                        this.getSmsCountDown()
+                    }).catch(err => {errorTips(err)})
+                }
             }
+
         },
         // 通过验证
-        verify() {
-            verify({"method": this.value}).then(_ => {
-                this.verifyVisible = false
-                if (this.value === 'email'){
-                    this.emailVisible = true
-                }else {
-                    this.mobileVisible = true
+        verify(form) {
+            this.$refs[form].validate((valid) => {
+                if (valid) {
+                    let data = {
+                        "method": this.value,
+                        "code": this.verifyForm.sms
+                    }
+                    verify(data).then(_ => {
+                        this.isVerify = true
+                        this.verifyVisible = false
+                        this.$message.success('身份验证成功')
+                        clearInterval(this.timer);
+                        this.smsMsg = "获取验证码";
+                        this.residue = 60;
+                        this.timer = null;
+                        this.smsDisabled = false;
+                        if (this.change === 'email'){
+                            this.emailVisible = true
+                        }else if(this.change === 'mobile'){
+                            this.mobileVisible = true
+                        }else {
+                            this.passwordVisible = true
+                        }
+                    }).then(err => {
+                        errorTips(err)})
+                }else{
+                    this.$message.error('输入信息格式错误，请检查重试');
                 }
-            }).then(err => {errorTips(err)})
+            })
+        },
+        // 修改手机号
+        changeMobile(form){
+            this.$refs[form].validate((valid) => {
+                if (valid){
+                    let data = {
+                        'mobile': this.mobileForm.mobile,
+                        'code': this.mobileForm.sms
+                    }
+                    updateInfo(localStorage.id, data).then(res => {
+                        this.reload()
+                    }).catch(err => {errorTips(err)})
+                }
+            })
         }
-
     },
     mounted() {
         this.judgeLogin()

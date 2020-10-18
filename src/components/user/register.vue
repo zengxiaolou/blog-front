@@ -43,18 +43,6 @@ INTRODUCTION    注册组件
                     placeholder="请输入密码">
                 </el-input>
             </el-form-item>
-<!--            <el-form-item prop="email">-->
-<!--                <el-row type="flex" justify="center">-->
-<!--                    <el-input-->
-<!--                        type="text"-->
-<!--                        placeholder="请输入邮箱"-->
-<!--                        prefix-icon="iconfont icon-email"-->
-<!--                        v-model="form.email"-->
-<!--                        clearable-->
-<!--                        autocomplete="off">-->
-<!--                    </el-input>-->
-<!--                </el-row>-->
-<!--            </el-form-item>-->
             <el-form-item prop="mobile">
                 <el-row type="flex" justify="center">
                     <el-input
@@ -305,7 +293,7 @@ export default {
                         })
                 }else {
                     this.loading = false;
-                    this.$message.error('输入信息错误格式错误，请检查');
+                    this.$message.error('输入信息格式错误，请检查');
                     return false
                 }
             });
