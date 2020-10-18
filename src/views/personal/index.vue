@@ -8,8 +8,8 @@ INTRODUCTION    文件简介
 
 <template>
     <el-scrollbar class="page-component__scroll">
-        <div class="personal-header">
-            <el-avatar :size="100" :src="avatar"></el-avatar>
+        <div class="personal-header" @click="changeAvatar()">
+            <el-avatar :size="100" :src="avatar" ></el-avatar>
         </div>
         <div class="personal-header base-info" v-if="isLogin">
             {{username}}
@@ -20,6 +20,7 @@ INTRODUCTION    文件简介
         <div class="personal-header operation"  v-else>
             <el-button type="danger" @click="login" size="mini">登 录</el-button>
             <el-button type="primary" @click="register" size="mini">注 册</el-button>
+            <el-button type="info" @click="register" size="mini">找回密码</el-button>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="基础信息" name="first">
@@ -144,6 +145,45 @@ INTRODUCTION    文件简介
                 <el-button type="primary" @click="verify('verifyForm')">确 定</el-button>
             </div>
         </el-dialog>
+        <el-dialog title="修改头像"
+                   :visible.sync="avatarVisible"
+                   width="30%"
+                   center>
+            <el-upload
+                :action=uploadHost
+                ref="upload"
+                :auto-upload=false
+                :data=postData
+                :on-error=uploadFail
+                :on-success=uploadSuccess
+                list-type="picture-card">
+                <i slot="default" class="el-icon-plus"></i>
+                <div slot="file" slot-scope="{file}">
+                    <img
+                        class="el-upload-list__item-thumbnail"
+                        :src="file.url" alt="">
+                    <span class="el-upload-list__item-actions">
+                    <span
+                        class="el-upload-list__item-preview"
+                        @click="handlePictureCardPreview(file)">
+                        <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <span
+                        v-if="!disabled"
+                        class="el-upload-list__item-delete"
+                        @click="handleUpload(file)">
+                        <i class="el-icon-upload2"></i>
+                    </span>
+                    <span
+                        v-if="!disabled"
+                        class="el-upload-list__item-delete"
+                        @click="handleRemove(file)">
+                        <i class="el-icon-delete"></i>
+                    </span>
+                </span>
+                </div>
+            </el-upload>
+        </el-dialog>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
@@ -154,7 +194,8 @@ import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
 import {getInfo, updateInfo} from "api/user";
 import {errorTips} from "utils/tools/message";
-import {getEmailSms, getSms, verify} from "api/utils";
+import {getEmailSms, getQiNiuToken, getSms, verify} from "api/utils";
+import baseSetting from "store/baseSetting";
 
 export default {
     name: "index",
@@ -225,6 +266,7 @@ export default {
             mobileVisible: false,
             emailVisible: false,
             verifyVisible: false,
+            avatarVisible: false,
             avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
             nicknameForm:{
                 nickname: ''
@@ -270,6 +312,15 @@ export default {
                 password:[{validator: validatePassword, trigger: "blur"}],
                 passwordAgain:[{validator: validatePasswordAgain, trigger: "blur"}],
             },
+            dialogImageUrl: '',
+            dialogVisible: false,
+            disabled: false,
+            uploadHost: 'http://upload-z2.qiniup.com',
+            postData: {
+                token: "",
+                key: "",
+            },
+            cover: '',
         }
     },
     methods: {
@@ -481,9 +532,7 @@ export default {
         changePassword(form){
             this.$refs[form].validate((valid) => {
                 if (valid){
-                    let data = {
-                        'password': this.passwordForm.password,
-                    }
+                    let data = {'password': this.passwordForm.password}
                     updateInfo(localStorage.id, data).then(_ => {
                         this.$message.success('修改密码成功，即将退出，请使用新密码重新登录')
                         removeToken()
@@ -493,6 +542,42 @@ export default {
                     }).catch(err => {errorTips(err)})
                 }
             })
+        },
+        // 修改头像
+        changeAvatar(){
+            this.avatarVisible = !this.avatarVisible
+        },
+        handleRemove(file) {
+            this.$refs.upload.handleRemove(file, this.fileList)
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
+        handleUpload(file) {
+            let timestamp = new Date().getTime();
+            let new_name = timestamp + file.name;
+            getQiNiuToken({name:new_name}).then((res) => {
+                this.$message.info("开始上传图片");
+                this.postData.key = new_name;
+                this.postData.token = res['token'];
+                this.$refs.upload.submit();
+                this.cover = baseSetting.QiNiuHost + new_name
+            }).catch(err =>{
+                errorTips(err);
+            });
+        },
+        uploadFail(res){
+            this.$message.error(res)
+        },
+        uploadSuccess(){
+            this.$message.success('图片上传成功');
+            updateInfo(localStorage.id, {'avatar': this.cover}).then(_ => {
+                this.$message.success('头像修改成功')
+                this.avatarVisible = false
+                this.reload()
+            }).catch(err => {errorTips(err)})
+
         },
     },
     mounted() {

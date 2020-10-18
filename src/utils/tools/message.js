@@ -9,7 +9,6 @@ import {Message} from "element-ui";
 export function errorTips(err){
     try {
         const key = Object.keys(err.response.data);
-        console.log(err.response)
         if (key.length === 1){
             Message.error(err.response.data[key][0].toString());
         }else  {
