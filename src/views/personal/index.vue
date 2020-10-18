@@ -42,7 +42,7 @@ INTRODUCTION    文件简介
 <!--        修改昵称dialog-->
         <el-dialog title="修改昵称"
                    :visible.sync="nicknameVisible"
-                    width="30%"
+                    width="20%"
                     center>
             <el-form :model="nicknameForm">
                 <el-form-item>
@@ -57,7 +57,7 @@ INTRODUCTION    文件简介
 <!--        修改密码dialog-->
         <el-dialog title="修改密码"
                    :visible.sync="passwordVisible"
-                   width="30%"
+                   width="20%"
                    center>
             <el-form :model="passwordForm">
                 <el-form-item>
@@ -94,12 +94,43 @@ INTRODUCTION    文件简介
                    center>
             <el-form :model="mobileForm">
                 <el-form-item>
-                    <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入密码"></el-input>
+                    <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入需要绑定的手机号"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="mobileForm.mobile" autocomplete="off" placeholder="请输入短信验证码"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="mobileVisible = false">取 消</el-button>
                 <el-button type="primary" @click="moibileVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="身份验证"
+                   :visible.sync="verifyVisible"
+                   width="20%"
+                   center>
+            <el-form :model="mobileForm">
+                <el-form-item>
+                    <el-select v-model="value" placeholder="请选择验证方式">
+                        <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="verifyForm.sms" autocomplete="off" placeholder="请输入验证码">
+                        <template slot="append">
+                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms()" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
+                        </template>
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="verifyVisible = false">取 消</el-button>
+                <el-button type="primary" @click="verify">确 定</el-button>
             </div>
         </el-dialog>
         <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
@@ -112,6 +143,7 @@ import Register from "components/user/register";
 import {getToken, removeToken} from "@/utils/service/cookie";
 import {getInfo, updateInfo} from "api/user";
 import {errorTips} from "utils/tools/message";
+import {getEmailSms, getSms, verify} from "api/utils";
 
 export default {
     name: "index",
@@ -123,6 +155,8 @@ export default {
             activeName: 'first',
             path: '/personal',
             username: '',
+            email: '',
+            mobile: '',
             changeName: '昵称',
             baseInfo: [],
             changeInfoVisible: false,
@@ -130,6 +164,7 @@ export default {
             nicknameVisible: false,
             mobileVisible: false,
             emailVisible: false,
+            verifyVisible: false,
             avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
             nicknameForm:{
                 nickname: ''
@@ -143,7 +178,23 @@ export default {
             },
             mobileForm: {
                 mobile: ''
-            }
+            },
+            verifyForm: {
+                sms: ''
+            },
+            options: [
+                {value: 'mobile', label: '短信验证'},
+                {value: 'email', label: '邮箱验证'},
+            ],
+            value: 'mobile',
+            smsDisabled: false,
+            loading: false,
+            validate: '',
+            residue: 60,
+            smsMsg: '获取验证码',
+            timer: null,
+            checked: true,
+            isVerify: false,
         }
     },
     methods: {
@@ -160,9 +211,10 @@ export default {
             if (getToken()) {
                 this.isLogin = true
                 getInfo(localStorage.id).then(res => {
-                    this.username = res['username']
                     this.avatar = res['avatar']
                     this.username = res['nickname'] ? res['nickname'] : res['username']
+                    this.mobile = res['mobile']
+                    this.email = res['email']
                     this.baseInfo = [
                         {"name": "用户名", 'content': res['username'], "change": false},
                         {"name": "昵称",   'content': res['nickname'], "change": true, "English": 'nickname'},
@@ -175,19 +227,8 @@ export default {
         changeInfo(val){
             if (val === '昵称'){
                 this.nicknameVisible = true
-            }else if (val === '手机号'){
-                this.mobileVisible =true
-            }else if (val === '邮箱'){
-                this.changeName = '修改' + val
-                this.placeholder = '请输入新' + val
-            }else if (val === '密码') {
-                this.changeName = '修改' + val
-                this.placeholder = '请输入新' + val
-            }
-            if (val === '密码'){
-                this.changePasswordVisible = true
             }else {
-                this.changeInfoVisible = true
+                if (!this.isVerify){this.verifyVisible = true}
             }
         },
         // 登出
@@ -222,7 +263,52 @@ export default {
             }).catch(err => {
                 errorTips(err)
             })
+        },
+        // 获取验证码倒计时
+        getSmsCountDown(){
+            this.$message.success("短信已发送，请稍等片刻完成注册");
+            this.smsDisabled =true;
+            if (!this.timer){
+                this.timer = setInterval(() =>{
+                    if (this.residue > 0 && this.residue <= 60){
+                        this.residue--;
+                        if (this.residue !==0){
+                            this.smsMsg = "重新发送(" +this.residue + ")";
+                        }else{
+                            clearInterval(this.timer);
+                            this.smsMsg = "获取验证码";
+                            this.residue = 60;
+                            this.timer = null;
+                            this.smsDisabled = false;
+                        }
+                    }
+                },1000)
+            }
+        },
+        //获取验证码，进行身份验证
+        getSms(){
+            if (this.value === 'mobile'){
+                getSms({"mobile": this.mobile}).then(_ => {
+                    this.getSmsCountDown()
+                }).catch(err => {errorTips(err)})
+            }else {
+                getEmailSms({"email": this.email, 'reset': true}).then(_ => {
+                    this.getSmsCountDown()
+                }).catch(err => {errorTips(err)})
+            }
+        },
+        // 通过验证
+        verify() {
+            verify({"method": this.value}).then(_ => {
+                this.verifyVisible = false
+                if (this.value === 'email'){
+                    this.emailVisible = true
+                }else {
+                    this.mobileVisible = true
+                }
+            }).then(err => {errorTips(err)})
         }
+
     },
     mounted() {
         this.judgeLogin()
@@ -254,6 +340,9 @@ export default {
         }
         .el-tabs {
             margin-top: 20px;
+        }
+        /deep/ .el-dialog{
+            border-radius: 10px;
         }
     }
     /deep/ .el-scrollbar__wrap {
