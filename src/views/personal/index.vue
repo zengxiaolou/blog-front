@@ -59,17 +59,17 @@ INTRODUCTION    文件简介
                    :visible.sync="passwordVisible"
                    width="20%"
                    center>
-            <el-form :model="passwordForm">
-                <el-form-item>
-                    <el-input v-model="passwordForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
+            <el-form :model="passwordForm" :rules="passwordRuler" ref="passwordForm">
+                <el-form-item prop="password">
+                    <el-input v-model="passwordForm.password" autocomplete="off" placeholder="请输入密码" clearable show-password></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-input v-model="passwordForm.passwordAgain" autocomplete="off" placeholder="请输入确认密码"></el-input>
+                <el-form-item prop="passwordAgain">
+                    <el-input v-model="passwordForm.passwordAgain" autocomplete="off" placeholder="请输入确认密码" clearable show-password></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="passwordVisible = false">取 消</el-button>
-                <el-button type="primary" @click="passwordVisible = false">确 定</el-button>
+                <el-button type="primary" @click="changePassword('passwordForm')">确 定</el-button>
             </div>
         </el-dialog>
 <!--        修改邮箱dialog-->
@@ -192,7 +192,24 @@ export default {
                 callback();
             }
         };
-
+        // 验证密码
+        let validatePassword = (passwordRuler, value,callback) =>{
+            if (value === ''){
+                callback(new Error('请输入密码'))
+            }else if(value.length<6){
+                callback(new Error("账号长度不能小于6"))
+            }else {
+                callback();
+            }
+        };
+        // 验证密码
+        let validatePasswordAgain = (passwordRuler, value,callback) =>{
+            if (value !== this.passwordForm.password){
+                callback(new Error('两次密码不一致'))
+            }else {
+                callback();
+            }
+        };
         return{
             isLogin: false,
             activeName: 'first',
@@ -248,7 +265,11 @@ export default {
             emailRuler: {
                 sms: [{validator: validateCode, trigger: 'blur'}],
                 email: [{validator: validateEmail, trigger: 'blur'}]
-            }
+            },
+            passwordRuler: {
+                password:[{validator: validatePassword, trigger: "blur"}],
+                passwordAgain:[{validator: validatePasswordAgain, trigger: "blur"}],
+            },
         }
     },
     methods: {
@@ -455,7 +476,24 @@ export default {
                     }).catch(err => {errorTips(err)})
                 }
             })
-        }
+        },
+        // 修改密码
+        changePassword(form){
+            this.$refs[form].validate((valid) => {
+                if (valid){
+                    let data = {
+                        'password': this.passwordForm.password,
+                    }
+                    updateInfo(localStorage.id, data).then(_ => {
+                        this.$message.success('修改密码成功，即将退出，请使用新密码重新登录')
+                        removeToken()
+                        localStorage.removeItem('role')
+                        localStorage.removeItem('id')
+                        this.reload()
+                    }).catch(err => {errorTips(err)})
+                }
+            })
+        },
     },
     mounted() {
         this.judgeLogin()
