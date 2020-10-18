@@ -77,21 +77,21 @@ INTRODUCTION    文件简介
                     :visible.sync="emailVisible"
                     width="30%"
                     center>
-            <el-form :model="emailForm">
-                <el-form-item>
+            <el-form :model="emailForm" :rules="emailRuler" ref="emailForm">
+                <el-form-item prop="email">
                     <el-input v-model="emailForm.email" autocomplete="off" placeholder="请输入绑定的邮箱"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-input v-model="emailForm.code" autocomplete="off" placeholder="请输入验证码">
+                <el-form-item prop="sms">
+                    <el-input v-model="emailForm.sms" autocomplete="off" placeholder="请输入验证码">
                         <template slot="append">
-                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms()" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
+                            <el-button class="get-sms-bnt" :disabled="smsDisabled" @click.prevent="getSms('bind')" v-text="smsMsg" type="primary">{{smsMsg}}</el-button>
                         </template>
                     </el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="emailVisible = false">取 消</el-button>
-                <el-button type="primary" @click="emailVisible = false">确 定</el-button>
+                <el-button type="primary" @click="changeEmail('emailForm')">确 定</el-button>
             </div>
         </el-dialog>
 <!--        修改手机号dialog-->
@@ -181,6 +181,18 @@ export default {
                 callback();
             }
         };
+        // 验证Email格式
+        let validateEmail = (emailRuler, value,callback) =>{
+            let pattern = /^([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
+            if (value === ''){
+                callback(new Error('请输入邮箱'))
+            }else if(!(pattern.test(value))){
+                callback(new Error("邮箱格式错误"))
+            }else {
+                callback();
+            }
+        };
+
         return{
             isLogin: false,
             activeName: 'first',
@@ -205,7 +217,8 @@ export default {
                 passwordAgain: '',
             },
             emailForm: {
-                email: ''
+                email: '',
+                sms: ''
             },
             mobileForm: {
                 mobile: '',
@@ -231,6 +244,10 @@ export default {
             mobileRuler: {
                 sms: [{validator: validateCode, trigger: 'blur'}],
                 mobile: [{validator: validateMobile, trigger: 'blur'}]
+            },
+            emailRuler: {
+                sms: [{validator: validateCode, trigger: 'blur'}],
+                email: [{validator: validateEmail, trigger: 'blur'}]
             }
         }
     },
@@ -419,7 +436,21 @@ export default {
                         'mobile': this.mobileForm.mobile,
                         'code': this.mobileForm.sms
                     }
-                    updateInfo(localStorage.id, data).then(res => {
+                    updateInfo(localStorage.id, data).then(_ => {
+                        this.reload()
+                    }).catch(err => {errorTips(err)})
+                }
+            })
+        },
+        // 修改邮箱
+        changeEmail(form){
+            this.$refs[form].validate((valid) => {
+                if (valid){
+                    let data = {
+                        'email': this.emailForm.email,
+                        'code': this.emailForm.sms
+                    }
+                    updateInfo(localStorage.id, data).then(_ => {
                         this.reload()
                     }).catch(err => {errorTips(err)})
                 }
