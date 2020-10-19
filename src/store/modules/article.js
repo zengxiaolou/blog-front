@@ -11,9 +11,9 @@ import {register} from "api/user";
 import {setToken} from "utils/service/cookie";
 
 const state = {
-    article_num: '',
-    view_num: '',
-    like_num: '',
+    article_num: 0,
+    view_num: 0,
+    like_num: 0,
     tags: [],
     category: '',
 };
