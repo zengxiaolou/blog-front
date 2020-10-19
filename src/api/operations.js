@@ -53,3 +53,11 @@ export function getReply(params){
     })
 
 }
+
+// 获取用户点赞过的文章
+export function getUserLike(){
+    return request({
+        url: 'operations/user-like/',
+        method: 'get',
+    })
+}

@@ -47,12 +47,19 @@ INTRODUCTION    文件简介
                     </el-row>
                 </el-card>
             </el-tab-pane>
-            <el-tab-pane label="点赞文章" name="third">
+            <el-tab-pane label="点赞记录" name="third">
                 <el-card class="box-card">
-
+                    <el-row  class="comment-body" v-for="(value, index) in like" :key="index">
+                        <router-link :to="'/detail/' + value['id']">
+                            <el-col :span="8">{{value['title']}}</el-col>
+                        </router-link>
+                    </el-row>
+                    <el-row type="flex" justify="center" class="comment-bottom" v-if="likeMore">
+                        <el-col :span="24"><el-button type="text" size="mini" @click="getUserLike()">加载更多</el-button></el-col>
+                    </el-row>
                 </el-card>
             </el-tab-pane>
-            <el-tab-pane label="评论文章" name="fourth">
+            <el-tab-pane label="评论记录" name="fourth">
                 <el-card class="box-card">
                     <el-row class="comment-title">
                         <el-col :span="6">评论时间</el-col>
@@ -230,7 +237,7 @@ import {getInfo, updateInfo} from "api/user";
 import {errorTips} from "utils/tools/message";
 import {getEmailSms, getQiNiuToken, getSms, verify} from "api/utils";
 import baseSetting from "store/baseSetting";
-import {getComment} from "api/operations";
+import {getComment, getUserLike} from "api/operations";
 
 export default {
     name: "index",
@@ -362,6 +369,10 @@ export default {
             commentSize: 20,
             commentPage: 1,
             commentMore: true,
+            like: [],
+            likePage: 1,
+            likeSize: 20,
+            likeMore: true,
         }
     },
     methods: {
@@ -632,11 +643,23 @@ export default {
                 this.comments = res['results']
                 this.commentMore = res['next'] !== null
             }).catch(err => errorTips(err))
+        },
+        getUserLike(){
+            let params = {
+                'page': this.likePage,
+                'size': this.likeSize,
+            }
+            getUserLike().then(res => {
+                this.like = res['results'];
+                this.likePage += 1
+                this.likeMore = res['next'] !== null
+            }).catch(err => {errorTips(err)})
         }
     },
     mounted() {
         this.judgeLogin();
         this.getComment()
+        this.getUserLike()
     },
 }
 </script>
@@ -673,7 +696,6 @@ export default {
                 font-size: 14px;
                 padding:  10px 0;
                 color: #409eff;
-                border-bottom: 1px solid rgb(150, 156, 162);
             }
             .comment-bottom {
                 text-align: center;
