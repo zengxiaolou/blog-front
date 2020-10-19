@@ -633,6 +633,10 @@ export default {
 
         },
         getComment(){
+            if (localStorage.id === undefined){
+                this.commentMore = false
+                return
+            }
             let params = {
                 'user__id': localStorage.id,
                 'page': this.commentPage,
@@ -645,11 +649,15 @@ export default {
             }).catch(err => errorTips(err))
         },
         getUserLike(){
+            if (localStorage.id === undefined){
+                this.likeMore = false
+                return
+            }
             let params = {
                 'page': this.likePage,
                 'size': this.likeSize,
             }
-            getUserLike().then(res => {
+            getUserLike(params).then(res => {
                 this.like = res['results'];
                 this.likePage += 1
                 this.likeMore = res['next'] !== null

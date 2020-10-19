@@ -48,15 +48,11 @@ service.interceptors.response.use(
                     break;
                 case 401:
                     error.message = "未授权，请登录";
-                    Message.error("权限不够，请先登录");
                     removeToken();
-                    router['push']({name: 'error_401'});
                     break;
                 case 403:
                     error.message = "拒绝访问";
-                    Message.error.error("权限不够，请先登录");
                     removeToken();
-                    router['push']({name: 'error_403'});
                     break;
                 // case 404:
                     // error.message = `请求地址出错：${error.response.config.url}`;
