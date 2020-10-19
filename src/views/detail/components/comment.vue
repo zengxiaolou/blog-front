@@ -68,13 +68,12 @@ INTRODUCTION    文件简介
                                 <el-col :span="24"><viewer :content="value.content" :index="'reply' + value['comment'] + index" ></viewer></el-col>
                             </el-row>
                         </el-col>
-
                     </el-row>
                 </el-col>
 
             </el-row>
         </div>
-        <el-row type="flex" justify="center" class="more">
+        <el-row type="flex" justify="center" class="more" v-if="commentMore">
             <el-col :span="3"><el-button type="text" @click.prevent="getComments" >加载更多</el-button></el-col>
         </el-row>
         <el-dialog
@@ -126,7 +125,8 @@ export default {
             tagDialogVisible: false,
             tag: [],
             inputVisible: false,
-            inputValue: ''
+            inputValue: '',
+            commentMore: true,
         }
     },
     methods: {
@@ -145,6 +145,7 @@ export default {
                 this.page += 1
                 this.total = parseInt(res['count']);
                 this.comments = res['results']
+                this.commentMore = res['next'] !== null
             }).catch(() => {
                 this.$message.error("没有更多评论了！！！")
             })
@@ -160,7 +161,7 @@ export default {
                 comment(data).then(() => {
                     this.$message.success("评论成功")
                     this.commentVisible = false
-                    this.getComments()
+                    this.reload()
                 }).catch(err => {
                     errorTips(err)
                 })
@@ -172,7 +173,7 @@ export default {
                 reply(data).then(() => {
                     this.$message.success("回复成功")
                     this.commentVisible = false
-                    this.getComments()
+                    this.reload()
                 }).catch(err => {
                     errorTips(err)
                 })
@@ -228,7 +229,7 @@ export default {
             if (inputValue) {
                 let newTag = {"tag": inputValue, "type": tagType.randomElement()}
                 this.tag.push(newTag);
-            };
+            }
             if (inputValue) {
                 let params = {"tag": inputValue}
                 checkTagExist(params).then(res => {
