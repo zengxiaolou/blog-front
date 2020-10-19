@@ -49,16 +49,26 @@ INTRODUCTION    文件简介
             </el-tab-pane>
             <el-tab-pane label="点赞文章" name="third">
                 <el-card class="box-card">
-                    <div v-for="o in 4" :key="o" class="text item">
-                        {{ '列表内容 ' + o }}
-                    </div>
+
                 </el-card>
             </el-tab-pane>
             <el-tab-pane label="评论文章" name="fourth">
                 <el-card class="box-card">
-                    <div v-for="o in 4" :key="o" class="text item">
-                        {{ '列表内容 ' + o }}
-                    </div>
+                    <el-row class="comment-title">
+                        <el-col :span="6">评论时间</el-col>
+                        <el-col :span="8">评论文章</el-col>
+                        <el-col :span="10">评论内容</el-col>
+                    </el-row>
+                    <el-row  class="comment-body" v-for="(value, index) in comments" :key="index">
+                        <router-link :to="'/detail/' + value['article']['id']">
+                            <el-col :span="6">{{value['created']|formatDateTime('YYYY-MM-DD HH:MM:SS')}}</el-col>
+                            <el-col :span="8">{{value["article"]['title']}}</el-col>
+                            <el-col :span="10">{{value['content']}}</el-col>
+                        </router-link>
+                    </el-row>
+                    <el-row type="flex" justify="center" class="comment-bottom" v-if="commentMore">
+                     <el-col :span="24"><el-button type="text" size="mini" @click="getComment()">加载更多</el-button></el-col>
+                    </el-row>
                 </el-card>
             </el-tab-pane>
         </el-tabs>
@@ -220,6 +230,7 @@ import {getInfo, updateInfo} from "api/user";
 import {errorTips} from "utils/tools/message";
 import {getEmailSms, getQiNiuToken, getSms, verify} from "api/utils";
 import baseSetting from "store/baseSetting";
+import {getComment} from "api/operations";
 
 export default {
     name: "index",
@@ -347,6 +358,10 @@ export default {
                 key: "",
             },
             cover: '',
+            comments: [],
+            commentSize: 20,
+            commentPage: 1,
+            commentMore: true,
         }
     },
     methods: {
@@ -606,12 +621,22 @@ export default {
             }).catch(err => {errorTips(err)})
 
         },
-        bindGithub(){
-
+        getComment(){
+            let params = {
+                'user__id': localStorage.id,
+                'page': this.commentPage,
+                'size': this.commentSize,
+            }
+            getComment(params).then(res =>{
+                this.commentPage += 1
+                this.comments = res['results']
+                this.commentMore = res['next'] !== null
+            }).catch(err => errorTips(err))
         }
     },
     mounted() {
-        this.judgeLogin()
+        this.judgeLogin();
+        this.getComment()
     },
 }
 </script>
@@ -640,6 +665,19 @@ export default {
         }
         .el-tabs {
             margin-top: 20px;
+            .comment-title {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+            .comment-body {
+                font-size: 14px;
+                padding:  10px 0;
+                color: #409eff;
+                border-bottom: 1px solid rgb(150, 156, 162);
+            }
+            .comment-bottom {
+                text-align: center;
+            }
         }
         /deep/ .el-dialog{
             border-radius: 10px;
