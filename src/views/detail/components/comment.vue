@@ -43,6 +43,7 @@ INTRODUCTION    文件简介
                     <el-row>
                         <el-col  :span="22" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
                         <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)">回复</el-button></el-col>
+<!--                        <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentLike(value)"><i class="icon iconfont icon-like"> 22</i></el-button></el-col>-->
                         <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
                     </el-row>
                     <el-row class="reply-box" v-for="(value, index) in value['reply']" :key="index">
@@ -105,7 +106,7 @@ import replyMarkdown from "components/MarkdownEditor/reply_markdown"
 import {comment, getComment, getReply, reply} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
-import {addTag, categoryAndTag, checkTagExist, updateArticleTag} from "api/article";
+import {categoryAndTag, checkTagExist, updateArticleTag} from "api/article";
 
 export default {
     name: "comment",

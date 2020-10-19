@@ -11,7 +11,6 @@ INTRODUCTION    文章归档页面
             <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
             <my-charts :date="date"></my-charts>
         </el-card>
-
             <el-card class = "archive-body">
                 <el-divider>文章归档</el-divider>
                 <el-scrollbar>
