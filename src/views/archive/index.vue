@@ -25,7 +25,7 @@ INTRODUCTION    文章归档页面
                         </el-timeline-item>
                     </el-timeline>
                 </el-scrollbar>
-                <el-row type="flex" justify="center" class="more">
+                <el-row type="flex" justify="center" class="more" v-if="more">
                     <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
                 </el-row>
             </el-card>
@@ -51,6 +51,7 @@ INTRODUCTION    文章归档页面
                 total: '',
                 lastTotal: '',
                 date: [],
+                more: true
             };
         },
         methods: {
@@ -70,6 +71,7 @@ INTRODUCTION    文章归档页面
                             archive.detail = 'detail/'+ res['results'][key].id;
                             this.activities.push(archive);
                         }
+                        this.more = res['next'] !== null
                     }
                 }).catch((err) =>{
                     console.log(err);
@@ -94,6 +96,7 @@ INTRODUCTION    文章归档页面
     * { margin:0; padding:0; }
     .main {
       height: 100%;
+       padding-top: 20px;
         #calendar{
             width: 100%;
             //height: 200px;
@@ -114,6 +117,10 @@ INTRODUCTION    文章归档页面
             margin: 0 20px;
             /*background-color: rgba(255,255,255,0);*/
         }
+        .el-card {
+            border-radius: 15px;
+        }
+
         .archive-body {
             margin: 20px 20px 0;
             .el-scrollbar {
