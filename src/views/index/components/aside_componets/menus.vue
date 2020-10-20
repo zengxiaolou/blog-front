@@ -16,9 +16,9 @@ INTRODUCTION    菜单组件
                 <i :class=value.icon></i>
                 <span slot="title">{{value.title}}</span>
             </el-menu-item>
-            <el-menu-item v-if="role" :index=creation.path>
-                <i :class=creation.icon></i>
-                <span slot="title">{{creation.title}}</span>
+            <el-menu-item v-for="(value, index) in superMenu" :key="index"  v-if="role" :index=value.path>
+                <i :class=value.icon></i>
+                <span slot="title">{{value.title}}</span>
             </el-menu-item>
         </el-menu>
 
@@ -42,7 +42,10 @@ INTRODUCTION    菜单组件
                     {"title": "用户中心", "icon":"icon iconfont icon-personal",     "path":"/personal"},
                 ],
                 role: false,
-                creation: {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
+                superMenu: [
+                    {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
+                    {"title": "博客统计", "icon":"icon iconfont icon-dashboard",    "path":"/dashboard"},
+                ]
             }
         },
 

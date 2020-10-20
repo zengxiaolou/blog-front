@@ -133,6 +133,15 @@ const indexRouter = [
                     auth: false
                 }
             },
+            {
+                path: "/dashboard",
+                component: () => import("../../views/dashboard/index"),
+                name: "dashboard",
+                meta: {
+                    title: "数据统计中心",
+                    auth: true
+                }
+            },
         ]
     },
 
