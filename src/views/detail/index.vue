@@ -10,6 +10,7 @@ INTRODUCTION    文件简介
     <el-scrollbar class="page-component__scroll">
         <my-content :article="content"></my-content>
         <my-comment></my-comment>
+        <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :right="20"></el-backtop>
     </el-scrollbar>
 </template>
 

@@ -16,7 +16,7 @@ INTRODUCTION    菜单组件
                 <i :class=value.icon></i>
                 <span slot="title">{{value.title}}</span>
             </el-menu-item>
-            <el-menu-item v-if="role === 1" :index=creation.path>
+            <el-menu-item v-if="role" :index=creation.path>
                 <i :class=creation.icon></i>
                 <span slot="title">{{creation.title}}</span>
             </el-menu-item>
@@ -27,6 +27,7 @@ INTRODUCTION    菜单组件
 
 <script>
     import {getToken} from "@/utils/service/cookie";
+    import {getInfo} from "api/user";
 
     export default {
         name: "menus",
@@ -40,21 +41,21 @@ INTRODUCTION    菜单组件
                     {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
                     {"title": "用户中心", "icon":"icon iconfont icon-personal",     "path":"/personal"},
                 ],
-                role: 0,
+                role: false,
                 creation: {"title": "创作中心", "icon":"icon iconfont icon-creation",     "path":"/creation"},
             }
         },
+
         methods: {
             isShowCreation(){
-                let token = getToken();
-                if (localStorage.role === 'true' && token){
-                    this.role = 1
-                }else {
-                    this.role = 0
+                if ( getToken()){
+                    getInfo(localStorage.id).then(res => {
+                        this.role = res['is_superuser']
+                    })
                 }
             }
         },
-        created() {
+        mounted() {
             this.isShowCreation()
         }
     }

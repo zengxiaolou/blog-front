@@ -20,6 +20,9 @@ const mutations = {
     SET_TOKEN: (state, token) =>{
         state.token = token
     },
+    SET_ROLE: (state, role) =>{
+        state.role = role
+    },
     DELETE_TOKEN:(state) => {
         removeToken();
         state.token = ''
@@ -62,9 +65,9 @@ const actions = {
                     const {token, username,id, role, nickname} = response;
                     commit('SET_TOKEN', token);
                     commit('SET_USERNAME', username);
-                    commit('SET_NICKNAME', nickname)
+                    commit('SET_NICKNAME', nickname);
+                    commit('SET_ROLE', role)
                     localStorage.id = id;
-                    localStorage.role = role;
                     setToken(token);
                     resolve(response);
                 }).catch(error =>{

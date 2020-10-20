@@ -13,6 +13,7 @@ const getters = {
     is_staff: state => state.user.is_staff,
     mobile: state => state.user.mobile,
     nickname: state => state.user.nickname,
+    role: state => state.user.role
 
 };
 export default getters
