@@ -195,6 +195,13 @@
       "unicode_decimal": 60402
     },
     {
+      "icon_id": "17744303",
+      "name": "点赞",
+      "font_class": "liked",
+      "unicode": "ebf3",
+      "unicode_decimal": 60403
+    },
+    {
       "icon_id": "532479",
       "name": "评论数",
       "font_class": "comment",

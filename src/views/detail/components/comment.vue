@@ -41,9 +41,14 @@ INTRODUCTION    文件简介
                 </el-col>
                 <el-col :span="22"   class="content">
                     <el-row>
-                        <el-col  :span="22" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
-                        <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)">回复</el-button></el-col>
-<!--                        <el-col  :span ="2"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentLike(value)"><i class="icon iconfont icon-like"> 22</i></el-button></el-col>-->
+                        <el-col  :span="21" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
+                        <el-col  :span ="1"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)">回复</el-button></el-col>
+                        <el-col  :span ="2" class="comment-like">
+                            <el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentLike(value)">
+                                <i class="icon iconfont icon-like"></i>
+                                {{ commentLikeNum}}
+                            </el-button>
+                        </el-col>
                         <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
                     </el-row>
                     <el-row class="reply-box" v-for="(value, index) in value['reply']" :key="index">
@@ -128,6 +133,7 @@ export default {
             inputVisible: false,
             inputValue: '',
             commentMore: true,
+            commentLikeNum: 0,
         }
     },
     methods: {
@@ -309,10 +315,12 @@ export default {
             .black {
                 color: #1f2d3d;
             }
-
         }
         .pop-avatar {
             background-color: #1a98ff;
+        }
+        .comment-like {
+            text-align: center;
         }
         .comment-box {
             margin-bottom: 10px;
