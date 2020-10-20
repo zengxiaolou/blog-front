@@ -15,7 +15,7 @@ INTRODUCTION    文件简介
         </div>
         <div class="comment-box"  v-show="commentVisible">
             <el-row type="flex" justify="end">
-                <el-col :span="2"><el-avatar></el-avatar></el-col>
+                <el-col :span="2"><el-avatar :src="userAvatar"></el-avatar></el-col>
                 <el-col :span="22"><markdown v-on:changeMarkdown="changeMarkdown"></markdown></el-col>
             </el-row>
             <el-row type="flex" justify="end">
@@ -34,7 +34,7 @@ INTRODUCTION    文件简介
                         </el-row>
                         <el-row>
                             <el-col><i class="icon iconfont icon-user"></i> 昵称： {{value.user.username}}</el-col>
-                            <el-col><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank">github主页</el-link></el-col>
+                            <el-col v-if="value.user['github'] !== '未绑定'"><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank" type="primary">github主页</el-link></el-col>
                         </el-row>
                         <el-avatar slot="reference" :size="40" :src="value.user['avatar']"></el-avatar>
                     </el-popover>
@@ -66,7 +66,7 @@ INTRODUCTION    文件简介
                             </el-row>
                             <el-row>
                                 <el-col><i class="icon iconfont icon-user"></i> 昵称： {{value.user.username}}</el-col>
-                                <el-col><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank">github主页</el-link></el-col>
+                                <el-col v-if="value.user['github'] !== '未绑定'"><i class="icon iconfont icon-home"></i>  github:  <el-link :href="value.user['github']" target="_blank" type="primary">github主页</el-link></el-col>
                             </el-row>
                             <el-col :span="1" slot="reference" class="avatar"><el-avatar :size="30" :src="value.user['avatar']"></el-avatar></el-col>
                         </el-popover>
@@ -116,6 +116,7 @@ import {comment, deleteCommentLike, getComment, getReply, reply, setCommentLike}
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
 import {categoryAndTag, checkTagExist, updateArticleTag} from "api/article";
+import {getInfo} from "api/user";
 
 export default {
     name: "comment",
@@ -138,6 +139,7 @@ export default {
             inputValue: '',
             commentMore: true,
             commentLikeNum: 0,
+            userAvatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
         }
     },
     methods: {
@@ -285,9 +287,17 @@ export default {
                 this.$message.error('需要先登录才能点赞')
             }
         },
+        getUserInfo(){
+            if (getToken()){
+                getInfo(localStorage.id).then(res => {
+                    this.userAvatar = res['avatar']
+                })
+            }
+        }
     },
     mounted() {
         this.getComments()
+        this.getUserInfo()
     }
 }
 </script>
