@@ -16,12 +16,17 @@ INTRODUCTION    菜单组件
                 <i :class=value.icon></i>
                 <span slot="title">{{value.title}}</span>
             </el-menu-item>
+        </el-menu>
+        <el-menu
+            default-active="/index"
+            router
+            text-color="#969CA2"
+            class="el-menu-vertical">
             <el-menu-item v-for="(value, index) in superMenu" :key="index"  v-if="role" :index=value.path>
                 <i :class=value.icon></i>
                 <span slot="title">{{value.title}}</span>
             </el-menu-item>
         </el-menu>
-
     </div>
 </template>
 
@@ -34,12 +39,12 @@ INTRODUCTION    菜单组件
         data() {
             return{
                 menu: [
-                    {"title": "返回首页", "icon":"icon iconfont icon-home",         "path":"/index"},
-                    {"title": "文章归档", "icon":"icon iconfont icon-archive",      "path":"/archive"},
-                    {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about"},
-                    {"title": "站内搜索", "icon":"icon iconfont icon-search",       "path":"/search"},
-                    {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction"},
-                    {"title": "用户中心", "icon":"icon iconfont icon-personal",     "path":"/personal"},
+                    {"title": "返回首页", "icon":"icon iconfont icon-home",         "path":"/index", 'role': false},
+                    {"title": "文章归档", "icon":"icon iconfont icon-archive",      "path":"/archive", 'role': false},
+                    {"title": "关于博客", "icon":"icon iconfont icon-about",        "path":"/about", 'role': false},
+                    {"title": "站内搜索", "icon":"icon iconfont icon-search",       "path":"/search", 'role': false},
+                    {"title": "个人简介", "icon":"icon iconfont icon-introduction", "path":"/introduction", 'role': false},
+                    {"title": "用户中心", "icon":"icon iconfont icon-personal",     "path":"/personal", 'role': false},
                 ],
                 role: false,
                 superMenu: [
