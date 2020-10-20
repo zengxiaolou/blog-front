@@ -61,3 +61,20 @@ export function getUserLike(){
         method: 'get',
     })
 }
+
+// 删除评论的点赞
+export function deleteCommentLike(id){
+    return request({
+        url: `operations/comment-like/${id}`,
+        method: 'delete',
+    })
+}
+
+// 点赞评论
+export function setCommentLike(data){
+    return request({
+        url: 'operations/comment-like/',
+        method: 'post',
+        data: data
+    })
+}

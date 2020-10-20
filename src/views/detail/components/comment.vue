@@ -44,9 +44,13 @@ INTRODUCTION    文件简介
                         <el-col  :span="21" class="created"> <span class="black">{{value.user.username}} </span>评论于 {{value.created|formatDateTimeEx('YYYY-MM-DD HH:MM:SS')}}</el-col>
                         <el-col  :span ="1"><el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentShow('reply', value)">回复</el-button></el-col>
                         <el-col  :span ="2" class="comment-like">
-                            <el-button type="text" size="mini" circle class="reply-btn" @click.prevent="commentLike(value)">
+                            <el-button type="text" size="mini" circle class="reply-btn is-like" v-if="value['is_like']" @click.prevent="dislike(value)">
                                 <i class="icon iconfont icon-like"></i>
-                                {{ commentLikeNum}}
+                                {{value['comment_like']}}
+                            </el-button>
+                            <el-button type="text" size="mini" circle class="reply-btn" v-else @click.prevent="like(value)">
+                                <i class="icon iconfont icon-like"></i>
+                                {{value['comment_like']}}
                             </el-button>
                         </el-col>
                         <el-col :span="24"><viewer :content="value.content" :index="index"></viewer></el-col>
@@ -108,7 +112,7 @@ INTRODUCTION    文件简介
 import markdown from "components/MarkdownEditor/markdown";
 import viewer from "components/MarkdownEditor/viewer_comment";
 import replyMarkdown from "components/MarkdownEditor/reply_markdown"
-import {comment, getComment, getReply, reply} from "api/operations";
+import {comment, deleteCommentLike, getComment, getReply, reply, setCommentLike} from "api/operations";
 import {errorTips} from "utils/tools/message";
 import {getToken} from "utils/service/cookie";
 import {categoryAndTag, checkTagExist, updateArticleTag} from "api/article";
@@ -267,6 +271,20 @@ export default {
                 this.$refs.saveTagInput.$refs.input.focus();
             });
         },
+        dislike(val){
+            if (getToken()){
+                deleteCommentLike(val['id']).then(_ => {this.reload()})
+            }
+        },
+        like(val){
+            if (getToken()){
+                setCommentLike({'comment_id': val['id']}).then(_ =>{
+                    this.reload()
+                })
+            }else {
+                this.$message.error('需要先登录才能点赞')
+            }
+        },
     },
     mounted() {
         this.getComments()
@@ -346,6 +364,11 @@ export default {
             width: 90px;
             margin-left: 10px;
             vertical-align: bottom;
+        }
+        .is-like{
+            .icon-like{
+                color: red;
+            }
         }
     }
 </style>
