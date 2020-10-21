@@ -32,7 +32,7 @@ INTRODUCTION    文件简介
                 let data = this.getData();
                 let option = {
                     title: {
-                        text: "博客编写热力图",
+                        text: "博客热力图",
                         left: "center",
                         textStyle: {
                             align: 'center',

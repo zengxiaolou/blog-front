@@ -67,6 +67,7 @@ import lineChart from 'components/charts/lineCharts'
 import pieCharts from "components/charts/pieCharts";
 import radarChart from "components/charts/radarChart";
 import myCharts from '../../components/CalendarHeatMap/index'
+import {getStatistics} from 'api/statistics'
 import {getLastYearData} from "api/article";
 
 export default {
@@ -83,7 +84,13 @@ export default {
             date: [],
             total: '',
             lastTotal: '',
+            todayData: [],
         }
+    },
+    watch: {
+      panel(val) {
+       this.panel = val
+      }
     },
     methods: {
         getLastYearData(){
@@ -91,10 +98,26 @@ export default {
                 this.lastTotal = res['results'].article;
                 this.date = res['results'].date
             })
+        },
+        getStatistics(){
+            getStatistics().then(res => {
+                this.panel = [
+                    {"icon": 'icon iconfont icon-view', 'new': res['today_view'] , 'total': res['total_view']},
+                    {"icon": 'icon iconfont icon-users', 'new': res['today_user'] , 'total': res['total_user']},
+                    {"icon": 'icon iconfont icon-like', 'new': res['today_like'] , 'total': res['total_like']},
+                    {"icon": 'icon iconfont icon-comment', 'new':  res['today_comment'] , 'total': res['total_comment']},
+                ]
+                this.todayData.push(res['everyday_view'])
+                this.todayData.push(res['everyday_like'])
+                this.todayData.push(res['everyday_user'])
+                this.todayData.push(res['everyday_comment'])
+
+            })
         }
     },
-    mounted() {
+    created() {
         this.getLastYearData()
+        this.getStatistics()
     }
 }
 </script>
@@ -105,6 +128,7 @@ export default {
         padding-top: 40px;
         margin: 0 20px;
         .panel {
+
             text-align: center;
             .box-card{
                 border-radius: 10px;
