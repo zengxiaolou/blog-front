@@ -6,31 +6,25 @@ TIME:           2020/8/15-08:50
 INTRODUCTION    文章归档页面
 -->
 <template>
-    <div class="main">
-
-        <el-card class = "archive-body">
-            <el-divider>文章归档</el-divider>
-            <el-scrollbar>
-                <el-timeline>
-                    <el-timeline-item
-                        hide-timestamp
-                        v-for="(activity, index) in activities"
-                        :key="index"
-                        :color="activity.color">
-                        <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
-                    </el-timeline-item>
-                </el-timeline>
-            </el-scrollbar>
+    <el-scrollbar>
+            <el-timeline>
+                <el-timeline-item
+                    hide-timestamp
+                    v-for="(value, index) in activities"
+                    :key="index"
+                    :color="value.color">
+                    <router-link :to=value.detail :style="{color:value.color}">{{value.content}}  <i :class="value.icon"></i></router-link>
+                </el-timeline-item>
+            </el-timeline>
             <el-row type="flex" justify="center" class="more" v-if="more">
                 <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
             </el-row>
-        </el-card>
-    </div>
+    </el-scrollbar>
 </template>
 
 <script>
 
-    import {getArchive, getLastYearData} from "api/article";
+    import {getArchive} from "api/article";
 
     const color ={
         'Python': '#FBD13D', 'Go': '#6DC6D6', 'Vue': '#43AE79', 'Linux': '#0F0F0F',
@@ -43,7 +37,8 @@ INTRODUCTION    文章归档页面
                 activities: [],
                 pageSize: 11,
                 pageNum: 1,
-                more: true
+                more: true,
+                total: 0,
             };
         },
         methods: {
@@ -61,6 +56,7 @@ INTRODUCTION    文章归档页面
                             archive.content = res['results'][key].created.substring(0,10) + " " + res['results'][key].title;
                             archive.color = color[res['results'][key].category.category];
                             archive.detail = 'detail/'+ res['results'][key].id;
+                            archive.icon = 'icon iconfont icon-' + res['results'][key].category.category.toLowerCase()
                             this.activities.push(archive);
                         }
                         this.more = res['next'] !== null
@@ -74,50 +70,24 @@ INTRODUCTION    文章归档页面
         },
         mounted() {
             this.getArchive();
-            this.getLastYearData()
         },
     }
 </script>
 
 <style lang="scss" scoped>
     * { margin:0; padding:0; }
-    .main {
-      height: 100%;
-       padding-top: 20px;
-        #calendar{
-            width: 100%;
-            //height: 200px;
-        }
-        .el-divider {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+    .el-scrollbar {
+        padding-top: 40px;
+        margin:  0 40px;
+        height: 100%;
         .el-timeline {
-            margin-top: 20px;
-            margin-left: 10px;
             .el-timeline-item{
                 height: 50px;
                 font-size: 16px;
             }
         }
-        .archive-header {
-            margin: 0 20px;
-            /*background-color: rgba(255,255,255,0);*/
-        }
-        .el-card {
-            border-radius: 15px;
-        }
-
-        .archive-body {
-            margin: 20px 20px 0;
-            .el-scrollbar {
-                height: 600px;
-            }
-            .more {
-                margin-top: 10px;
-            }
-        }
-
+        .more {
+            margin-top: 10px;}
         /deep/ .el-scrollbar__wrap {
             overflow-x:hidden;
         }

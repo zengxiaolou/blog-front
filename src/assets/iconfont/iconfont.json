@@ -64,7 +64,7 @@
     {
       "icon_id": "16881034",
       "name": "tool",
-      "font_class": "tool",
+      "font_class": "tools",
       "unicode": "e634",
       "unicode_decimal": 58932
     },
@@ -85,7 +85,7 @@
     {
       "icon_id": "3176611",
       "name": "Docker",
-      "font_class": "Docker",
+      "font_class": "docker",
       "unicode": "e9f3",
       "unicode_decimal": 59891
     },
@@ -99,7 +99,7 @@
     {
       "icon_id": "13303508",
       "name": "go_gopher",
-      "font_class": "gopher",
+      "font_class": "go",
       "unicode": "e65d",
       "unicode_decimal": 58973
     },
