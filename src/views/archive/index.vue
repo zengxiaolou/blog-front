@@ -7,32 +7,29 @@ INTRODUCTION    文章归档页面
 -->
 <template>
     <div class="main">
-        <el-card class = "archive-header">
-            <el-divider>最近一年共编写{{lastTotal}}篇博客，总共编写{{total}}篇博客，你的进步，有目共睹</el-divider>
-            <my-charts :date="date"></my-charts>
+
+        <el-card class = "archive-body">
+            <el-divider>文章归档</el-divider>
+            <el-scrollbar>
+                <el-timeline>
+                    <el-timeline-item
+                        hide-timestamp
+                        v-for="(activity, index) in activities"
+                        :key="index"
+                        :color="activity.color">
+                        <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
+                    </el-timeline-item>
+                </el-timeline>
+            </el-scrollbar>
+            <el-row type="flex" justify="center" class="more" v-if="more">
+                <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
+            </el-row>
         </el-card>
-            <el-card class = "archive-body">
-                <el-divider>文章归档</el-divider>
-                <el-scrollbar>
-                    <el-timeline>
-                        <el-timeline-item
-                            hide-timestamp
-                            v-for="(activity, index) in activities"
-                            :key="index"
-                            :color="activity.color">
-                            <router-link :to=activity.detail :style="{color:activity.color}">{{activity.content}}</router-link>
-                        </el-timeline-item>
-                    </el-timeline>
-                </el-scrollbar>
-                <el-row type="flex" justify="center" class="more" v-if="more">
-                    <el-col :span="3"><el-button type="text" @click.prevent="getArchive" round>加载更多</el-button></el-col>
-                </el-row>
-            </el-card>
     </div>
 </template>
 
 <script>
-    import myCharts from '../../components/CalendarHeatMap/index'
+
     import {getArchive, getLastYearData} from "api/article";
 
     const color ={
@@ -41,15 +38,11 @@ INTRODUCTION    文章归档页面
     };
     export default {
         name: "archive",
-        components: {myCharts},
         data() {
             return {
                 activities: [],
                 pageSize: 11,
                 pageNum: 1,
-                total: '',
-                lastTotal: '',
-                date: [],
                 more: true
             };
         },
@@ -77,12 +70,7 @@ INTRODUCTION    文章归档页面
                     this.$message.info('没有了，别再拉啦！！！再拉裤子要掉了！！！！')
                 });
             },
-            getLastYearData(){
-                getLastYearData().then(res =>{
-                    this.lastTotal = res['results'].article;
-                    this.date = res['results'].date
-                })
-            }
+
         },
         mounted() {
             this.getArchive();

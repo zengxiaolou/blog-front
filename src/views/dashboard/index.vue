@@ -29,9 +29,20 @@ INTRODUCTION    文件简介
              </el-card>
          </el-col>
         </el-row>
-         <el-card class="line-chart">
-             <line-chart></line-chart>
-         </el-card>
+        <el-row :gutter="10">
+            <el-col :span="24">
+                <el-card class="line-chart">
+                    <line-chart></line-chart>
+                </el-card>
+            </el-col>
+        </el-row>
+        <el-row :gutter="10">
+            <el-col :span="24">
+                <el-card class = "calendar-chart">
+                    <my-charts :date="date"></my-charts>
+                </el-card>
+            </el-col>
+        </el-row>
         <el-row :gutter="10" class="pie-chart">
             <el-col :span="12" class="article">
                  <el-card class="box-card">
@@ -52,10 +63,12 @@ INTRODUCTION    文件简介
 import lineChart from 'components/charts/lineCharts'
 import pieCharts from "components/charts/pieCharts";
 import radarChart from "components/charts/radarChart";
+import myCharts from '../../components/CalendarHeatMap/index'
+import {getLastYearData} from "api/article";
 
 export default {
     name: "index",
-    components: {lineChart, pieCharts, radarChart},
+    components: {lineChart, pieCharts, radarChart, myCharts},
     data() {
         return {
             panel: [
@@ -65,7 +78,20 @@ export default {
                 {"icon": 'icon iconfont icon-comment', 'new': 2 , 'total': 2},
             ],
             date: [],
+            total: '',
+            lastTotal: '',
         }
+    },
+    methods: {
+        getLastYearData(){
+            getLastYearData().then(res =>{
+                this.lastTotal = res['results'].article;
+                this.date = res['results'].date
+            })
+        }
+    },
+    mounted() {
+        this.getLastYearData()
     }
 }
 </script>
@@ -109,6 +135,9 @@ export default {
             margin-top: 20px;
         }
         .pie-chart {
+            margin-top: 20px;
+        }
+        .calendar-chart {
             margin-top: 20px;
         }
     }

@@ -31,6 +31,14 @@ INTRODUCTION    文件简介
                 this.myChart = echarts['init'](document.getElementById('myChart'));
                 let data = this.getData();
                 let option = {
+                    title: {
+                        text: "文章日历热力图",
+                        left: "center",
+                        textStyle: {
+                            align: 'center',
+                            fontSize: 20
+                        }
+                    },
                     visualMap: {
                         min: 0,
                         max: 5,
@@ -46,7 +54,7 @@ INTRODUCTION    文件简介
                       }
                     },
                     calendar: {
-                        cellSize: [14, 14],
+                        cellSize: [15, 15],
                         range: [data['thatDay'], data['today']],
                         itemStyle: {
                             borderColor: '#fff',
@@ -55,8 +63,8 @@ INTRODUCTION    文件简介
                         splitLine: {
                             show: false
                         },
-                        top: 40,
-                        right:35,
+                        top: 55,
+                        // right:35,
                         // yearLabel: { show: false },
                         // dayLabel: { show: false }
                     },
@@ -103,14 +111,17 @@ INTRODUCTION    文件简介
             },
 
         },
+        mounted() {
+            this.initialize()
+        }
     }
 </script>
 
 <style lang="scss" scoped>
     #myChart{
         margin: 10px auto;
-        height: 150px;
-        width: 830px;
+        height: 170px;
+        width: 930px;
         /*border: 1px solid #e1e4e8;*/
     }
 </style>
