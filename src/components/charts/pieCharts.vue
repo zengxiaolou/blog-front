@@ -26,7 +26,7 @@ export default {
             this.myChart = echarts['init'](document.getElementById('pieChart'));
             let option = {
                 "title": {
-                    "text": "标签饼图",
+                    "text": "标签分布饼图",
                     "left": "center",
                     "textStyle": {
                         "align": 'center',

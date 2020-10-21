@@ -31,7 +31,7 @@ export default {
                 },
                 "color": ["#123dac", "#73e2e2", "#ff7e85", "#9b52ff", "#fac524", "#46caff", "#a1e867", "#10b2b2", "#ec87f7", "#f4905a", "#00baba", "#facf24", "#e89d67", "#23c6c6", "#fa8699", "#40b7fc", "#006d75", "#595959", "#f4764f", "#a640fc", "#fda23f", "#2d7ae4", "#5092ff", "#9351ed", "#8a89fe", "#df89e8", "#2797ff", "#6ad089", "#7c92e8 "],
                 "title": {
-                    "text": "各指标趋势图",
+                    "text": "指标趋势图",
                     "left": "center",
                     "textStyle": {
                         "align": 'center',

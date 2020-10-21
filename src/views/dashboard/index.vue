@@ -40,6 +40,9 @@ INTRODUCTION    文件简介
             <el-col :span="24">
                 <el-card class = "calendar-chart">
                     <my-charts :date="date"></my-charts>
+                    <el-row type="flex" justify="end" class="total">
+                     <el-col :span="5">Last year：{{lastTotal}}</el-col>
+                    </el-row>
                 </el-card>
             </el-col>
         </el-row>
@@ -139,6 +142,11 @@ export default {
         }
         .calendar-chart {
             margin-top: 20px;
+            .total{
+                text-align: end;
+                color: #09AC57;
+                font-size: 14px;
+            }
         }
     }
     /deep/ .el-scrollbar__wrap {
