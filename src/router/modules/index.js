@@ -142,6 +142,15 @@ const indexRouter = [
                     auth: true
                 }
             },
+            {
+                path: "/test",
+                component: () => import("components/charts/lineCharts"),
+                name: "test",
+                meta: {
+                    title: "测试页面",
+                    auth: false
+                }
+            },
         ]
     },
 
