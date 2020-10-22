@@ -13,3 +13,10 @@ export function getStatistics(){
         method: 'get',
     })
 }
+
+export function getTageDistribution(){
+    return request({
+        url: 'statistics/tag/',
+        method: 'get',
+    })
+}

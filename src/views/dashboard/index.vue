@@ -155,6 +155,9 @@ export default {
         .line-chart{
             margin-top: 20px;
         }
+        .el-card {
+            border-radius: 10px;
+        }
         .pie-chart {
             margin-top: 20px;
         }

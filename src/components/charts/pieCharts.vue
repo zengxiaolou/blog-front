@@ -14,6 +14,8 @@ INTRODUCTION    文件简介
 
 <script>
 import echarts from 'echarts'
+import {getCategory} from "api/article";
+import {getTageDistribution} from "api/statistics";
 export default {
     name: "pieCharts",
     data() {
@@ -22,11 +24,12 @@ export default {
         }
     },
     methods: {
-        initialize(){
+        async initialize(){
             this.myChart = echarts['init'](document.getElementById('pieChart'));
+            let data = await this.getData()
             let option = {
                 "title": {
-                    "text": "标签分布饼图",
+                    "text": "标签分布图",
                     "left": "center",
                     "textStyle": {
                         "align": 'center',
@@ -38,27 +41,12 @@ export default {
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
                 },
                 series: [{
-                    name: '库存情况',
+                    name: '标签分布',
                     type: 'pie',
                     radius: '68%',
                     center: ['50%', '50%'],
                     clockwise: false,
-                    data: [{
-                        value: 45,
-                        name: 'CARD'
-                    }, {
-                        value: 25,
-                        name: 'SSD'
-                    }, {
-                        value: 15,
-                        name: 'U盘'
-                    }, {
-                        value: 8,
-                        name: '嵌入式'
-                    }, {
-                        value: 7,
-                        name: 'FLASH'
-                    }],
+                    data: data,
                     label: {
                         normal: {
                             textStyle: {
@@ -88,13 +76,34 @@ export default {
                 color: [
                     '#00acee',
                     '#52cdd5',
-                    '#79d9f1',
-                    '#a7e7ff',
-                    '#c8efff'
+                    '#c8efff',
+                    "#73e2e2",
+                    "#ff7e85",
+                    "#fac524",
+                    "#46caff",
+                    "#a1e867",
+                    "#10b2b2",
+                    "#ec87f7",
+                    "#f4905a",
+                    "#00baba",
+                    "#facf24",
+                    "#e89d67",
+                    "#23c6c6",
+                    "#fa8699",
                 ],
                 backgroundColor: '#fff'
             };
             this.myChart.setOption(option);
+        },
+        async getData() {
+            let data = []
+            await getTageDistribution().then(res => {
+                for (let i of Object.keys(res)){
+                    let tmp = {"name": i, "value": res[i]}
+                    data.push(tmp)
+                }
+            })
+            return data
         },
     },
     mounted() {
