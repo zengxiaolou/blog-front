@@ -14,6 +14,8 @@ INTRODUCTION    文件简介
 
 <script>
 import echarts from 'echarts'
+import {getStatistics} from "api/statistics";
+import {getCategory} from "api/article";
 export default {
     name: "radarChart",
     data() {
@@ -22,8 +24,9 @@ export default {
         }
     },
     methods: {
-        initialize(){
+        async initialize(){
             this.myChart = echarts['init'](document.getElementById('radarChart'));
+            let data = await this.getData()
             let option = {
                 backgroundColor: '',
                 "normal": {
@@ -78,31 +81,7 @@ export default {
                             "color": "#3DAAE9"//
                         }
                     },
-                    "indicator": [{
-                        "name": "Python",
-                        "max": 150
-                    }, {
-                        "name": "Go",
-                        "max": 150
-                    }, {
-                        "name": "Vue",
-                        "max": 150
-                    }, {
-                        "name": "Linux",
-                        "max": 100
-                    }, {
-                        "name": "Docker",
-                        "max": 100
-                    }, {
-                        "name": "DB",
-                        "max": 100
-                    }, {
-                        "name": "Tools",
-                        "max": 100
-                    }, {
-                        "name": "Other",
-                        "max": 100
-                    },]
+                    "indicator": data.name
                 },
                 "series": [{
                     "name": "文章分类",
@@ -128,11 +107,25 @@ export default {
                         }
                     },
                     "data": [
-                        [98,109,125,92,95,94,86,81]
+                        data.data
                     ]
                 }]
             };
             this.myChart.setOption(option);
+        },
+        async getData() {
+            let data = []
+            let name = []
+            await getCategory({"size": 20}).then(res => {
+                let init_data = res['results']
+                let max = 10
+                init_data.forEach((v) => {
+                    data.push(v['num'])
+                    let tmp = { "name": v['category'], "max": max}
+                    name.push(tmp)
+                })
+            })
+            return {data, name}
         },
     },
     mounted() {
