@@ -84,7 +84,6 @@ export default {
             date: [],
             total: '',
             lastTotal: '',
-            todayData: [],
         }
     },
     watch: {
@@ -107,11 +106,6 @@ export default {
                     {"icon": 'icon iconfont icon-like', 'new': res['today_like'] , 'total': res['total_like']},
                     {"icon": 'icon iconfont icon-comment', 'new':  res['today_comment'] , 'total': res['total_comment']},
                 ]
-                this.todayData.push(res['everyday_view'])
-                this.todayData.push(res['everyday_like'])
-                this.todayData.push(res['everyday_user'])
-                this.todayData.push(res['everyday_comment'])
-
             })
         }
     },
@@ -134,19 +128,19 @@ export default {
                 border-radius: 10px;
                 .icon-users {
                     font-size: 40px;
-                    color: #40c9c6;
+                    color: #123dac;
                 }
                 .icon-comment {
                     font-size: 40px;
-                    color: #36a3f7;
+                    color: #9b52ff;
                 }
                 .icon-like {
                     font-size: 40px;
-                    color: #f4516c;
+                    color: #ff7e85;
                 }
                 .icon-view{
                     font-size: 40px;
-                    color: #34bfa3;
+                    color: #73e2e2;
                 }
                 .panel-title {
                     color: rgb(150, 156, 162);
