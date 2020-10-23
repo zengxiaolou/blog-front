@@ -197,6 +197,7 @@ export default {
             // 判断是否是登录用户
             if ( ! getToken()){
                 this.$message.error("未登录用户，无法评论，请登录")
+                this.$router.push('/personal')
                 return
             }
             this.commentVisible = !this.commentVisible;
@@ -276,7 +277,7 @@ export default {
         dislike(val){
             if (getToken()){
                 deleteCommentLike(val['id']).then(_ => {this.reload()})
-            }
+            }else {this.$router.push('/personal')}
         },
         like(val){
             if (getToken()){
@@ -285,6 +286,7 @@ export default {
                 })
             }else {
                 this.$message.error('需要先登录才能点赞')
+                this.$router.push('/personal')
             }
         },
         getUserInfo(){
