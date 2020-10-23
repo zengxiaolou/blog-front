@@ -5,21 +5,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width,initial-scale=1.0">
       <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-<!--      <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>-->
-<!--      <script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>-->
-<!--      &lt;!&ndash; 引入element样式 &ndash;&gt;-->
-<!--      <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
-<!--      &lt;!&ndash; 引入element组件库 &ndash;&gt;-->
-<!--      <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
-<!--      &lt;!&ndash;引入echarts&ndash;&gt;-->
-<!--      <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.9.0-rc.1/echarts-en.common.js"></script>-->
-<!--      &lt;!&ndash;引入tui_editor&ndash;&gt;-->
-<!--      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>-->
-<!--      <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.16.2/axios.min.js"></script>-->
-    <title><%= htmlWebpackPlugin.options.title %></title>
-      <% for (let i in htmlWebpackPlugin.options.cdn.css) { %>
-      <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" />
-      <% } %>
+      <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
@@ -27,8 +13,5 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <% for (let i in htmlWebpackPlugin.options.cdn.js) { %>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %>
   </body>
 </html>

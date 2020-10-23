@@ -285,8 +285,8 @@ export default {
                     this.reload()
                 })
             }else {
-                this.$message.error('需要先登录才能点赞')
                 this.$router.push('/personal')
+                this.$message.error('需要先登录才能点赞')
             }
         },
         getUserInfo(){
