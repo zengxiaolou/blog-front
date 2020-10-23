@@ -42,19 +42,38 @@ module.exports = {
             // 最大单个资源体积，默认250000（bytes）
             maxAssetSize: 30000000
         }
-        // config.externals = {
-        //     'vue': 'Vue',
-        //     'vue-router': 'VueRouter',
-        //     'element-ui': 'element-ui',
-        //     'echarts': 'echarts',
-        //     'codemirror': 'codemirror',
-        //     'vuex': 'vuex',
-        //     'axios':'axios',
-        //
-        // }
+        config.externals = {
+            'vue': 'Vue',
+            'vue-router': 'VueRouter',
+            'element-ui': 'ELEMENT',
+            'echarts': 'echarts',
+            // 'codemirror': 'codemirror',
+            'vuex': 'Vuex',
+            // 'axios':'axios',
+
+        }
         config.devtool = "source-map"
     },
-
+    pages: {
+        index: {
+            entry: 'src/main.js',
+            template: 'public/index.html',
+            filename: 'index.html',
+            chunks: ['chunk-vendors', 'chunk-common', 'index'],
+            cdn: {
+                css: [
+                    '//unpkg.com/element-ui@2.13.2/lib/theme-chalk/index.css'
+                ],
+                js: [
+                    "//unpkg.com/vue@2.6.11/dist/vue.min.js",
+                    "//unpkg.com/vue-router@3.0.3/dist/vue-router.min.js",
+                    "//unpkg.com/vuex@3.1.2/dist/vuex.min.js",
+                    "//unpkg.com/element-ui@2.13.2/lib/index.js",
+                    "//cdnjs.cloudflare.com/ajax/libs/echarts/4.3.0/echarts.min.js",
+                ]
+            },
+        }
+    },
     productionSourceMap: false,
     devServer:{
         port: 3087,

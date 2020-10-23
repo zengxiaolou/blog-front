@@ -17,6 +17,9 @@
 <!--      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>-->
 <!--      <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.16.2/axios.min.js"></script>-->
     <title><%= htmlWebpackPlugin.options.title %></title>
+      <% for (let i in htmlWebpackPlugin.options.cdn.css) { %>
+      <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" />
+      <% } %>
   </head>
   <body>
     <noscript>
@@ -24,5 +27,8 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <% for (let i in htmlWebpackPlugin.options.cdn.js) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+    <% } %>
   </body>
 </html>
