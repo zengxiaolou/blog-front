@@ -78,3 +78,12 @@ export function setCommentLike(data){
         data: data
     })
 }
+
+// 填写订阅邮箱
+export function setSubscribe(data){
+    return request({
+        url: 'operations/email/',
+        method: 'post',
+        data: data
+    })
+}

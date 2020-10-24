@@ -25,6 +25,13 @@ INTRODUCTION    我的社交
                     </el-tooltip>
                 </div>
             </el-col>
+            <el-col :span="6">
+                <div  @click="showSSR">
+                    <el-tooltip class="item" effect="light" content="订阅" placement="bottom-end">
+                        <el-avatar :size="size" icon="icon iconfont icon-ssr" class="gam-ssr" ></el-avatar>
+                    </el-tooltip>
+                </div>
+            </el-col>
         </el-row>
         <el-dialog
                 title="扫描二维码交流学习"
@@ -32,15 +39,44 @@ INTRODUCTION    我的社交
                 width="30%">
             <el-image style="width: 100%;" :src="wxQR" fit="contain"></el-image>
         </el-dialog>
+        <el-dialog
+            title="订阅"
+            :visible.sync="ssrDialogVisible"
+            width="30%">
+            <el-form :model="emailForm" :rules="emailRuler" ref="emailForm">
+                <el-form-item prop="email">
+                    <el-input v-model="emailForm.email" autocomplete="off" placeholder="请输入接收通知的邮箱"></el-input>
+                </el-form-item>
+                <el-row type="flex" justify="center">
+                    <el-col :span="8"><el-button :loading="loading" type="info" @click="ssrDialogVisible=false">取 消</el-button></el-col>
+                    <el-button type="primary" @click.native.prevent="subscribe('emailForm')">订 阅</el-button>
+                </el-row>
+            </el-form>
+        </el-dialog>
     </el-card>
 
 </template>
 
 <script>
 import baseSetting from "store/baseSetting";
+import {updateInfo} from "api/user";
+import {removeToken} from "utils/service/cookie";
+import {errorTips} from "utils/tools/message";
+import {setSubscribe} from "api/operations";
     export default {
         name: "gam",
         data(){
+            // 验证Email格式
+            let validateEmail = (rule, value,callback) =>{
+                let pattern = /^([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
+                if (value === ''){
+                    callback(new Error('请输入邮箱'))
+                }else if(!(pattern.test(value))){
+                    callback(new Error("邮箱格式错误"))
+                }else {
+                    callback();
+                }
+            };
             return{
                 gam: [
                     {"name": "github",   "style": "gam-github",    "local": "top-end" ,    "icon": "icon iconfont icon-github",          "url": "https://github.com/zengxiaolou"},
@@ -53,11 +89,33 @@ import baseSetting from "store/baseSetting";
                 size: "medium",
                 wxQR: baseSetting.QiNiuHost + 'wx_qr.4c67a998.jpg',
                 dialogVisible: false,
+                ssrDialogVisible: false,
+                emailForm: {
+                    email: ''
+                },
+                emailRuler: {
+                    email: [{validator: validateEmail, trigger: 'blur'}]
+                },
             }
         },
         methods: {
             showQR(){
                 this.dialogVisible = true
+            },
+            showSSR(){
+                this.ssrDialogVisible = true
+            },
+            subscribe(form) {
+                this.$refs[form].validate((valid) => {
+                    if (valid){
+                        setSubscribe({'email': this.emailForm.email}).then( _ =>{
+                            this.$message.success('订阅成功，有新文章将通过邮箱告知')
+                            this.ssrDialogVisible =false
+                        }).catch(err => {errorTips(err)})
+                    }else {
+                        this.$message.error('邮箱格式不正确')
+                    }
+                })
             }
         }
     }
@@ -103,6 +161,10 @@ import baseSetting from "store/baseSetting";
             .gam-wechat {
                 color: #00c15e;
                 background-color: rgba(0,219,107,.2);
+            }
+            .gam-ssr {
+                color: #eb9815;
+                background-color: rgba(240,190,132,.2);
             }
 
         }
